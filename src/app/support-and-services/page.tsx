@@ -1,49 +1,54 @@
 import Image from "next/image";
-import { CTA, Lines } from "@/components/ui";
+import { CTA, frame, hairGrid, Lines, panel } from "@/components/ui";
 import { support as s } from "@/content/pages";
 
 export const metadata = { title: "Support and Services – MIVA Robotics", alternates: { canonical: "/support-and-services/" } };
 
+const grid2 = "grid grid-cols-1 gap-[clamp(40px,6vw,110px)] min-[960px]:grid-cols-[5fr_7fr]";
+
 export default function Support() {
   return (
     <>
-      <section className="page-hero"><div className="wrap"><Lines as="h1" className="h-xl metal" lines={["Support & Services"]} /></div></section>
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap grid-2">
+      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]"><div className="wrap"><Lines as="h1" className="h-xl" lines={["Support & Services"]} /></div></section>
+      <section className="section-y !pt-0">
+        <div className={`wrap ${grid2}`}>
           <div>
             <span className="eyebrow">{s.eyebrow}</span>
-            <h2 className="h-lg" style={{ marginBlock: 22 }} data-reveal>{s.heading}</h2>
+            <h2 className="h-lg !my-[22px]" data-reveal>{s.heading}</h2>
             <p className="lead" data-reveal>{s.text}</p>
           </div>
-          <div className="collage" style={{ minHeight: 440 }}>
-            <div className="frame" data-reveal="wipe"><Image src="/media/support_1.jpg" alt="" fill priority sizes="35vw" /></div>
-            <div className="frame" data-reveal="wipe" style={{ gridRow: "span 2" }}><Image src="/media/support_2.jpg" alt="" fill sizes="25vw" /></div>
+          <div className="grid min-h-[440px] grid-cols-[7fr_5fr] gap-3">
+            <div className={`${frame} row-span-2 min-h-[200px]`} data-reveal="wipe"><Image src="/media/support_1.jpg" alt="" fill priority sizes="35vw" /></div>
+            <div className={`${frame} row-span-2 min-h-[200px]`} data-reveal="wipe"><Image src="/media/support_2.jpg" alt="" fill sizes="25vw" /></div>
           </div>
         </div>
       </section>
-      <section className="section light">
+      <section className="section-y light">
         <div className="wrap">
           <span className="eyebrow">{s.servicesLabel}</span>
-          <div className="svc" style={{ marginTop: 28 }}>
+          <div className={`${hairGrid} mt-7 grid-cols-[repeat(auto-fit,minmax(min(100%,330px),1fr))]`}>
             {s.services.map((x, i) => (
-              <article className="panel" key={x.title} data-reveal style={{ "--d": `${(i % 3) * 0.07}s` } as React.CSSProperties}>
-                <b className="num" aria-hidden="true">{i + 1}</b>
-                <h2 className="h-sm">{x.title}</h2>
-                <p>{x.text}</p>
+              <article key={x.title} className={`${panel} group flex min-h-[300px] flex-col`} data-reveal style={{ "--d": `${(i % 3) * 0.07}s` } as React.CSSProperties}>
+                <b className="mb-auto pb-7 text-[64px] font-semibold leading-none tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_var(--line-2)] transition-[-webkit-text-stroke-color] duration-500 group-hover:[-webkit-text-stroke-color:var(--accent)]" aria-hidden="true">{i + 1}</b>
+                <h2 className="h-sm mb-2.5">{x.title}</h2>
+                <p className="text-[15px] text-muted">{x.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
-      <section className="section light" style={{ paddingTop: 0 }}>
-        <div className="wrap grid-2">
+      <section className="section-y light !pt-0">
+        <div className={`wrap ${grid2}`}>
           <div>
             <span className="eyebrow">{s.visionLabel}</span>
-            <div className="stat"><b className="metal" data-count={s.stat.value}>{s.stat.value}</b><span>{s.stat.label}</span></div>
+            <div>
+              <b className="block text-[clamp(36px,3.2vw,46px)] font-medium leading-none tracking-[-.04em] tabular-nums" data-count={s.stat.value}>{s.stat.value}</b>
+              <span className="mt-4 block max-w-[18ch] text-[13px] leading-[1.5] text-muted">{s.stat.label}</span>
+            </div>
           </div>
           <div>
             <p className="h-md" data-reveal>{s.vision}</p>
-            <div data-reveal style={{ marginTop: 36 }}><CTA href="/about-miva-robotics/">Meet the Team</CTA></div>
+            <div className="mt-9" data-reveal><CTA href="/about-miva-robotics/">Meet the Team</CTA></div>
           </div>
         </div>
       </section>

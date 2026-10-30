@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Blocks } from "@/components/LegalPage";
+import { Blocks, prose } from "@/components/LegalPage";
 import PostCard from "@/components/PostCard";
-import { Lines } from "@/components/ui";
+import { circ, fullImg, Lines, pager } from "@/components/ui";
 import { posts } from "@/content/posts";
 import { site } from "@/content/site";
 
@@ -36,23 +36,23 @@ export default async function Post({ params }: Props) {
   const url = `${site.url}/${p.slug}/`;
   return (
     <article>
-      <section className="page-hero">
-        <div className="wrap" style={{ maxWidth: 1240 }}>
-          <p className="meta">Published in: <Link href="/category/blogs/" style={{ color: "var(--accent)" }}>Blogs</Link></p>
+      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]">
+        <div className="wrap max-w-[1240px]">
+          <p className="meta">Published in: <Link href="/category/blogs/" className="text-accent">Blogs</Link></p>
           <Lines as="h1" className="h-lg" lines={[p.title]} />
-          <p className="meta" style={{ marginTop: 22 }}>Author <Link href="/author/aman-vasa/" style={{ color: "var(--ink)" }}>{p.author}</Link></p>
+          <p className="meta mt-[22px]">Author <Link href="/author/aman-vasa/" className="text-ink">{p.author}</Link></p>
           <p className="meta"><time dateTime={p.iso}>{p.date}</time></p>
         </div>
       </section>
-      <div className="fullimg"><Image src={p.image} alt="" fill priority sizes="100vw" data-parallax="8" /></div>
-      <section className="section light">
+      <div className={fullImg}><Image src={p.image} alt="" fill priority sizes="100vw" data-parallax="8" /></div>
+      <section className="section-y light">
         <div className="wrap">
-          <div className="prose"><Blocks blocks={p.body} /></div>
-          <div className="prose share">
+          <div className={prose}><Blocks blocks={p.body} /></div>
+          <div className="mx-auto mt-14 flex max-w-[740px] flex-wrap items-center justify-between gap-5 border-t border-line pt-7">
             <span className="eyebrow">Share On</span>
-            <div>
+            <div className="flex gap-2.5">
               {share(url, p.title).map((s) => (
-                <a key={s.label} className="circ" href={s.href} target="_blank" rel="nofollow noopener noreferrer" aria-label={s.label}>
+                <a key={s.label} className={circ} href={s.href} target="_blank" rel="nofollow noopener noreferrer" aria-label={s.label}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={s.d} /></svg>
                 </a>
               ))}
@@ -60,14 +60,14 @@ export default async function Post({ params }: Props) {
           </div>
         </div>
       </section>
-      <nav className="pager light" aria-label="Articles">
+      <nav className={`light ${pager}`} aria-label="Articles">
         {prev ? <Link href={`/${prev.slug}/`}><span className="eyebrow">Previous Article</span><b>{prev.title}</b></Link> : <span />}
         {next ? <Link href={`/${next.slug}/`}><span className="eyebrow">Next Article</span><b>{next.title}</b></Link> : <span />}
       </nav>
-      <section className="section light">
+      <section className="section-y light">
         <div className="wrap">
-          <div className="split-head"><Lines className="h-md" lines={["You may also like"]} /></div>
-          <div className="posts">{posts.filter((x) => x.slug !== p.slug).map((x) => <PostCard key={x.slug} post={x} />)}</div>
+          <div className="mb-[clamp(36px,4vw,56px)]"><Lines className="h-md" lines={["You may also like"]} /></div>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-x-5 gap-y-11">{posts.filter((x) => x.slug !== p.slug).map((x) => <PostCard key={x.slug} post={x} />)}</div>
         </div>
       </section>
     </article>

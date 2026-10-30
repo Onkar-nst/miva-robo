@@ -96,22 +96,22 @@ export default function Effects() {
 
   return (
     <>
-      <div className="bar" ref={bar} />
+      <div ref={bar} className="pointer-events-none fixed inset-x-0 top-0 z-[120] h-0.5 origin-left [transform:scaleX(var(--s,0))] bg-accent" />
       {cookie && (
-        <div className="cookie" role="region" aria-label="Cookies">
+        <div role="region" aria-label="Cookies" className="fixed inset-x-4 bottom-4 z-[110] ml-auto flex max-w-[460px] animate-rise items-center justify-between gap-[18px] border border-line-2 bg-[rgba(16,20,26,.94)] py-3.5 pl-5 pr-3.5 text-[13.5px] text-soft backdrop-blur-[14px]">
           <span>This website uses cookies to improve your web experience.</span>
-          <button onClick={() => { setCookie(false); try { localStorage.setItem("miva-cookie", "1"); } catch {} }}>Accept</button>
+          <button className="flex-none cursor-pointer border-0 bg-accent px-[18px] py-[11px] text-[13px] font-medium text-accent-ink transition-colors duration-300 hover:bg-ink" onClick={() => { setCookie(false); try { localStorage.setItem("miva-cookie", "1"); } catch {} }}>Accept</button>
         </div>
       )}
       {boot && (
-        <div className="boot" aria-hidden="true">
-          <div className="boot-top">
+        <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[250] flex animate-[boot-out_1s_1.4s_var(--ease-io)_forwards] flex-col justify-between bg-bg p-(--gutter)">
+          <div className="flex items-center justify-between text-[11px] tracking-[.2em] text-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" />
+            <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-11 animate-[boot-fade_.8s_ease_both]" />
             <span>MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
           </div>
-          <p className="boot-word">MIVA <em>Robotics</em></p>
-          <div className="boot-bar"><i /></div>
+          <p className="animate-[boot-up_1s_var(--ease-expo)_both] overflow-hidden text-[clamp(64px,14vw,220px)] font-semibold leading-[.9] tracking-[-.055em]">MIVA <em className="inline-block animate-[boot-up_1s_.12s_var(--ease-expo)_both] not-italic text-accent">Robotics</em></p>
+          <div className="h-px bg-line"><i className="block h-full origin-left animate-[boot-bar_1.3s_var(--ease-io)_both] bg-accent" /></div>
         </div>
       )}
     </>

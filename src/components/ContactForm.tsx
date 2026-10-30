@@ -1,7 +1,7 @@
 "use client";
 
 import { site } from "@/content/site";
-import { ArrowUR } from "./ui";
+import { ctaClass, CtaInner } from "./ui";
 
 const fields = [
   { name: "First Name", required: true },
@@ -13,10 +13,12 @@ const fields = [
   { name: "What is your timeline for implementation?", half: true },
 ];
 
+const control = "w-full border border-transparent bg-bg px-4 py-3.5 text-[15px] text-ink transition-[border-color,background-color,box-shadow] duration-300 hover:border-line-2 focus:border-accent focus:bg-white focus:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_15%,transparent)] focus:outline-0";
+
 export default function ContactForm() {
   return (
     <form
-      className="form"
+      className="grid grid-cols-2 gap-x-[18px] gap-y-[22px]"
       onSubmit={(e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
@@ -25,18 +27,15 @@ export default function ContactForm() {
       }}
     >
       {fields.map((f, i) => (
-        <div className={`field ${f.half ? "half" : ""}`} key={f.name}>
-          <label htmlFor={`f${i}`}>{f.name}{f.required && " *"}</label>
+        <div className={`col-span-2 grid gap-2 ${f.half ? "min-[621px]:col-span-1" : ""}`} key={f.name}>
+          <label htmlFor={`f${i}`} className="text-[13px] font-medium text-soft">{f.name}{f.required && " *"}</label>
           {f.area
-            ? <textarea id={`f${i}`} name={f.name} required={f.required} rows={4} />
-            : <input id={`f${i}`} name={f.name} required={f.required} type={f.type || "text"} />}
+            ? <textarea id={`f${i}`} name={f.name} required={f.required} rows={4} className={`${control} min-h-[130px] resize-y`} />
+            : <input id={`f${i}`} name={f.name} required={f.required} type={f.type || "text"} className={control} />}
         </div>
       ))}
-      <div className="form-submit">
-        <button type="submit" className="cta">
-          <span className="cta-label">Submit</span>
-          <span className="cta-arrow"><ArrowUR /><ArrowUR /></span>
-        </button>
+      <div className="col-span-2 mt-1.5">
+        <button type="submit" className={`${ctaClass()} w-full justify-center !py-[19px]`}><CtaInner>Submit</CtaInner></button>
       </div>
     </form>
   );

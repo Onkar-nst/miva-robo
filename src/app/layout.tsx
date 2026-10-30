@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { site } from "@/content/site";
 
-const sans = Inter_Tight({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-sans" });
-const serif = Cormorant_Garamond({ subsets: ["latin"], weight: ["500"], variable: "--font-serif" });
+const sans = Inter_Tight({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-inter" });
+const serif = Cormorant_Garamond({ subsets: ["latin"], weight: ["500"], variable: "--font-cormorant" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -23,9 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <noscript><style>{".js [data-reveal]{opacity:1!important}"}</style></noscript>
       </head>
       <body>
-        <a href="#main" className="skip">Skip to content</a>
+        <a href="#main" className="absolute -left-[999px] top-2 z-[200] bg-accent px-4 py-2.5 text-accent-ink focus:left-2">Skip to content</a>
         <Header />
-        <main id="main">{children}</main>
+        <main id="main" className="reveal:relative reveal:z-[2] reveal:bg-bg reveal:shadow-[0_30px_70px_-25px_rgba(0,0,0,.35)]">{children}</main>
         <Footer />
         <Effects />
       </body>
