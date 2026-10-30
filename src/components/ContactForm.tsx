@@ -1,0 +1,42 @@
+"use client";
+
+import { site } from "@/content/site";
+
+const fields = [
+  { name: "First Name", required: true },
+  { name: "Email Address", required: true, type: "email", half: true },
+  { name: "Phone Number", type: "tel", half: true },
+  { name: "What is the scope of your project /query", required: true, area: true },
+  { name: "Any specific technical requirements?" },
+  { name: "What is your budget range? (in INR)", half: true },
+  { name: "What is your timeline for implementation?", half: true },
+];
+
+export default function ContactForm() {
+  return (
+    <form
+      className="form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const body = fields.map((f) => `${f.name}: ${data.get(f.name) || ""}`).join("\n");
+        location.href = `mailto:${site.email}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(body)}`;
+      }}
+    >
+      {fields.map((f, i) => (
+        <div className={`field ${f.half ? "half" : ""}`} key={f.name}>
+          <label htmlFor={`f${i}`}>{f.name}{f.required && " *"}</label>
+          {f.area
+            ? <textarea id={`f${i}`} name={f.name} required={f.required} rows={4} />
+            : <input id={`f${i}`} name={f.name} required={f.required} type={f.type || "text"} />}
+        </div>
+      ))}
+      <div style={{ gridColumn: "span 2" }}>
+        <button type="submit" className="cta" data-magnetic>
+          <span className="cta-label">Submit</span>
+          <span className="cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M3 12h17M14 6l6 6-6 6" /></svg></span>
+        </button>
+      </div>
+    </form>
+  );
+}
