@@ -22,7 +22,7 @@ export default function ServicePage({ s }: { s: Service }) {
             <div className="stack lead">{s.body.map((t) => <p key={t} data-reveal>{t}</p>)}</div>
           </div>
           <div className="collage" style={{ minHeight: 520 }}>
-            <div className="frame" data-reveal="wipe"><span className="scan" /><Image src={i.a} alt={s.full} fill sizes="35vw" /></div>
+            <div className="frame" data-reveal="wipe"><Image src={i.a} alt={s.full} fill sizes="35vw" /></div>
             <div className="frame" data-reveal="wipe" style={{ "--d": ".1s" } as React.CSSProperties}><Image src={i.b} alt={s.full} fill sizes="25vw" /></div>
             <div className="frame" data-reveal="wipe" style={{ "--d": ".2s" } as React.CSSProperties}><Image src={i.c} alt={s.full} fill sizes="25vw" /></div>
           </div>
@@ -33,7 +33,7 @@ export default function ServicePage({ s }: { s: Service }) {
         <div className="wrap grid-2">
           <div className="sticky-col">
             <h2 className="h-lg" style={{ marginBottom: 32 }} data-reveal>{s.includesTitle}</h2>
-            <div className="frame" data-reveal="wipe" style={{ aspectRatio: "16/10" }}><span className="ticks" /><Image src={i.d} alt={s.full} fill sizes="(max-width: 960px) 100vw, 40vw" /></div>
+            <div className="frame" data-reveal="wipe" style={{ aspectRatio: "16/10" }}><Image src={i.d} alt={s.full} fill sizes="(max-width: 960px) 100vw, 40vw" /></div>
           </div>
           <div className="pipeline">
             <span className="pipeline-fill" aria-hidden="true" />
@@ -57,7 +57,7 @@ export default function ServicePage({ s }: { s: Service }) {
         </div>
       </section>
 
-      <div className="fullimg"><Image src={i.e} alt={s.full} fill sizes="100vw" data-parallax="8" /><span className="ticks" /></div>
+      <div className="fullimg"><Image src={i.e} alt={s.full} fill sizes="100vw" data-parallax="8" /></div>
       <CTABand text={ctaText} label="Contact Us" href="/contact/" />
     </>
   );

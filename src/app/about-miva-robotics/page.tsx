@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { CTABand, Lines, Marquee, pad } from "@/components/ui";
+import { Lines, Marquee, pad } from "@/components/ui";
 import { about as a } from "@/content/pages";
-import { ctaText } from "@/content/products";
 
 export const metadata = { title: "About MIVA Robotics – MIVA Robotics", alternates: { canonical: "/about-miva-robotics/" } };
 
@@ -11,7 +10,7 @@ export default function About() {
       <section className="page-hero">
         <div className="wrap"><Lines as="h1" className="h-xl metal" lines={[a.title]} /></div>
       </section>
-      <div className="fullimg"><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /><span className="scan" /></div>
+      <div className="fullimg"><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /></div>
       <Marquee>{a.disciplines.map((d, i) => <span className={`word ${i % 2 ? "stroke" : "metal"}`} key={d}>{d}</span>)}</Marquee>
 
       <section className="section">
@@ -41,7 +40,7 @@ export default function About() {
           <div className="people">
             {a.leaders.people.map((p, i) => (
               <a className="person" href={p.linkedin} target="_blank" rel="noopener noreferrer" key={p.name} data-reveal style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}>
-                <div className="frame"><span className="ticks" /><Image src={p.image} alt={p.name.split(" /")[0]} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+                <div className="frame"><Image src={p.image} alt={p.name.split(" /")[0]} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
                 <h3 className="h-sm">{p.name}</h3>
                 <span className="eyebrow" style={{ marginTop: 10 }}>LinkedIn</span>
               </a>
@@ -71,7 +70,7 @@ export default function About() {
           <div>
             <div className="collage" style={{ minHeight: 480, gridTemplateColumns: "1fr" }}>
               <div className="frame" data-reveal="wipe"><Image src="/media/Miva_Robotics_About.jpg" alt="Miva_Robotics_About" fill sizes="50vw" /></div>
-              <div className="frame" data-reveal="wipe"><span className="scan" /><Image src="/media/About-MIVA-Robotics.jpg" alt="About-MIVA-Robotics" fill sizes="50vw" /></div>
+              <div className="frame" data-reveal="wipe"><Image src="/media/About-MIVA-Robotics.jpg" alt="About-MIVA-Robotics" fill sizes="50vw" /></div>
             </div>
             <p className="lead" style={{ marginTop: 28 }} data-reveal>{a.beyond.aside}</p>
             <div className="stat"><b className="metal" data-count={a.beyond.stat.value}>{a.beyond.stat.value}</b><span>{a.beyond.stat.label}</span></div>
@@ -95,11 +94,10 @@ export default function About() {
       </section>
 
       <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap quotes">
+        <div className="wrap"><div className="quotes">
           {a.quotes.map((q) => <blockquote className="panel" key={q.by} data-reveal><cite>{q.by}</cite><p>{q.text}</p></blockquote>)}
-        </div>
+        </div></div>
       </section>
-      <CTABand text={ctaText} label="Contact Us" href="/contact/" />
     </>
   );
 }

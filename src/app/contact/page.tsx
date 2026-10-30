@@ -16,7 +16,7 @@ export default function Contact() {
         </div>
       </section>
       <section className="section tight" style={{ paddingTop: 0 }}>
-        <div className="wrap offices">
+        <div className="wrap"><div className="offices">
           {c.offices.map((o, i) => (
             <article className="panel office" key={o.city} data-reveal style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}>
               <h3 className="h-lg metal">{o.city}</h3>
@@ -29,10 +29,12 @@ export default function Contact() {
               </dl>
             </article>
           ))}
-        </div>
-        <div className="wrap" style={{ marginTop: 24 }}>
-          <p className="gst">GSTIN: {pending.gstin || <span className="pending">Pending from client</span>}</p>
-        </div>
+        </div></div>
+        {pending.gstin && (
+          <div className="wrap" style={{ marginTop: 24 }}>
+            <p className="gst">GSTIN: {pending.gstin}</p>
+          </div>
+        )}
       </section>
       <section className="section">
         <div className="wrap grid-2">

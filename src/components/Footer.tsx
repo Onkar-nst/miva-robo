@@ -3,30 +3,38 @@
 import Link from "next/link";
 import { useState } from "react";
 import { pending, productNav, serviceNav, site } from "@/content/site";
-import { Logo } from "./Header";
 
-// Interim footer carrying the old footer's content. The final design is still to come from the client.
 export default function Footer() {
   const [email, setEmail] = useState("");
   return (
     <footer className="ftr">
-      <div className="wrap">
-        <div className="ftr-grid">
-          <div>
-            <Logo />
-            <p className="muted" style={{ marginTop: 18, maxWidth: 420 }}>{site.footerBlurb}</p>
-            <form className="sub-form" onSubmit={(e) => { e.preventDefault(); location.href = `mailto:${site.email}?subject=Subscribe&body=${encodeURIComponent(email)}`; }}>
-              <input type="email" required placeholder="Your e-mail adress" aria-label="Your e-mail adress" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button type="submit">Subscribe</button>
-            </form>
-          </div>
+      <a className="ftr-follow" href={site.linkedin} target="_blank" rel="noopener noreferrer">Follow us — LinkedIn</a>
+      <div className="wrap ftr-main">
+        <div className="ftr-lead">
+          <Link href="/" className="ftr-word" aria-label="MIVA Robotics home">
+            <b>MIVA ROBOTICS</b>
+            <i>MOTION | INTELLIGENCE | VISION | AUTOMATION</i>
+          </Link>
+          <p>{site.footerBlurb}</p>
+          <form className="sub-form" onSubmit={(e) => { e.preventDefault(); location.href = `mailto:${site.email}?subject=Subscribe&body=${encodeURIComponent(email)}`; }}>
+            <input type="email" required placeholder="Your e-mail adress" aria-label="Your e-mail adress" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <button type="submit" className="circ" aria-label="Subscribe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </form>
+        </div>
+        <div className="ftr-cols">
           <div>
             <h2>Company</h2>
             <ul>
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about-miva-robotics/">About</Link></li>
-              <li><span className="muted">Services</span></li>
-              {serviceNav.map((s) => <li key={s.href}><Link href={s.href}>{s.label}</Link></li>)}
+              <li>
+                <details className="ftr-more">
+                  <summary>Services<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg></summary>
+                  <ul>{serviceNav.map((s) => <li key={s.href}><Link href={s.href}>{s.label}</Link></li>)}</ul>
+                </details>
+              </li>
               <li><Link href="/category/blogs/">Blogs</Link></li>
               <li><Link href="/support-and-services/">Support</Link></li>
               <li><Link href="/contact/">Contact</Link></li>
@@ -38,18 +46,20 @@ export default function Footer() {
           </div>
           <div>
             <h2>Find us</h2>
-            <ul>
-              <li><span className="muted">Phone</span><br /><a href="tel:+918055507204">{site.phone}</a></li>
-              <li><span className="muted">Email</span><br /><a href={`mailto:${site.email}`}>{site.email}</a></li>
-              <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-              <li className="gst" style={{ marginTop: 16 }}>GSTIN: {pending.gstin || <span className="pending">Pending from client</span>}</li>
-            </ul>
+            <dl>
+              <dt>Phone</dt>
+              <dd><a href="tel:+918055507204">{site.phone}</a></dd>
+              <dt>Email</dt>
+              <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+            </dl>
           </div>
         </div>
-        <div className="ftr-base">
-          <span>Copyright © 2026 MIVA ROBOTICS | All Rights Reserved</span>
-          <span><Link href="/privacy-policy/">Privacy Policy</Link> | <Link href="/terms-conditions/">Terms &amp; Conditions</Link></span>
-        </div>
+      </div>
+      <p className="ftr-mark" aria-hidden="true">MIVA</p>
+      <div className="wrap ftr-base">
+        <span>Copyright © 2026 MIVA ROBOTICS | All Rights Reserved</span>
+        {pending.gstin && <span className="gst">GSTIN: {pending.gstin}</span>}
+        <span><Link href="/privacy-policy/">Privacy Policy</Link> | <Link href="/terms-conditions/">Terms &amp; Conditions</Link></span>
       </div>
     </footer>
   );

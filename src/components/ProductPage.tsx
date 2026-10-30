@@ -23,7 +23,7 @@ export default function ProductPage({ p }: { p: Product }) {
     <>
       <section className="p-hero">
         <Image src={p.hero} alt={p.name} fill priority sizes="100vw" data-parallax="6" />
-        <span className="scan" />
+        
         <div className="wrap">
           <span className="eyebrow">Products</span>
           <Lines as="h1" className="h-xl metal" lines={[p.name]} />
@@ -107,7 +107,7 @@ export default function ProductPage({ p }: { p: Product }) {
       {p.secondary && (
         <div className="fullimg">
           <Image src={p.secondary} alt={p.name} fill sizes="100vw" data-parallax="8" style={p.slug === "miva-eagle" ? { objectFit: "contain" } : undefined} />
-          <span className="ticks" />
+          
         </div>
       )}
 

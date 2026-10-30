@@ -1,6 +1,7 @@
 "use client";
 
 import { site } from "@/content/site";
+import { ArrowUR } from "./ui";
 
 const fields = [
   { name: "First Name", required: true },
@@ -32,9 +33,9 @@ export default function ContactForm() {
         </div>
       ))}
       <div style={{ gridColumn: "span 2" }}>
-        <button type="submit" className="cta" data-magnetic>
+        <button type="submit" className="cta">
           <span className="cta-label">Submit</span>
-          <span className="cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M3 12h17M14 6l6 6-6 6" /></svg></span>
+          <span className="cta-arrow"><ArrowUR /><ArrowUR /></span>
         </button>
       </div>
     </form>
