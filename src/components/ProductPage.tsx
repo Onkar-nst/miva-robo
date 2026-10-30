@@ -70,25 +70,39 @@ export default function ProductPage({ p }: { p: Product }) {
 
       {p.specs && (
         <section className="section-y light scroll-mt-20" id="specs">
-          <div className="wrap">
-            <h2 className="h-lg mb-11" data-reveal>Tech Specifications</h2>
-            {highlights.length > 0 && (
-              <div className="mb-[clamp(36px,4vw,56px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] border-y border-line">
-                {highlights.map(([k, v]) => (
-                  <div key={k} data-reveal className="py-7 pr-6 [&+&]:border-l [&+&]:border-line [&+&]:pl-6">
-                    <span className="text-[11.5px] font-medium uppercase tracking-[.14em] text-muted">{k}</span>
-                    <b className="mt-3 block text-[clamp(24px,2.2vw,32px)] font-medium leading-[1.15] tracking-[-.03em]">{v}</b>
+          <div className="wrap grid gap-10 min-[1000px]:grid-cols-[4fr_8fr] min-[1000px]:gap-[clamp(40px,5vw,80px)]">
+            <div className="min-[1000px]:sticky min-[1000px]:top-[110px] min-[1000px]:self-start">
+              <span className="eyebrow">{p.name}</span>
+              <h2 className="h-md" data-reveal>Tech Specifications</h2>
+              {highlights.length > 0 && (
+                <div className="mt-8 grid grid-cols-1 gap-px border border-line bg-line min-[700px]:grid-cols-3 min-[1000px]:grid-cols-1">
+                  {highlights.map(([k, v]) => (
+                    <div key={k} data-reveal className="bg-bg px-5 py-4">
+                      <span className="text-[10.5px] font-medium uppercase tracking-[.16em] text-muted">{k}</span>
+                      <b className="mt-1.5 block text-xl font-semibold leading-tight tracking-[-.02em] text-ink">{v}</b>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="grid gap-4 min-[700px]:grid-cols-2">
+              {p.specs.map((g, i) => {
+                const wide = g.rows.length > 6;
+                return (
+                  <div key={g.group ?? i} data-reveal className={`border border-line bg-white/70 ${wide || (p.specs!.length % 2 === 1 && i === p.specs!.length - 1) ? "min-[700px]:col-span-2" : ""}`}>
+                    {g.group && <h3 className="border-b border-line px-5 py-3 text-[11px] font-semibold uppercase tracking-[.16em] text-accent">{g.group}</h3>}
+                    <dl className={`grid px-5 py-1.5 ${wide ? "min-[700px]:grid-cols-2 min-[700px]:gap-x-8" : ""}`}>
+                      {g.rows.map(([k, v]) => (
+                        <div key={k} className={`grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4 border-b border-line py-2.5 text-[14px] leading-snug last:border-b-0 ${wide && g.rows.length % 2 === 0 ? "min-[700px]:[&:nth-last-child(2)]:border-b-0" : ""}`}>
+                          <dt className="text-muted">{k}</dt>
+                          <dd className="font-medium text-ink">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
-                ))}
-              </div>
-            )}
-            <div className="flex justify-between pb-3 text-[11.5px] font-medium uppercase tracking-[.16em] text-muted"><span className="w-[42%]">Parameter</span><span className="flex-1">Specification</span></div>
-            {p.specs.map((g, i) => (
-              <table key={g.group ?? i} data-reveal className="w-full border-collapse [&_:is(th,td)]:border-t [&_:is(th,td)]:border-line [&_:is(th,td)]:py-4 [&_:is(th,td)]:pr-3.5 [&_:is(th,td)]:text-left [&_:is(th,td)]:align-top [&_:is(th,td)]:text-[15px] [&_:is(th,td)]:font-normal [&_:is(th,td)]:transition-[background-color,padding] [&_:is(th,td)]:duration-[.3s,.4s] [&_:is(th,td)]:ease-expo [&_th]:w-[42%] [&_th]:text-muted [&_tr:hover_:is(th,td)]:bg-tint [&_tr:hover_th]:pl-3.5">
-                {g.group && <caption className="pb-3.5 pt-9 text-left text-[11.5px] font-medium uppercase tracking-[.16em] text-accent">{g.group}</caption>}
-                <tbody>{g.rows.map(([k, v]) => <tr key={k}><th scope="row">{k}</th><td>{v}</td></tr>)}</tbody>
-              </table>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </section>
       )}

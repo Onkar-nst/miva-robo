@@ -49,7 +49,7 @@
     --bg: #0c1016; --bg-2: #111620; --panel: #171d27; --line: rgba(255, 255, 255, .09); --line-2: rgba(255, 255, 255, .18);
     --ink: #f2f4f7; --soft: #b6bec8; --muted: #7f8893; --accent: #38b6ff; --accent-ink: #00131f;
     --tint: rgba(255, 255, 255, .035); --ghost: rgba(255, 255, 255, .07); --logo-filter: none;
-    --gutter: clamp(20px, 3.9vw, 56px); --seam: clamp(90px, 11vw, 170px);
+    --gutter: clamp(20px, 3.9vw, 56px); --seam: clamp(56px, 11vw, 170px);
   }
   /* Light palette: cool off-white with a slightly deeper blue so accent text stays legible. */
   .light, .theme-light {
