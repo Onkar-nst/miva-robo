@@ -44,7 +44,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section intro">
+      <section className="section intro light">
         <div className="wrap intro-grid">
           <div className="intro-copy">
             <span className="eyebrow">Introducing MIVA Robotics</span>
@@ -58,7 +58,7 @@ export default function Home() {
         </div>
         <div className="wrap points">
           {home.intro.points.map((p, i) => (
-            <Link href="/about-miva-robotics/" className="point" key={p} data-reveal style={d(i * 0.1)}>
+            <Link href="/about-miva-robotics/" className="point dark" key={p} data-reveal style={d(i * 0.1)}>
               <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 900px) 100vw, 50vw" />
               <span className="point-t">{p}</span>
               <span className="circ" aria-hidden="true"><ArrowR /></span>
@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section ind-sec">
+      <section className="section ind-sec light">
         <Marquee className="giant">
           <div style={{ display: "flex" }}>
             {home.industries.map((x) => <span className="giant-w" key={x.title}>{x.title}<i aria-hidden="true" /></span>)}
@@ -149,22 +149,15 @@ export default function Home() {
         </div>
       </Marquee>
 
-      <section className="section tst-sec">
-        <div className="wrap tst-grid">
-          <div>
-            <span className="eyebrow" />
-            <Lines className="h-md" lines={["Testimonials"]} />
-          </div>
-
-          <Testimonials />
-        </div>
+      <section className="section tst-sec light">
+        <div className="wrap"><Testimonials /></div>
       </section>
 
       <section className="section tight social-sec">
         <div className="wrap"><SocialHub /></div>
       </section>
 
-      <section className="section">
+      <section className="section light">
         <div className="wrap">
           <div className="split-head">
             <Lines className="h-md" lines={["Latest Posts"]} />

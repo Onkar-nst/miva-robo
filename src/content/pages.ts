@@ -129,7 +129,7 @@ export const contact = {
   heading: "Find our office",
   text: "Whether you’re exploring automation for the first time or scaling your existing operations, our team is ready to help you design the right solution.",
   offices: [
-    { city: "MUMBAI", label: "Research and Development Center", phone: "+91-8055507204", address: "1201/2, Raheja Asencio, Andheri East, Mumbai, Maharashtra, India, 400072", email: "info@mivarobotics.ai", maps: "1201/2, Raheja Asencio, Andheri East, Mumbai 400072" },
+    { city: "MUMBAI", label: "Research and Development Center", phone: "+91-8055507204", address: "1201/2, Raheja Asencio, Andheri East, Mumbai, Maharashtra, India, 400072", email: "info@mivarobotics.ai", maps: "Raheja Ascencio, Chandivali, Andheri East, Mumbai 400072" },
     { city: "KOLHAPUR", label: "Sales and Manufacturing Center", phone: "+91-7823033763", address: "CS No 517 PL No 7 E Ward, Jyoti, Shivaji Park, Kolhapur, Maharashtra, India, 416001", email: "sales@mivarobotics.ai", maps: "CS No 517 PL No 7 E Ward, Shivaji Park, Kolhapur 416001" },
   ],
   formEyebrow: "Send a message",

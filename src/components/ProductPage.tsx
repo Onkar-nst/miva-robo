@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ctaText, products, type Product } from "@/content/products";
-import { OsVideo } from "./SocialHub";
 import { Check, CTA, CTABand, Lines, Marquee, pad } from "./ui";
 
 function Pager({ p }: { p: Product }) {
@@ -65,7 +64,7 @@ export default function ProductPage({ p }: { p: Product }) {
       )}
 
       {p.specs && (
-        <section className="section" id="specs" style={{ background: "var(--bg-2)", borderBlock: "1px solid var(--line)", scrollMarginTop: 80 }}>
+        <section className="section light" id="specs" style={{ scrollMarginTop: 80 }}>
           <div className="wrap">
             <h2 className="h-lg" style={{ marginBottom: 44 }} data-reveal>Tech Specifications</h2>
             {highlights.length > 0 && (
@@ -102,7 +101,6 @@ export default function ProductPage({ p }: { p: Product }) {
         </section>
       )}
 
-      {p.slug === "miva-os" && <section className="section" style={{ paddingTop: 0 }}><div className="wrap" data-reveal><OsVideo /></div></section>}
 
       {p.secondary && (
         <div className="fullimg">
@@ -112,7 +110,7 @@ export default function ProductPage({ p }: { p: Product }) {
       )}
 
       {p.connects && (
-        <section className="section">
+        <section className="section light">
           <div className="wrap grid-2">
             <div className="sticky-col"><h2 className="h-lg" data-reveal>What MIVA OS Connects</h2></div>
             <div>
@@ -125,7 +123,7 @@ export default function ProductPage({ p }: { p: Product }) {
       )}
 
       {p.applications && (
-        <section className="section">
+        <section className="section light">
           <div className="wrap">
             <h2 className="h-lg" style={{ marginBottom: 14 }} data-reveal>Applications</h2>
             <p className="lead" style={{ marginBottom: 40 }} data-reveal>{p.applicationsIntro}</p>

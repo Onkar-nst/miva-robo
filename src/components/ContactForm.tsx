@@ -32,7 +32,7 @@ export default function ContactForm() {
             : <input id={`f${i}`} name={f.name} required={f.required} type={f.type || "text"} />}
         </div>
       ))}
-      <div style={{ gridColumn: "span 2" }}>
+      <div className="form-submit">
         <button type="submit" className="cta">
           <span className="cta-label">Submit</span>
           <span className="cta-arrow"><ArrowUR /><ArrowUR /></span>

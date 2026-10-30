@@ -16,11 +16,9 @@ export const site = {
   youtube: {
     url: "https://www.youtube.com/@MIVAROBOTICS",
     handle: "@MIVAROBOTICS",
-    // Featured on the home page.
+    // Played in the tablet mockup on the home page.
     video: { id: "QQrv2Brm05Y", title: "MIVA ROBOTICS : Affordable, Accessible, Adaptable Automation for every scale" },
   },
-  // MIVA OS introduction, shown on the MIVA OS product page.
-  osVideoId: "PQe_ONEYGxQ",
 };
 
 export const productNav = [

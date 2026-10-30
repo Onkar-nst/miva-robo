@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { pending, productNav, serviceNav, site } from "@/content/site";
+import { productNav, serviceNav, site } from "@/content/site";
 
+// Mirrors the mivarobotics.ai footer: light panel that the page content slides off to reveal (sticky, desktop only).
 export default function Footer() {
   const [email, setEmail] = useState("");
   return (
@@ -11,9 +12,9 @@ export default function Footer() {
       <a className="ftr-follow" href={site.linkedin} target="_blank" rel="noopener noreferrer">Follow us — LinkedIn</a>
       <div className="wrap ftr-main">
         <div className="ftr-lead">
-          <Link href="/" className="ftr-word" aria-label="MIVA Robotics home">
-            <b>MIVA ROBOTICS</b>
-            <i>MOTION | INTELLIGENCE | VISION | AUTOMATION</i>
+          <Link href="/" className="ftr-logo" aria-label="MIVA Robotics home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/MIVA-ROBOTICS-LOGO-BANNER.png" alt="MIVA Robotics" width={360} height={80} />
           </Link>
           <p>{site.footerBlurb}</p>
           <form className="sub-form" onSubmit={(e) => { e.preventDefault(); location.href = `mailto:${site.email}?subject=Subscribe&body=${encodeURIComponent(email)}`; }}>
@@ -55,12 +56,9 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <p className="ftr-mark" aria-hidden="true">MIVA</p>
-      <div className="wrap ftr-base">
-        <span>Copyright © 2026 MIVA ROBOTICS | All Rights Reserved</span>
-        {pending.gstin && <span className="gst">GSTIN: {pending.gstin}</span>}
-        <span><Link href="/privacy-policy/">Privacy Policy</Link> | <Link href="/terms-conditions/">Terms &amp; Conditions</Link></span>
-      </div>
+      <p className="ftr-base">
+        Copyright © 2026 MIVA ROBOTICS | All Rights Reserved | <Link href="/privacy-policy/">Privacy Policy</Link> | <Link href="/terms-conditions/">Terms &amp; Conditions</Link>
+      </p>
     </footer>
   );
 }

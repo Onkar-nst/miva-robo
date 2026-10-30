@@ -27,7 +27,7 @@ export default function LegalPage({ title, updated, blocks }: { title: string; u
           <p className="meta" style={{ marginTop: 20 }}>{updated}</p>
         </div>
       </section>
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section light">
         <div className="wrap"><div className="prose"><Blocks blocks={blocks} /></div></div>
       </section>
     </>

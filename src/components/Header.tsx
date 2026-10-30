@@ -45,7 +45,7 @@ function Mega({ items, title }: { items: NavItem[]; title: string }) {
               <li key={p.href}>
                 <Link href={p.href} className={n === on ? "on" : ""} onMouseEnter={() => setOn(n)} onFocus={() => setOn(n)}>
                   <span className="idx">{pad(n + 1, 2)}</span>
-                  <span className="mega-t"><b>{p.label}</b><small>{p.sub}</small></span>
+                  <span className="mega-t"><b>{p.label}</b></span>
                   <ArrowUR />
                 </Link>
               </li>
@@ -53,10 +53,15 @@ function Mega({ items, title }: { items: NavItem[]; title: string }) {
           </ul>
         </div>
         <div className="mega-prev" aria-hidden="true">
-          {items.map((p, n) => (
-            <span className={n === on ? "on" : ""} key={p.href}><Image src={p.image} alt="" fill sizes="320px" /></span>
-          ))}
-          <em>{items[on].label}</em>
+          <div className="mega-shot">
+            {items.map((p, n) => (
+              <span className={n === on ? "on" : ""} key={p.href}><Image src={p.image} alt="" fill sizes="(max-width: 1200px) 50vw, 640px" quality={90} /></span>
+            ))}
+          </div>
+          <div className="mega-cap" key={on}>
+            <b>{items[on].label}</b>
+            <small>{items[on].sub}</small>
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +71,7 @@ function Mega({ items, title }: { items: NavItem[]; title: string }) {
 export default function Header() {
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [onLight, setOnLight] = useState(false);
   const [open, setOpen] = useState(false);
   const path = usePathname();
 
@@ -74,6 +80,8 @@ export default function Header() {
     const on = () => {
       const y = scrollY;
       setSolid(y > 40);
+      // Match the bar to whatever section is passing underneath it.
+      setOnLight([...document.querySelectorAll(".light")].some((s) => { const r = s.getBoundingClientRect(); return r.top <= 42 && r.bottom >= 42; }));
       if (Math.abs(y - last) > 6) { setHidden(y > last && y > 240); last = y; }
     };
     on();
@@ -88,7 +96,7 @@ export default function Header() {
   const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
 
   return (
-    <header className={`hdr ${solid || open ? "solid" : ""} ${hidden && !open ? "away" : ""}`}>
+    <header className={`hdr ${solid || open ? "solid" : ""} ${hidden && !open ? "away" : ""} ${onLight && !open ? "on-light" : ""}`}>
       <div className="wrap hdr-in">
         <Logo />
         <nav className="nav" aria-label="Primary">

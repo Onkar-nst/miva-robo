@@ -29,7 +29,7 @@ export default function ServicePage({ s }: { s: Service }) {
         </div>
       </section>
 
-      <section className="section" style={{ background: "var(--bg-2)", borderBlock: "1px solid var(--line)" }}>
+      <section className="section light">
         <div className="wrap grid-2">
           <div className="sticky-col">
             <h2 className="h-lg" style={{ marginBottom: 32 }} data-reveal>{s.includesTitle}</h2>

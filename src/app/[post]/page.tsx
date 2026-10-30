@@ -45,7 +45,7 @@ export default async function Post({ params }: Props) {
         </div>
       </section>
       <div className="fullimg"><Image src={p.image} alt="" fill priority sizes="100vw" data-parallax="8" /></div>
-      <section className="section">
+      <section className="section light">
         <div className="wrap">
           <div className="prose"><Blocks blocks={p.body} /></div>
           <div className="prose share">
@@ -60,11 +60,11 @@ export default async function Post({ params }: Props) {
           </div>
         </div>
       </section>
-      <nav className="pager" aria-label="Articles">
+      <nav className="pager light" aria-label="Articles">
         {prev ? <Link href={`/${prev.slug}/`}><span className="eyebrow">Previous Article</span><b>{prev.title}</b></Link> : <span />}
         {next ? <Link href={`/${next.slug}/`}><span className="eyebrow">Next Article</span><b>{next.title}</b></Link> : <span />}
       </nav>
-      <section className="section">
+      <section className="section light">
         <div className="wrap">
           <div className="split-head"><Lines className="h-md" lines={["You may also like"]} /></div>
           <div className="posts">{posts.filter((x) => x.slug !== p.slug).map((x) => <PostCard key={x.slug} post={x} />)}</div>

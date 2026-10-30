@@ -21,7 +21,7 @@ export default function Support() {
           </div>
         </div>
       </section>
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section light">
         <div className="wrap">
           <span className="eyebrow">{s.servicesLabel}</span>
           <div className="svc" style={{ marginTop: 28 }}>
@@ -35,7 +35,7 @@ export default function Support() {
           </div>
         </div>
       </section>
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section light" style={{ paddingTop: 0 }}>
         <div className="wrap grid-2">
           <div>
             <span className="eyebrow">{s.visionLabel}</span>

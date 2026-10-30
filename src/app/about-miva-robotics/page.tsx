@@ -31,7 +31,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section" style={{ background: "var(--bg-2)", borderBlock: "1px solid var(--line)" }}>
+      <section className="section light">
         <div className="wrap">
           <div className="grid-2" style={{ marginBottom: 56 }}>
             <h2 className="h-lg" data-reveal>{a.leaders.heading}</h2>
@@ -78,7 +78,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section light">
         <div className="wrap">
           <h2 className="h-lg" style={{ marginBottom: 44 }} data-reveal>{a.how.heading}</h2>
           <div className="steps">
@@ -93,7 +93,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section light" style={{ paddingTop: 0 }}>
         <div className="wrap"><div className="quotes">
           {a.quotes.map((q) => <blockquote className="panel" key={q.by} data-reveal><cite>{q.by}</cite><p>{q.text}</p></blockquote>)}
         </div></div>

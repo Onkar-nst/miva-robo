@@ -8,7 +8,7 @@ export default function Blogs() {
   return (
     <>
       <section className="page-hero"><div className="wrap"><Lines as="h1" className="h-xl metal" lines={["Blogs"]} /></div></section>
-      <section className="section" style={{ paddingTop: 0 }}><div className="wrap posts">{posts.map((p) => <PostCard key={p.slug} post={p} />)}</div></section>
+      <section className="section light"><div className="wrap posts">{posts.map((p) => <PostCard key={p.slug} post={p} />)}</div></section>
     </>
   );
 }

@@ -8,7 +8,7 @@ export default function Author() {
   return (
     <>
       <section className="page-hero"><div className="wrap"><Lines as="h1" className="h-lg metal" lines={["Author: Aman Vasa"]} /></div></section>
-      <section className="section" style={{ paddingTop: 0 }}><div className="wrap posts">{posts.map((p) => <PostCard key={p.slug} post={p} />)}</div></section>
+      <section className="section light"><div className="wrap posts">{posts.map((p) => <PostCard key={p.slug} post={p} />)}</div></section>
     </>
   );
 }

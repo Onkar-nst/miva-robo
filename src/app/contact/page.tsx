@@ -1,4 +1,5 @@
 import ContactForm from "@/components/ContactForm";
+import OfficeMap from "@/components/OfficeMap";
 import { Lines } from "@/components/ui";
 import { contact as c } from "@/content/pages";
 import { pending } from "@/content/site";
@@ -11,39 +12,35 @@ export default function Contact() {
       <section className="page-hero">
         <div className="wrap">
           <span className="eyebrow">{c.eyebrow}</span>
-          <Lines as="h1" className="h-xl metal" lines={[c.heading]} />
+          <Lines as="h1" className="h-xl" lines={[c.heading]} />
           <p className="lead" style={{ maxWidth: 760, marginTop: 24 }} data-reveal>{c.text}</p>
         </div>
       </section>
       <section className="section tight" style={{ paddingTop: 0 }}>
-        <div className="wrap"><div className="offices">
-          {c.offices.map((o, i) => (
-            <article className="panel office" key={o.city} data-reveal style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}>
-              <h3 className="h-lg metal">{o.city}</h3>
-              <dl>
-                <dt>{o.label}</dt>
-                <dd className="h-sm"><a href={`tel:${o.phone.replace(/-/g, "")}`}>{o.phone}</a></dd>
-                <dt>Address</dt>
-                <dd><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.maps)}`} target="_blank" rel="noopener noreferrer">{o.address}</a></dd>
-                <dd className="h-sm" style={{ marginBottom: 0 }}><a href={`mailto:${o.email}`}>{o.email}</a></dd>
-              </dl>
-            </article>
-          ))}
-        </div></div>
+        <div className="wrap" data-reveal><OfficeMap /></div>
         {pending.gstin && (
           <div className="wrap" style={{ marginTop: 24 }}>
             <p className="gst">GSTIN: {pending.gstin}</p>
           </div>
         )}
       </section>
-      <section className="section">
-        <div className="wrap grid-2">
-          <div className="sticky-col">
+      <section className="section light">
+        <div className="wrap cform">
+          <div className="cform-intro">
             <span className="eyebrow">{c.formEyebrow}</span>
-            <h3 className="h-lg" style={{ marginBlock: 20 }} data-reveal>{c.formHeading}</h3>
+            <Lines className="h-lg" lines={[c.formHeading]} accent={2} />
             <p className="lead" data-reveal>{c.formText}</p>
+            <ul className="cform-direct" data-reveal>
+              {c.offices.map((o) => (
+                <li key={o.city}>
+                  <span className="idx">{o.city}</span>
+                  <a href={`tel:${o.phone.replace(/-/g, "")}`}>{o.phone}</a>
+                  <a href={`mailto:${o.email}`}>{o.email}</a>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="panel" data-reveal><ContactForm /></div>
+          <div className="cform-card" data-reveal><ContactForm /></div>
         </div>
       </section>
     </>
