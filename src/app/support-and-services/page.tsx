@@ -17,7 +17,7 @@ export default function Support() {
             <h2 className="h-lg !my-[22px]" data-reveal>{s.heading}</h2>
             <p className="lead" data-reveal>{s.text}</p>
           </div>
-          <div className="grid min-h-[440px] grid-cols-[7fr_5fr] gap-3">
+          <div className="grid min-h-[320px] grid-cols-[7fr_5fr] min-[960px]:min-h-[440px] gap-3">
             <div className={`${frame} row-span-2 min-h-[200px]`} data-reveal="wipe"><Image src="/media/support_1.jpg" alt="" fill priority sizes="35vw" /></div>
             <div className={`${frame} row-span-2 min-h-[200px]`} data-reveal="wipe"><Image src="/media/support_2.jpg" alt="" fill sizes="25vw" /></div>
           </div>
@@ -26,10 +26,10 @@ export default function Support() {
       <section className="section-y light">
         <div className="wrap">
           <span className="eyebrow">{s.servicesLabel}</span>
-          <div className={`${hairGrid} mt-7 grid-cols-[repeat(auto-fit,minmax(min(100%,330px),1fr))]`}>
+          <div className={`${hairGrid} mt-7 grid-cols-1 min-[640px]:grid-cols-2 min-[1000px]:grid-cols-3`}>
             {s.services.map((x, i) => (
-              <article key={x.title} className={`${panel} group flex min-h-[300px] flex-col`} data-reveal style={{ "--d": `${(i % 3) * 0.07}s` } as React.CSSProperties}>
-                <b className="mb-auto pb-7 text-[64px] font-semibold leading-none tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_var(--line-2)] transition-[-webkit-text-stroke-color] duration-500 group-hover:[-webkit-text-stroke-color:var(--accent)]" aria-hidden="true">{i + 1}</b>
+              <article key={x.title} className={`${panel} group flex flex-col min-[640px]:min-h-[300px]`} data-reveal style={{ "--d": `${(i % 3) * 0.07}s` } as React.CSSProperties}>
+                <b className="pb-8 text-[64px] font-semibold leading-none tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_var(--line-2)] transition-[-webkit-text-stroke-color] duration-500 group-hover:[-webkit-text-stroke-color:var(--accent)]" aria-hidden="true">{i + 1}</b>
                 <h2 className="h-sm mb-2.5">{x.title}</h2>
                 <p className="text-[15px] text-muted">{x.text}</p>
               </article>

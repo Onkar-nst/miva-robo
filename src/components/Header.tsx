@@ -95,19 +95,29 @@ export default function Header() {
       setOnLight([...document.querySelectorAll(".deep")].some((s) => { const r = s.getBoundingClientRect(); return r.top <= 42 && r.bottom >= 42; }));
       if (Math.abs(y - last) > 6) { setHidden(y > last && y > 240); last = y; }
     };
+    // Scroll events can fire several times per frame; measure at most once per frame.
+    let raf = 0;
+    const queue = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; on(); }); };
     setHidden(false);
     on();
-    const raf = requestAnimationFrame(on);
-    addEventListener("scroll", on, { passive: true });
-    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", on); };
+    queue();
+    addEventListener("scroll", queue, { passive: true });
+    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", queue); };
   }, [path]);
   useEffect(() => setOpen(false), [path]);
+  // Keep the page behind the open menu from scrolling.
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    return () => { document.documentElement.style.overflow = ""; };
+  }, [open]);
 
   const cur = (h: string) => (path === h ? "page" : undefined);
   const isProduct = productNav.some((p) => p.href === path);
   const isService = serviceNav.some((p) => p.href === path);
   const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
   const mobLink = "block border-b border-line py-3.5 text-[30px] font-semibold tracking-[-.035em]";
+  // Group labels share the top-level links' type so the menu reads as one list.
+  const mobHead = "pb-1 pt-3.5 text-[30px] font-semibold tracking-[-.035em] text-ink";
   const mobSub = "grid grid-cols-2 gap-x-4 [&_a]:block [&_a]:border-b [&_a]:border-line [&_a]:py-2.5 [&_a]:text-[15px] [&_a]:text-soft";
 
   return (
@@ -132,15 +142,16 @@ export default function Header() {
           </button>
         </div>
       </div>
+      {/* Sized against the viewport rather than `fixed`: the header's backdrop blur makes it the containing block for fixed children. */}
       <nav aria-label="Mobile" aria-hidden={!open} data-lenis-prevent inert={!open}
-        className={`fixed inset-x-0 bottom-0 top-[84px] overflow-y-auto bg-bg px-(--gutter) pb-12 pt-4 transition-[clip-path] duration-800 ease-io min-[1100px]:hidden
+        className={`absolute inset-x-0 top-full h-[calc(100dvh-84px)] overflow-y-auto overscroll-contain bg-bg px-(--gutter) pb-12 pt-4 transition-[clip-path] duration-800 ease-io min-[1100px]:hidden
           *:transition-all *:duration-600 *:ease-expo
           ${open ? "[clip-path:inset(0)] *:translate-y-0 *:opacity-100 *:delay-[calc(.25s+var(--i)*.04s)]" : "[clip-path:inset(0_0_100%_0)] *:translate-y-4 *:opacity-0"}`}>
         <Link href="/" style={i(0)} className={mobLink}>Home</Link>
         <Link href="/about-miva-robotics/" style={i(1)} className={mobLink}>About</Link>
-        <p className="eyebrow mb-1 mt-[26px]" style={i(2)}>Products</p>
+        <p className={mobHead} style={i(2)}>Products</p>
         <div className={mobSub} style={i(3)}>{productNav.map((p) => <Link key={p.href} href={p.href}>{p.label}</Link>)}</div>
-        <p className="eyebrow mb-1 mt-[26px]" style={i(4)}>Services</p>
+        <p className={mobHead} style={i(4)}>Services</p>
         <div className={mobSub} style={i(5)}>{serviceNav.map((p) => <Link key={p.href} href={p.href}>{p.label}</Link>)}</div>
         <Link href="/category/blogs/" style={i(6)} className={mobLink}>Blogs</Link>
         <Link href="/support-and-services/" style={i(7)} className={mobLink}>Support</Link>

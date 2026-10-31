@@ -67,7 +67,7 @@ export default async function Post({ params }: Props) {
       <section className="section-y light">
         <div className="wrap">
           <div className="mb-[clamp(36px,4vw,56px)]"><Lines className="h-md" lines={["You may also like"]} /></div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-x-5 gap-y-11">{posts.filter((x) => x.slug !== p.slug).map((x) => <PostCard key={x.slug} post={x} />)}</div>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-5 gap-y-11">{posts.filter((x) => x.slug !== p.slug).map((x) => <PostCard key={x.slug} post={x} />)}</div>
         </div>
       </section>
     </article>

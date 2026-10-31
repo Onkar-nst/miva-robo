@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroSlides from "@/components/HeroSlides";
 import PostCard from "@/components/PostCard";
+import ScrollButtons from "@/components/ScrollButtons";
 import SocialHub from "@/components/SocialHub";
 import Testimonials from "@/components/Testimonials";
 import { ArrowR, circ, circHover, CTA, frame, Lines, Marquee, pad, tag, TextLink } from "@/components/ui";
@@ -37,9 +38,10 @@ export default function Home() {
       </section>
 
       <section className="border-y border-line">
-        <div className="wrap grid grid-cols-1 min-[700px]:grid-cols-2 min-[1100px]:grid-cols-4">
+        {/* Phones: a swipeable row with the next card peeking in. Tablet up: 2 then 4 columns. */}
+        <div className="wrap flex snap-x snap-mandatory scroll-px-(--gutter) overflow-x-auto [scrollbar-width:none] min-[700px]:grid min-[700px]:grid-cols-2 min-[700px]:overflow-visible min-[1100px]:grid-cols-4">
           {home.pillars.map((p, i) => (
-            <div key={p.title} className="py-10 [&+&]:border-t [&+&]:border-line min-[700px]:even:border-l min-[700px]:even:border-line min-[700px]:even:pl-8 min-[700px]:[&:nth-child(2)]:border-t-0 min-[1100px]:border-t-0! min-[1100px]:px-8 min-[1100px]:py-11 min-[1100px]:[&+&]:border-l" data-reveal style={d(i * 0.08)}>
+            <div key={p.title} className="py-10 [&+&]:border-line max-[699px]:w-[74vw] max-[699px]:max-w-[300px] max-[699px]:flex-none max-[699px]:snap-start max-[699px]:pr-6 max-[699px]:[&+&]:border-l max-[699px]:[&+&]:pl-6 min-[700px]:[&+&]:border-t min-[700px]:even:border-l min-[700px]:even:border-line min-[700px]:even:pl-8 min-[700px]:[&:nth-child(2)]:border-t-0 min-[1100px]:border-t-0! min-[1100px]:px-8 min-[1100px]:py-11 min-[1100px]:[&+&]:border-l" data-reveal style={d(i * 0.08)}>
               <svg className="mb-[26px] w-6 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" aria-hidden="true">{icons[i]}</svg>
               <h2 className="mb-3.5 max-w-[12ch] text-[15.5px] font-semibold leading-[1.25] tracking-[-.01em]">{p.title}</h2>
               <p className="max-w-[30ch] text-[13.5px] leading-[1.65] text-muted">{p.text}</p>
@@ -80,8 +82,9 @@ export default function Home() {
               <Lines className="h-lg" lines={["Products"]} />
             </div>
             <p className="hidden text-sm tabular-nums text-muted min-[1000px]:block motion-reduce:hidden"><b className="text-[26px] font-semibold tracking-[-.02em] text-ink" data-hs-count>01</b> / {pad(products.length, 2)}</p>
+            <ScrollButtons target="products-track" label="product" className="min-[1000px]:hidden min-[1000px]:motion-reduce:flex" />
           </div>
-          <div className="hs-track flex gap-[22px] px-[max(var(--gutter),calc((100vw-1440px)/2+var(--gutter)))] will-change-transform max-[999px]:snap-x max-[999px]:snap-mandatory max-[999px]:overflow-x-auto max-[999px]:[scrollbar-width:none] motion-reduce:overflow-x-auto">
+          <div id="products-track" className="hs-track flex gap-[22px] px-[max(var(--gutter),calc((100vw-1440px)/2+var(--gutter)))] will-change-transform max-[999px]:snap-x max-[999px]:snap-mandatory max-[999px]:scroll-px-(--gutter) max-[999px]:overflow-x-auto max-[999px]:[scrollbar-width:none] motion-reduce:overflow-x-auto">
             {products.map((p, i) => (
               <Link href={`/portfolio/${p.slug}/`} className="group block w-[min(78vw,340px)] flex-none snap-start min-[1000px]:w-[clamp(280px,26vw,380px)]" key={p.slug} data-reveal style={d((i % 3) * 0.08)}>
                 <span className="relative mb-[22px] block aspect-square overflow-hidden bg-panel">
@@ -97,22 +100,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-y light overflow-hidden border-t border-line">
-        <Marquee className="mb-[clamp(28px,3vw,44px)]" trackClassName="[animation-duration:45s]">
-          <div style={{ display: "flex" }}>
-            {home.industries.map((x) => <span className="inline-flex items-center whitespace-nowrap text-[clamp(32px,4.4vw,68px)] font-semibold leading-[1.1] tracking-[-.03em] text-ghost" key={x.title}>{x.title}<i aria-hidden="true" className="mx-[.55em] inline-block size-[.14em] rounded-full bg-accent opacity-55" /></span>)}
-          </div>
-        </Marquee>
+      <section className="section-y light overflow-hidden">
         <div className="wrap">
-          <div className="mb-[clamp(36px,4vw,56px)]">
+          <div className="mb-[clamp(36px,4vw,56px)] flex items-end justify-between gap-5">
             <div>
               <span className="eyebrow">Industry Focus Area</span>
               <Lines className="h-lg" lines={["MIVA enables intelligent", "automation across industries."]} accent={2} />
             </div>
+            <ScrollButtons target="industries-track" label="industry" className="flex-none min-[640px]:hidden" />
           </div>
-          <div className="grid grid-cols-1 gap-x-[22px] gap-y-12 min-[640px]:grid-cols-2 min-[1000px]:grid-cols-3">
+          {/* Phones: a swipeable row that bleeds to the screen edges. Tablet up: 2 then 3 columns. */}
+          <div id="industries-track" className="flex snap-x snap-mandatory gap-x-[22px] overflow-x-auto [scrollbar-width:none] max-[639px]:-mx-(--gutter) max-[639px]:scroll-px-(--gutter) max-[639px]:px-(--gutter) min-[640px]:grid min-[640px]:grid-cols-2 min-[640px]:gap-y-12 min-[640px]:overflow-visible min-[1000px]:grid-cols-3">
             {home.industries.map((x, i) => (
-              <article key={x.title} className="group hover:!shadow-none" data-reveal style={d((i % 3) * 0.08)}>
+              <article key={x.title} className="group hover:!shadow-none max-[639px]:w-[80vw] max-[639px]:max-w-[340px] max-[639px]:flex-none max-[639px]:snap-start" data-reveal style={d((i % 3) * 0.08)}>
                 {/* Hover: the photo eases in and regains colour while an accent rule draws along its foot. */}
                 <div className={`${frame} mb-[22px] aspect-[4/3] [&_img]:saturate-[.75] [&_img]:transition-[transform,filter] group-hover:[&_img]:scale-[1.06] group-hover:[&_img]:saturate-100
                   after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-700 after:ease-io after:content-[''] group-hover:after:scale-x-100`}>
@@ -172,9 +172,13 @@ export default function Home() {
         <div className="wrap">
           <div className="mb-[clamp(36px,4vw,56px)] flex flex-wrap items-end justify-between gap-6">
             <Lines className="h-md" lines={["Latest Posts"]} />
-            <TextLink href="/category/blogs/">Blogs</TextLink>
+            <div className="flex items-center gap-5">
+              <TextLink href="/category/blogs/">Blogs</TextLink>
+              <ScrollButtons target="posts-track" label="post" className="min-[640px]:hidden" />
+            </div>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-x-5 gap-y-11">{posts.map((p) => <PostCard key={p.slug} post={p} byline />)}</div>
+          {/* Phones: a swipeable row that bleeds to the screen edges. Tablet up: a grid. */}
+          <div id="posts-track" className="flex snap-x snap-mandatory gap-x-5 overflow-x-auto [scrollbar-width:none] max-[639px]:-mx-(--gutter) max-[639px]:scroll-px-(--gutter) max-[639px]:px-(--gutter) max-[639px]:*:w-[80vw] max-[639px]:*:max-w-[340px] max-[639px]:*:flex-none max-[639px]:*:snap-start min-[640px]:grid min-[640px]:grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] min-[640px]:gap-y-11 min-[640px]:overflow-visible">{posts.map((p) => <PostCard key={p.slug} post={p} byline />)}</div>
         </div>
       </section>
     </>
