@@ -38,7 +38,7 @@ export default async function Post({ params }: Props) {
     <article>
       <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]">
         <div className="wrap max-w-[1240px]">
-          <p className="meta">Published in: <Link href="/category/blogs/" className="text-accent">Blogs</Link></p>
+          <p className="meta">Published in: <Link href="/category/blogs/" className="text-accent-text">Blogs</Link></p>
           <Lines as="h1" className="h-lg" lines={[p.title]} />
           <p className="meta mt-[22px]">Author <Link href="/author/aman-vasa/" className="text-ink">{p.author}</Link></p>
           <p className="meta"><time dateTime={p.iso}>{p.date}</time></p>

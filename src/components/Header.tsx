@@ -41,7 +41,7 @@ function Mega({ items, title, shut }: { items: NavItem[]; title: string; shut: b
   const small = items.length < 4;
   return (
     <div className={`invisible absolute left-1/2 top-full -translate-x-1/2 -translate-y-2 pt-[22px] opacity-0 transition-all ease-expo ${shut ? "duration-250" : "duration-450 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100"}`}>
-      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(15,40,63,.35)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
+      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(11,29,51,.35)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
         <div className="px-2 pb-3.5 pt-[26px]">
           <p className="eyebrow mb-3.5 ml-[18px]">{title}</p>
           <ul>
@@ -51,9 +51,9 @@ function Mega({ items, title, shut }: { items: NavItem[]; title: string; shut: b
                 <li key={p.href}>
                   <Link href={p.href} onMouseEnter={() => setOn(n)} onFocus={() => setOn(n)}
                     className={`relative grid grid-cols-[30px_1fr_14px] items-center gap-3.5 px-[18px] py-[13px] transition-colors duration-350 before:absolute before:inset-y-3 before:left-0 before:w-0.5 before:bg-accent before:transition-transform before:duration-450 before:ease-expo before:content-[''] ${active ? "bg-tint before:scale-y-100" : "before:scale-y-0"}`}>
-                    <span className={`idx transition-colors duration-300 ${active ? "!text-accent" : ""}`}>{pad(n + 1, 2)}</span>
+                    <span className={`idx transition-colors duration-300 ${active ? "!text-accent-text" : ""}`}>{pad(n + 1, 2)}</span>
                     <b className="min-w-0 text-[17px] font-semibold tracking-[-.01em] text-ink">{p.label}</b>
-                    <ArrowUR className={`w-[13px] text-accent transition-all duration-450 ease-expo ${active ? "opacity-100" : "-translate-x-1.5 translate-y-1.5 opacity-0"}`} />
+                    <ArrowUR className={`w-[13px] text-accent-text transition-all duration-450 ease-expo ${active ? "opacity-100" : "-translate-x-1.5 translate-y-1.5 opacity-0"}`} />
                   </Link>
                 </li>
               );

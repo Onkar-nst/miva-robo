@@ -32,7 +32,7 @@ export default function Contact() {
             <p className="lead" data-reveal>{c.formText}</p>
             <ul className="mt-10 border-t border-line" data-reveal>
               {c.offices.map((o) => (
-                <li key={o.city} className="grid gap-1 border-b border-line py-[18px] [&_a]:w-fit [&_a]:text-base [&_a]:font-medium [&_a]:text-ink [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-accent">
+                <li key={o.city} className="grid gap-1 border-b border-line py-[18px] [&_a]:w-fit [&_a]:text-base [&_a]:font-medium [&_a]:text-ink [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-accent-text">
                   <span className="idx mb-1">{o.city}</span>
                   <a href={`tel:${o.phone.replace(/-/g, "")}`}>{o.phone}</a>
                   <a href={`mailto:${o.email}`}>{o.email}</a>
@@ -40,7 +40,7 @@ export default function Contact() {
               ))}
             </ul>
           </div>
-          <div className="border border-line bg-white p-[clamp(24px,3.4vw,48px)] shadow-[0_40px_80px_-50px_rgba(15,40,63,.35)]" data-reveal><ContactForm /></div>
+          <div className="border border-line bg-white p-[clamp(24px,3.4vw,48px)] shadow-[0_40px_80px_-50px_rgba(11,29,51,.35)]" data-reveal><ContactForm /></div>
         </div>
       </section>
     </>

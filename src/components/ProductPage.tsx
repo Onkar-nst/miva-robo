@@ -15,7 +15,7 @@ function Pager({ p }: { p: Product }) {
 }
 
 const word = "whitespace-nowrap pr-[.6em] text-[clamp(40px,6vw,96px)] font-semibold uppercase leading-[1.25] tracking-[-.045em]";
-const stroke = "text-transparent [-webkit-text-stroke:1px_rgba(15,40,63,.3)]";
+const stroke = "text-transparent [-webkit-text-stroke:1px_rgba(11,29,51,.3)]";
 const sticky = "min-[960px]:sticky min-[960px]:top-[120px] min-[960px]:self-start";
 const d = (s: number) => ({ "--d": `${s}s` }) as React.CSSProperties;
 // "Up to 50 kg (Configurable)" → ["Up to 50 kg", "Configurable"]: the qualifier sits under the value.
@@ -33,7 +33,7 @@ function Hero({ p }: { p: Product }) {
     // Transparent product shot: presented like a showroom piece, lit from behind.
     return (
       <section className="deep relative flex min-h-svh flex-col items-center overflow-hidden pt-[120px] text-center">
-        <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(196,123,69,.3),transparent_65%)]" />
+        <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,209,255,.16),transparent_65%)]" />
         <div className="wrap relative z-[2]">
           <span className="eyebrow">Products</span>
           <Lines as="h1" className="h-xl !mt-6 mb-4 justify-center" lines={[p.name]} />
@@ -47,7 +47,7 @@ function Hero({ p }: { p: Product }) {
     );
   }
   return (
-    <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#0f2a42_2%,rgba(15,40,63,.2)_50%,rgba(15,40,63,.5)),linear-gradient(90deg,rgba(15,40,63,.82),transparent_65%)]">
+    <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#0b1d33_2%,rgba(11,29,51,.2)_50%,rgba(11,29,51,.5)),linear-gradient(90deg,rgba(11,29,51,.82),transparent_65%)]">
       <Image src={p.hero} alt={p.name} fill priority sizes="100vw" data-parallax="6" className="!inset-x-0 !-inset-y-[6%] !h-[112%] object-cover" />
       <div className="wrap relative z-[3] pb-[clamp(48px,6vw,96px)] pt-[140px]">
         <span className="eyebrow">Products</span>
@@ -103,7 +103,7 @@ export default function ProductPage({ p }: { p: Product }) {
 
       {p.specs && (
         <section className="deep section-y relative scroll-mt-20 overflow-hidden" id="specs">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-[10%] -top-[20%] size-[min(820px,110vw)] rounded-full bg-[radial-gradient(circle,rgba(196,123,69,.16),transparent_62%)]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -right-[10%] -top-[20%] size-[min(820px,110vw)] rounded-full bg-[radial-gradient(circle,rgba(0,209,255,.09),transparent_62%)]" />
           <div className="wrap relative">
             <div className="mb-[clamp(40px,5vw,72px)] flex flex-wrap items-end justify-between gap-6">
               <div>
@@ -122,7 +122,7 @@ export default function ProductPage({ p }: { p: Product }) {
                     <div key={k} data-reveal style={d(i * 0.08)} className={`${panel} flex min-h-[200px] flex-col !bg-bg-2 hover:!bg-panel`}>
                       <div className="mb-auto flex items-center justify-between pb-10">
                         <span className="meta !mb-0">{k}</span>
-                        <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                        <span className="idx !text-accent-text">{pad(i + 1, 2)}</span>
                       </div>
                       {lead && <span className="mb-1 text-[13.5px] uppercase tracking-[.12em] text-muted">{lead}</span>}
                       <b className="block text-[clamp(34px,3.6vw,56px)] font-medium leading-[1] tracking-[-.04em]">{figure}</b>
@@ -148,8 +148,8 @@ export default function ProductPage({ p }: { p: Product }) {
                 {groups.length > 1 && (
                   <nav aria-label="Specification groups" className="mt-8 max-[959px]:hidden">
                     {groups.map((g, i) => (
-                      <a key={g.id} href={`#${g.id}`} className="group flex items-baseline gap-4 border-t border-line py-3.5 transition-[padding,color] duration-500 ease-expo last:border-b hover:pl-2 hover:text-accent">
-                        <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                      <a key={g.id} href={`#${g.id}`} className="group flex items-baseline gap-4 border-t border-line py-3.5 transition-[padding,color] duration-500 ease-expo last:border-b hover:pl-2 hover:text-accent-text">
+                        <span className="idx !text-accent-text">{pad(i + 1, 2)}</span>
                         <span className="flex-1 text-[15px] font-medium">{g.name}</span>
                         <span className="text-[12px] text-muted">{pad(g.rows.length, 2)}</span>
                       </a>
@@ -162,7 +162,7 @@ export default function ProductPage({ p }: { p: Product }) {
                 {groups.map((g, i) => (
                   <div key={g.id} id={g.id} className="scroll-mt-28 overflow-hidden rounded-[4px] border border-line bg-bg-2" data-reveal style={d(i * 0.05)}>
                     <div className="flex items-baseline gap-4 border-b border-line px-[clamp(20px,2.4vw,32px)] py-5">
-                      <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                      <span className="idx !text-accent-text">{pad(i + 1, 2)}</span>
                       <h3 className="h-sm flex-1 font-medium">{g.name}</h3>
                       <span className="text-[12px] uppercase tracking-[.12em] text-muted">{g.rows.length} {g.rows.length === 1 ? "item" : "items"}</span>
                     </div>
@@ -172,7 +172,7 @@ export default function ProductPage({ p }: { p: Product }) {
                         const chips = main.split(/\s*\/\s*|,\s*/);
                         return (
                           <div key={k} className="group grid gap-x-8 gap-y-2 border-t border-line px-[clamp(20px,2.4vw,32px)] py-[18px] transition-colors duration-300 first:border-t-0 hover:bg-tint min-[640px]:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] min-[640px]:items-center">
-                            <dt className="text-[14px] text-muted transition-colors duration-300 group-hover:text-accent">{k}</dt>
+                            <dt className="text-[14px] text-muted transition-colors duration-300 group-hover:text-accent-text">{k}</dt>
                             <dd className="flex flex-wrap items-center gap-2">
                               {chips.length > 1
                                 ? chips.map((c) => <span key={c} className="rounded-full border border-line-2 bg-bg px-3 py-1 text-[14px] font-medium">{c}</span>)
@@ -205,7 +205,7 @@ export default function ProductPage({ p }: { p: Product }) {
             <div>
               {p.capabilities.map((c, i) => (
                 <article key={c.title} data-reveal className="group grid grid-cols-[52px_1fr] border-t border-line py-[clamp(24px,2.6vw,38px)] !shadow-none last:border-b">
-                  <span className="idx pt-1.5 !text-accent">{pad(i + 1, 2)}</span>
+                  <span className="idx pt-1.5 !text-accent-text">{pad(i + 1, 2)}</span>
                   <div>
                     <h3 className="mb-2.5 text-[clamp(21px,2vw,30px)] font-medium leading-[1.15] tracking-[-.025em] transition-transform duration-500 ease-expo group-hover:translate-x-1.5">{c.title}</h3>
                     <p className="max-w-[56ch] text-[15.5px] leading-[1.65] text-muted">{c.text}</p>
@@ -240,7 +240,7 @@ export default function ProductPage({ p }: { p: Product }) {
             </div>
             <ul>
               {p.applications.map((a, i) => (
-                <li key={a} data-reveal className="group flex items-baseline gap-[clamp(16px,2vw,32px)] border-t border-line-2 py-[clamp(18px,2vw,28px)] text-[clamp(20px,2.1vw,32px)] font-medium leading-[1.18] tracking-[-.025em] transition-[padding,color] duration-500 ease-expo last:border-b hover:pl-3 hover:text-accent">
+                <li key={a} data-reveal className="group flex items-baseline gap-[clamp(16px,2vw,32px)] border-t border-line-2 py-[clamp(18px,2vw,28px)] text-[clamp(20px,2.1vw,32px)] font-medium leading-[1.18] tracking-[-.025em] transition-[padding,color] duration-500 ease-expo last:border-b hover:pl-3 hover:text-accent-text">
                   <span className="idx flex-none">{pad(i + 1, 2)}</span>{a}
                 </li>
               ))}

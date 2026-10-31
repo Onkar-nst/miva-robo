@@ -14,7 +14,7 @@ export default function PostCard({ post, byline }: { post: (typeof posts)[number
       <p className="meta"><time dateTime={post.iso}>{post.date}</time></p>
       <div className="flex items-start justify-between gap-5">
         <div>
-          <h3 className="max-w-[30ch] text-base font-semibold leading-[1.35] transition-colors duration-300 group-hover:text-accent">{post.title}</h3>
+          <h3 className="max-w-[30ch] text-base font-semibold leading-[1.35] transition-colors duration-300 group-hover:text-accent-text">{post.title}</h3>
           {byline && <p className="mt-2 text-[13px] text-muted">Posted by {post.author}</p>}
         </div>
         <span className={`${circ} ${circHover}`} aria-hidden="true"><ArrowR /></span>

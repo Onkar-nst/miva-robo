@@ -18,7 +18,7 @@ export const card = `${panel} flex min-h-[260px] flex-col gap-3 [&_.idx]:mb-auto
   min-[640px]:max-[999px]:[&:last-child:nth-child(odd)]:col-span-2 min-[1000px]:col-span-2
   min-[1000px]:[&:nth-child(3n+1):nth-last-child(2)]:col-span-3 min-[1000px]:[&:nth-child(3n+2):last-child]:col-span-3`;
 // Previous / next links split across the page width.
-export const pager = "grid grid-cols-2 border-t border-line [&>a]:block [&>a]:px-(--gutter) [&>a]:py-[clamp(28px,3.4vw,52px)] [&>a]:transition-colors [&>a]:duration-400 [&>a:hover]:bg-bg-2 [&>*+a]:border-l [&>*+a]:border-line [&>*+a]:text-right [&>*+a_.eyebrow]:justify-end [&_b]:mt-4 [&_b]:block [&_b]:text-[clamp(20px,2.6vw,38px)] [&_b]:font-semibold [&_b]:tracking-[-.035em] [&_b]:transition-colors [&_b]:duration-300 [&>a:hover_b]:text-accent";
+export const pager = "grid grid-cols-2 border-t border-line [&>a]:block [&>a]:px-(--gutter) [&>a]:py-[clamp(28px,3.4vw,52px)] [&>a]:transition-colors [&>a]:duration-400 [&>a:hover]:bg-bg-2 [&>*+a]:border-l [&>*+a]:border-line [&>*+a]:text-right [&>*+a_.eyebrow]:justify-end [&_b]:mt-4 [&_b]:block [&_b]:text-[clamp(20px,2.6vw,38px)] [&_b]:font-semibold [&_b]:tracking-[-.035em] [&_b]:transition-colors [&_b]:duration-300 [&>a:hover_b]:text-accent-text";
 export const tag = "absolute left-3 top-3 z-[2] bg-[color-mix(in_srgb,var(--bg)_85%,transparent)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-ink backdrop-blur-[6px]";
 // Full-bleed photo strip with parallax.
 export const fullImg = "relative h-[clamp(320px,76vh,860px)] overflow-hidden [&_img]:!inset-x-0 [&_img]:!-inset-y-[10%] [&_img]:!h-[120%] [&_img]:object-cover";
@@ -77,7 +77,7 @@ export function Lines({ as: Tag = "h2", lines, className = "", accent = 0 }: { a
             const k = n++;
             return (
               <Fragment key={j}>
-                <span className={`w -mx-[.08em] -mb-[.14em] inline-block overflow-hidden px-[.08em] pb-[.14em] align-top ${k >= total - accent ? "text-accent" : ""}`} style={{ "--i": k } as React.CSSProperties}>
+                <span className={`w -mx-[.08em] -mb-[.14em] inline-block overflow-hidden px-[.08em] pb-[.14em] align-top ${k >= total - accent ? "text-accent-text" : ""}`} style={{ "--i": k } as React.CSSProperties}>
                   <span className="inline-block">{w}</span>
                 </span>
                 {j < ws.length - 1 || i < lines.length - 1 ? " " : ""}
@@ -97,7 +97,7 @@ export function Eyebrow({ children, className = "" }: { children: ReactNode; cla
 export function Check({ children }: { children: ReactNode }) {
   return (
     <li className="flex items-start gap-4 border-t border-line py-[18px] last:border-b" data-reveal>
-      <svg className="mt-[3px] w-[18px] flex-none text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+      <svg className="mt-[3px] w-[18px] flex-none text-accent-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
       <span>{children}</span>
     </li>
   );
@@ -108,7 +108,7 @@ export function CTABand({ text, label, href, image = "/media/ai-robotics.jpg" }:
     <section className="deep relative isolate overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="absolute inset-0 -z-10 size-full object-cover opacity-35" src={image} alt="" loading="lazy" />
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0f2a42_25%,rgba(15,40,63,.35))]" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0b1d33_25%,rgba(11,29,51,.35))]" />
       <div className="wrap grid gap-10 py-[clamp(96px,12vw,190px)]">
         <Lines className="max-w-[17ch] text-[clamp(38px,5.4vw,84px)]" lines={[text]} />
         <div data-reveal><CTA href={href}>{label}</CTA></div>

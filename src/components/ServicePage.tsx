@@ -10,7 +10,7 @@ export default function ServicePage({ s }: { s: Service }) {
     <>
       <section className="deep relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-(--gutter) pb-16 pt-[130px] text-center">
         <Image src={i.banner} alt="" fill priority sizes="100vw" className="object-cover opacity-20" />
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(15,40,63,.85),transparent_80%),linear-gradient(0deg,#0f2a42,transparent_30%)]" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(11,29,51,.85),transparent_80%),linear-gradient(0deg,#0b1d33,transparent_30%)]" />
         <div className={`${shot} left-[3%] top-[20%] aspect-[4/5] w-[19vw]`} data-parallax="10" aria-hidden="true"><Image src={i.a} alt="" fill sizes="20vw" className="object-cover" /></div>
         <div className={`${shot} right-[3%] top-[34%] aspect-[4/5] w-[17vw]`} data-parallax="-10" aria-hidden="true"><Image src={i.b} alt="" fill sizes="20vw" className="object-cover" /></div>
         <div className="relative z-[2] grid justify-items-center">
@@ -52,7 +52,7 @@ export default function ServicePage({ s }: { s: Service }) {
             {s.benefits.map((b, n) => (
               <article key={b.title} style={{ "--n": n } as React.CSSProperties}
                 className="sticky top-[calc(96px+var(--n)*16px)] grid gap-5 rounded-[4px] border border-line-2 bg-panel p-[clamp(26px,3.6vw,56px)] !shadow-none min-[900px]:min-h-[260px] min-[900px]:grid-cols-[90px_1fr_1fr]">
-                <span className="text-[15px] font-medium tabular-nums text-accent">{pad(n + 1, 2)}</span>
+                <span className="text-[15px] font-medium tabular-nums text-accent-text">{pad(n + 1, 2)}</span>
                 <h3 className="text-[clamp(25px,2.8vw,42px)] font-medium leading-[1.08] tracking-[-.03em]">{b.title}</h3>
                 <p className="lead">{b.text}</p>
               </article>

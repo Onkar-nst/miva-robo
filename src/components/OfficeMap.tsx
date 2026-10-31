@@ -30,8 +30,8 @@ export default function OfficeMap() {
                 </span>
               </div>
               <h3 className="h-md mb-1.5">{x.city}</h3>
-              <p className="mb-[22px] text-[13px] text-accent">{x.label}</p>
-              <dl className="mb-[22px] grid grid-cols-[70px_1fr] gap-x-4 gap-y-2.5 text-[14.5px] [&_dd]:leading-[1.55] [&_dd]:text-soft [&_dd_a]:transition-colors [&_dd_a]:duration-300 [&_dd_a:hover]:text-accent [&_dt]:pt-[3px] [&_dt]:text-[11px] [&_dt]:font-medium [&_dt]:uppercase [&_dt]:tracking-[.14em] [&_dt]:text-muted">
+              <p className="mb-[22px] text-[13px] text-accent-text">{x.label}</p>
+              <dl className="mb-[22px] grid grid-cols-[70px_1fr] gap-x-4 gap-y-2.5 text-[14.5px] [&_dd]:leading-[1.55] [&_dd]:text-soft [&_dd_a]:transition-colors [&_dd_a]:duration-300 [&_dd_a:hover]:text-accent-text [&_dt]:pt-[3px] [&_dt]:text-[11px] [&_dt]:font-medium [&_dt]:uppercase [&_dt]:tracking-[.14em] [&_dt]:text-muted">
                 <dt>Address</dt>
                 <dd>{x.address}</dd>
                 <dt>Phone</dt>

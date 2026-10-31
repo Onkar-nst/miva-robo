@@ -18,8 +18,8 @@ function build() {
   const grey = new THREE.MeshStandardMaterial({ color: 0x5a6068, metalness: 0.5, roughness: 0.45 });
   const graphite = new THREE.MeshStandardMaterial({ color: 0x23272d, metalness: 0.6, roughness: 0.45 });
   const glass = new THREE.MeshPhysicalMaterial({ color: 0x07090c, metalness: 0.3, roughness: 0.12, clearcoat: 1 });
-  const light = new THREE.MeshBasicMaterial({ color: 0x4aa8ff });
-  const core = new THREE.MeshBasicMaterial({ color: 0x4aa8ff });
+  const light = new THREE.MeshBasicMaterial({ color: 0x19d4ff });
+  const core = new THREE.MeshBasicMaterial({ color: 0x19d4ff });
   const add = <T extends THREE.Object3D>(p: THREE.Object3D, o: T, x = 0, y = 0, z = 0) => { o.position.set(x, y, z); p.add(o); return o; };
   const M = (g: THREE.BufferGeometry, m: THREE.Material) => new THREE.Mesh(g, m);
   const curve = (pts: number[][]) => new THREE.SplineCurve(pts.map(([x, y]) => new THREE.Vector2(x, y))).getPoints(48);
@@ -135,7 +135,7 @@ export default function Robot() {
     scene.environment = env; scene.environmentIntensity = 0.7;
     const key = new THREE.DirectionalLight(0xfff7ee, 1.6); key.position.set(-3, 5, 6); scene.add(key);
     const rim = new THREE.DirectionalLight(0xc9d8ec, 1.6); rim.position.set(4, 1, -3); scene.add(rim);
-    const accent = new THREE.Color(0x4aa8ff), glow = new THREE.Color(0xd6ecff);
+    const accent = new THREE.Color(0x19d4ff), glow = new THREE.Color(0xd9f8ff);
     const cam = new THREE.OrthographicCamera(0, 1, 0, 1, -4000, 4000);
     cam.position.z = 2000;
     const R = build(); scene.add(R.root);
@@ -236,7 +236,7 @@ export default function Robot() {
       // Soft contact shadow only.
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
       const sh = g.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, pos.s * 0.2);
-      sh.addColorStop(0, "rgba(15,40,63,.28)"); sh.addColorStop(1, "rgba(15,40,63,0)");
+      sh.addColorStop(0, "rgba(11,29,51,.28)"); sh.addColorStop(1, "rgba(11,29,51,0)");
       g.save(); g.translate(pos.x, pos.y); g.scale(1, 0.14); g.translate(-pos.x, -pos.y); g.fillStyle = sh;
       g.beginPath(); g.arc(pos.x, pos.y, pos.s * 0.2, 0, 7); g.fill(); g.restore();
     };

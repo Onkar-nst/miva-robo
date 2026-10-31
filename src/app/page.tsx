@@ -23,12 +23,16 @@ const icons = [
 export default function Home() {
   return (
     <>
-      <section data-robot-stage className="relative isolate flex h-svh min-h-[660px] flex-col justify-center overflow-hidden max-[759px]:justify-start max-[759px]:pt-16">
+      <section className="relative isolate h-svh min-h-[620px] overflow-hidden">
         <HeroSlides />
-        <div className="wrap relative z-[2] pt-[84px]">
+        <div className="wrap relative z-[2] flex h-full flex-col justify-center pt-16">
           <span className="eyebrow" data-reveal>Introducing MIVA Robotics</span>
-          <Lines as="h1" className="h-xl !mt-7 max-w-[11.5em]" lines={["Accessible,", "Adaptable, Affordable", "automation for", "every scale."]} accent={3} />
+          <Lines as="h1" className="h-xl !mt-7 max-w-[12ch] min-[760px]:max-w-none" lines={["Accessible,", "Adaptable, Affordable", "automation for", "every scale."]} accent={3} />
           <div className="mt-11" data-reveal style={d(0.5)}><CTA href="/about-miva-robotics/">ABOUT MIVA</CTA></div>
+        </div>
+        <div aria-hidden="true" className="absolute bottom-8 left-(--gutter) z-[2] flex items-center gap-3 text-[11px] uppercase tracking-[.2em] text-muted">
+          <span className="relative block h-10 w-px overflow-hidden bg-line-2"><span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_1.8s_var(--ease-io)_infinite] bg-accent" /></span>
+          Scroll to explore
         </div>
       </section>
 
@@ -84,7 +88,7 @@ export default function Home() {
                   <Image src={p.hero} alt={p.name} fill sizes="(max-width: 1000px) 80vw, 30vw" className="object-cover saturate-[.8] transition-[transform,filter] duration-[1.2s,.8s] ease-expo group-hover:scale-105 group-hover:saturate-100" />
                   {p.comingSoon && <span className={tag}>Coming soon</span>}
                 </span>
-                <b className="mb-2.5 block text-sm font-semibold tracking-[.02em] transition-colors duration-300 group-hover:text-accent">{p.name}</b>
+                <b className="mb-2.5 block text-sm font-semibold tracking-[.02em] transition-colors duration-300 group-hover:text-accent-text">{p.name}</b>
                 <span className="block max-w-[30ch] text-sm leading-[1.6] text-muted">{p.tagline}</span>
               </Link>
             ))}

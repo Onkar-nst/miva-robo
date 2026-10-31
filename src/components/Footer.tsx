@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer className="deep relative isolate overflow-hidden pt-[clamp(56px,7vw,120px)] text-soft reveal:sticky reveal:bottom-0 reveal:z-0">
       <a href={site.linkedin} target="_blank" rel="noopener noreferrer"
-        className="absolute left-[clamp(8px,1vw,14px)] top-[clamp(120px,14vw,220px)] hidden text-[13px] tracking-[.02em] text-soft transition-colors duration-300 [writing-mode:vertical-rl] rotate-180 hover:text-accent min-[900px]:block">
+        className="absolute left-[clamp(8px,1vw,14px)] top-[clamp(120px,14vw,220px)] hidden text-[13px] tracking-[.02em] text-soft transition-colors duration-300 [writing-mode:vertical-rl] rotate-180 hover:text-accent-text min-[900px]:block">
         Follow us — LinkedIn
       </a>
 
@@ -24,7 +24,7 @@ export default function Footer() {
           <div className="max-w-[540px]">
             <Link href="/" aria-label="MIVA Robotics home" className="inline-block">
               <span className="block text-[clamp(30px,3.1vw,46px)] font-bold leading-none tracking-[.06em] text-ink">MIVA ROBOTICS</span>
-              <span className="mt-2.5 block text-[clamp(10px,.98vw,14.5px)] font-semibold tracking-[.06em] text-accent">MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
+              <span className="mt-2.5 block text-[clamp(10px,.98vw,14.5px)] font-semibold tracking-[.06em] text-accent-text">MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
             </Link>
             <p className="mt-[clamp(32px,3.6vw,52px)] text-[15px] leading-[1.75] text-soft">{site.footerBlurb}</p>
             <form className="mt-8 flex items-center gap-3" onSubmit={(e) => { e.preventDefault(); location.href = `mailto:${site.email}?subject=Subscribe&body=${encodeURIComponent(email)}`; }}>
@@ -69,11 +69,11 @@ export default function Footer() {
               <h2 className={colHead}>Find us</h2>
               <dl className="text-[15px] [&_dd]:mb-[46px] [&_dt]:mb-3 [&_dt]:text-soft">
                 <dt>Phone</dt>
-                <dd><a className="text-soft transition-colors duration-300 hover:text-accent" href="tel:+918055507204">{site.phone}</a></dd>
+                <dd><a className="text-soft transition-colors duration-300 hover:text-accent-text" href="tel:+918055507204">{site.phone}</a></dd>
                 <dt>Email</dt>
-                <dd><a className="text-soft transition-colors duration-300 hover:text-accent" href={`mailto:${site.email}`}>{site.email}</a></dd>
+                <dd><a className="text-soft transition-colors duration-300 hover:text-accent-text" href={`mailto:${site.email}`}>{site.email}</a></dd>
               </dl>
-              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="text-[14px] text-soft transition-colors duration-300 hover:text-accent min-[900px]:hidden">Follow us — LinkedIn</a>
+              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="text-[14px] text-soft transition-colors duration-300 hover:text-accent-text min-[900px]:hidden">Follow us — LinkedIn</a>
             </div>
           </div>
         </div>

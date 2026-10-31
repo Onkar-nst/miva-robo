@@ -17,7 +17,7 @@ export default function About() {
         <div className="wrap"><Lines as="h1" className="h-xl" lines={[a.title]} /></div>
       </section>
       <div className={fullImg}><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /></div>
-      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(15,40,63,.3)]" : ""}`} key={d}>{d}</span>)}</Marquee>
+      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(11,29,51,.3)]" : ""}`} key={d}>{d}</span>)}</Marquee>
 
       <section className="section-y">
         <div className="wrap stack lead max-w-[1100px]">{a.intro.map((t) => <p key={t} data-reveal>{t}</p>)}</div>
@@ -101,7 +101,7 @@ export default function About() {
 
       <section className="section-y light !pt-0">
         <div className="wrap"><div className={`${hairGrid} grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))]`}>
-          {a.quotes.map((q) => <blockquote className={panel} key={q.by} data-reveal><cite className="mb-[18px] block text-[11.5px] font-medium not-italic uppercase tracking-[.14em] text-accent">{q.by}</cite><p className="text-base leading-[1.7] text-soft">{q.text}</p></blockquote>)}
+          {a.quotes.map((q) => <blockquote className={panel} key={q.by} data-reveal><cite className="mb-[18px] block text-[11.5px] font-medium not-italic uppercase tracking-[.14em] text-accent-text">{q.by}</cite><p className="text-base leading-[1.7] text-soft">{q.text}</p></blockquote>)}
         </div></div>
       </section>
     </>

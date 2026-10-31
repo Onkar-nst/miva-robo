@@ -15,6 +15,7 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
   --color-steel: var(--steel);
   --color-tint: var(--tint);
   --color-ghost: var(--ghost);
@@ -43,26 +44,30 @@
   @keyframes boot-fade { from { opacity: 0; } }
   @keyframes boot-bar { from { transform: scaleX(0); } }
   @keyframes boot-out { to { transform: translateY(-100%); visibility: hidden; } }
+  /* Hero: photo wipes in from the right, the accent strip drops down, slide progress fills, the scroll cue runs. */
+  @keyframes wipe-in { from { clip-path: inset(0 0 0 100%); } }
+  @keyframes drop-in { from { transform: scaleY(0); } }
+  @keyframes scroll-cue { from { transform: translateY(-100%); } to { transform: translateY(200%); } }
 }
 
 @layer base {
   :root, .dark {
-    --bg: #ffffff; --bg-2: #f3f6f8; --panel: #e8eef2; --line: rgba(22, 59, 92, .1); --line-2: rgba(22, 59, 92, .2);
-    --ink: #163b5c; --soft: #202b35; --muted: #5a6672; --steel: #527b9b; --accent: #c47b45; --accent-ink: #ffffff;
-    --tint: rgba(82, 123, 155, .06); --ghost: rgba(22, 59, 92, .06); --logo-filter: brightness(0) invert(19%) sepia(36%) saturate(1270%) hue-rotate(178deg) brightness(92%) contrast(92%);
+    --bg: #ffffff; --bg-2: #f4f6f9; --panel: #e7ebf0; --line: rgba(11, 29, 51, .1); --line-2: rgba(11, 29, 51, .2);
+    --ink: #0b1d33; --soft: #2e3a48; --muted: #66727f; --steel: #5f6d7d; --accent: #00d1ff; --accent-ink: #0b1d33; --accent-text: #0083b0;
+    --tint: rgba(0, 209, 255, .06); --ghost: rgba(11, 29, 51, .05); --logo-filter: brightness(0) invert(9%) sepia(32%) saturate(2400%) hue-rotate(196deg) brightness(94%) contrast(98%);
     --gutter: clamp(20px, 3.9vw, 56px); --seam: clamp(56px, 11vw, 170px);
   }
-  /* Brand palette: white base, Ice Grey alternates, Deep Engineering Blue headings and bands, Copper accents, Steel Blue links, Charcoal body. */
+  /* Brand palette: White 55% (surfaces), Midnight Navy 25% (headings, deep bands), Cool Grey 15% (body text, panels, rules), Electric Cyan 5% (fills and highlights; a deeper cyan carries text on white). */
   .light, .theme-light {
-    --bg: #f3f6f8; --bg-2: #ffffff; --panel: #e6edf1; --line: rgba(22, 59, 92, .1); --line-2: rgba(22, 59, 92, .2);
-    --ink: #163b5c; --soft: #202b35; --muted: #5a6672; --steel: #527b9b; --accent: #c47b45; --accent-ink: #ffffff;
-    --tint: rgba(82, 123, 155, .06); --ghost: rgba(22, 59, 92, .06); --logo-filter: brightness(0) invert(19%) sepia(36%) saturate(1270%) hue-rotate(178deg) brightness(92%) contrast(92%);
+    --bg: #f4f6f9; --bg-2: #ffffff; --panel: #e7ebf0; --line: rgba(11, 29, 51, .1); --line-2: rgba(11, 29, 51, .2);
+    --ink: #0b1d33; --soft: #2e3a48; --muted: #66727f; --steel: #5f6d7d; --accent: #00d1ff; --accent-ink: #0b1d33; --accent-text: #0083b0;
+    --tint: rgba(0, 209, 255, .06); --ghost: rgba(11, 29, 51, .05); --logo-filter: brightness(0) invert(9%) sepia(32%) saturate(2400%) hue-rotate(196deg) brightness(94%) contrast(98%);
   }
   /* Deep palette for contrast sections; .deep-vars recolours the header while it passes over one. */
   .deep, .deep-vars {
-    --bg: #163b5c; --bg-2: #1b4569; --panel: #20507a; --line: rgba(255, 255, 255, .12); --line-2: rgba(255, 255, 255, .24);
-    --ink: #ffffff; --soft: #d6e0e9; --muted: #a9bccd; --steel: #9db7cc; --accent: #c47b45; --accent-ink: #ffffff;
-    --tint: rgba(255, 255, 255, .05); --ghost: rgba(255, 255, 255, .07); --logo-filter: none;
+    --bg: #0b1d33; --bg-2: #10263f; --panel: #16304d; --line: rgba(255, 255, 255, .1); --line-2: rgba(255, 255, 255, .22);
+    --ink: #ffffff; --soft: #c9d2dc; --muted: #93a0ae; --steel: #a3afbc; --accent: #00d1ff; --accent-ink: #0b1d33; --accent-text: #3fdcff;
+    --tint: rgba(0, 209, 255, .05); --ghost: rgba(255, 255, 255, .06); --logo-filter: none;
   }
   .deep { background: var(--bg); color: var(--soft); }
   .light, .dark { background: var(--bg); color: var(--soft); }
@@ -78,7 +83,7 @@
 
   /* Hover: panels and cards lift with a blue halo. */
   article, blockquote { transition-property: box-shadow, opacity, transform; }
-  article:hover { box-shadow: 0 30px 60px -38px rgba(22, 59, 92, .3); }
+  article:hover { box-shadow: 0 30px 60px -38px rgba(11, 29, 51, .28); }
   html { background: var(--bg); -webkit-text-size-adjust: 100%; }
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }

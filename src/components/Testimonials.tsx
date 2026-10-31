@@ -41,7 +41,7 @@ export default function Testimonials() {
             className={`relative [grid-area:1/1] ${n === i
               ? "visible translate-y-0 opacity-100 transition-[opacity,transform,visibility] delay-100 duration-[.9s,1s,0s] ease-expo"
               : "invisible translate-y-4 opacity-0 transition-[opacity,transform,visibility] duration-[.7s,.9s,0s] ease-expo [transition-delay:0s,0s,.7s]"}`}>
-            <span className="mb-[18px] block h-[.42em] font-serif text-[clamp(80px,9vw,130px)] font-medium leading-[.5] text-accent" aria-hidden="true">“</span>
+            <span className="mb-[18px] block h-[.42em] font-serif text-[clamp(80px,9vw,130px)] font-medium leading-[.5] text-accent-text" aria-hidden="true">“</span>
             <p className="max-w-[34em] text-pretty text-[clamp(22px,2.3vw,34px)] font-medium leading-[1.38] tracking-[-.025em] text-ink">{x.quote.replace(/^“|”$/g, "")}</p>
           </blockquote>
         ))}
@@ -56,7 +56,7 @@ export default function Testimonials() {
                 className={`block h-full origin-left scale-x-0 bg-accent ${n === i ? "animate-[fill_linear_forwards]" : ""}`} />
             </i>
             <span className="text-[15px] font-semibold leading-[1.4] tracking-[-.01em] text-ink">{x.name}</span>
-            <span className="text-[11.5px] font-medium uppercase tracking-[.14em] text-accent">{x.role}</span>
+            <span className="text-[11.5px] font-medium uppercase tracking-[.14em] text-accent-text">{x.role}</span>
           </button>
         ))}
       </div>
