@@ -28,7 +28,7 @@ export default function HeroSlides() {
           <Image key={s.src} src={s.src} alt={k === i ? s.alt : ""} fill priority={k === 0} sizes="(min-width: 760px) 70vw, 100vw"
             className={`object-cover [filter:saturate(.45)_contrast(1.08)] transition-[opacity,scale] duration-[1.4s,7s] ease-out ${k === i ? "scale-100 opacity-100" : "scale-[1.06] opacity-0"}`} />
         ))}
-        <div className="absolute inset-0 bg-linear-to-r from-bg via-bg/70 to-transparent min-[760px]:via-bg/80 min-[760px]:via-35% min-[760px]:to-75%" />
+        <div className="absolute inset-0 bg-linear-to-r from-bg via-bg/80 to-bg/35 min-[760px]:via-bg/80 min-[760px]:via-35% min-[760px]:to-transparent min-[760px]:to-75%" />
         <div className="absolute inset-0 bg-linear-to-b from-bg/95 to-transparent to-[22%]" />
         <div className="absolute inset-0 bg-linear-to-t from-bg/80 to-transparent to-30% min-[760px]:hidden" />
       </div>

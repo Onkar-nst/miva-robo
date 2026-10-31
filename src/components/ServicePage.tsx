@@ -21,12 +21,13 @@ export default function ServicePage({ s }: { s: Service }) {
       </section>
 
       <section className="section-y">
-        <div className="wrap grid gap-[clamp(32px,6vw,110px)] min-[960px]:grid-cols-[6fr_6fr]">
-          <h2 className="text-[clamp(36px,4.8vw,72px)]" data-reveal>{s.heading}</h2>
-          <div className="stack lead self-end">{s.body.map((t) => <p key={t} data-reveal>{t}</p>)}</div>
-        </div>
-        <div className="wrap mt-[clamp(48px,6vw,88px)]">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[4px] bg-panel min-[900px]:aspect-[21/9]" data-reveal="wipe"><Image src={i.c} alt={s.full} fill sizes="100vw" className="object-cover" /></div>
+        <div className="wrap">
+          <h2 className="mb-[clamp(32px,4vw,64px)] max-w-[18ch] text-[clamp(36px,4.8vw,72px)]" data-reveal>{s.heading}</h2>
+          {/* Photo on the left, the copy beside it. */}
+          <div className="grid gap-[clamp(28px,4vw,72px)] min-[960px]:grid-cols-[5fr_7fr] min-[960px]:items-center">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-panel" data-reveal="wipe"><Image src={i.c} alt={s.full} fill sizes="(max-width: 960px) 100vw, 40vw" className="object-cover" /></div>
+            <div className="stack lead">{s.body.map((t) => <p key={t} data-reveal>{t}</p>)}</div>
+          </div>
         </div>
       </section>
 
@@ -45,15 +46,19 @@ export default function ServicePage({ s }: { s: Service }) {
         </div>
       </section>
 
+      {/* Benefits beside the service's banner photo (as on mivarobotics.ai): the photo holds still while the cards stack past it. */}
       <section className="deep section-y">
-        <div className="wrap">
-          <h2 className="mb-[clamp(36px,4vw,64px)] text-[clamp(44px,6.4vw,104px)]" data-reveal>Benefits</h2>
+        <div className="wrap grid gap-[clamp(32px,4vw,64px)] min-[960px]:grid-cols-[5fr_7fr]">
+          <div className="min-[960px]:sticky min-[960px]:top-[110px] min-[960px]:self-start">
+            <h2 className="mb-[clamp(24px,3vw,40px)] text-[clamp(44px,6.4vw,104px)]" data-reveal>Benefits</h2>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-panel" data-reveal="wipe"><Image src={i.banner} alt={s.full} fill sizes="(max-width: 960px) 100vw, 40vw" className="object-cover" /></div>
+          </div>
           <div className="grid gap-3">
             {s.benefits.map((b, n) => (
               <article key={b.title} style={{ "--n": n } as React.CSSProperties}
-                className="sticky top-[calc(96px+var(--n)*16px)] grid gap-5 rounded-[4px] border border-line-2 bg-panel p-[clamp(26px,3.6vw,56px)] !shadow-none min-[900px]:min-h-[260px] min-[900px]:grid-cols-[90px_1fr_1fr]">
+                className="sticky top-[calc(96px+var(--n)*16px)] grid content-start gap-3 rounded-[4px] border border-line-2 bg-panel p-[clamp(24px,2.8vw,40px)] !shadow-none min-[960px]:min-h-[220px]">
                 <span className="text-[15px] font-medium tabular-nums text-accent-text">{pad(n + 1, 2)}</span>
-                <h3 className="text-[clamp(25px,2.8vw,42px)] font-medium leading-[1.08] tracking-[-.03em]">{b.title}</h3>
+                <h3 className="text-[clamp(23px,2.2vw,32px)] font-medium leading-[1.1] tracking-[-.03em]">{b.title}</h3>
                 <p className="lead">{b.text}</p>
               </article>
             ))}
@@ -61,7 +66,6 @@ export default function ServicePage({ s }: { s: Service }) {
         </div>
       </section>
 
-      <div className="relative h-[clamp(320px,76vh,860px)] overflow-hidden bg-panel"><Image src={i.e} alt={s.full} fill sizes="100vw" data-parallax="8" className="!inset-x-0 !-inset-y-[10%] !h-[120%] object-cover" /></div>
       <CTABand text={ctaText} sub={ctaSub} label={ctaLabel} href="/contact/" />
     </>
   );

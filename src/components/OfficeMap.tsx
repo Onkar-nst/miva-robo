@@ -14,7 +14,7 @@ export default function OfficeMap() {
 
   return (
     <div className="grid gap-4 min-[1000px]:grid-cols-[5fr_7fr] min-[1000px]:items-stretch">
-      <div className="grid gap-3" role="tablist" aria-label="Offices">
+      <div className="grid gap-3 min-[640px]:max-[999px]:grid-cols-2" role="tablist" aria-label="Offices">
         {offices.map((x, n) => {
           const on = n === i;
           return (

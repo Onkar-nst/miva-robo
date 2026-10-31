@@ -21,7 +21,7 @@ export const card = `${panel} flex min-h-[260px] flex-col gap-3 [&_.idx]:mb-auto
 export const pager = "grid grid-cols-2 border-t border-line [&>a]:block [&>a]:px-(--gutter) [&>a]:py-[clamp(28px,3.4vw,52px)] [&>a]:transition-colors [&>a]:duration-400 [&>a:hover]:bg-bg-2 [&>*+a]:border-l [&>*+a]:border-line [&>*+a]:text-right [&>*+a_.eyebrow]:justify-end [&_b]:mt-4 [&_b]:block [&_b]:text-[clamp(20px,2.6vw,38px)] [&_b]:font-semibold [&_b]:tracking-[-.035em] [&_b]:transition-colors [&_b]:duration-300 [&>a:hover_b]:text-accent-text";
 export const tag = "absolute left-3 top-3 z-[2] bg-[color-mix(in_srgb,var(--bg)_85%,transparent)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-ink backdrop-blur-[6px]";
 // Full-bleed photo strip with parallax.
-export const fullImg = "relative h-[clamp(320px,76vh,860px)] overflow-hidden [&_img]:!inset-x-0 [&_img]:!-inset-y-[10%] [&_img]:!h-[120%] [&_img]:object-cover";
+export const fullImg = "relative h-[clamp(240px,50svh,520px)] overflow-hidden min-[760px]:h-[clamp(320px,76vh,860px)] [&_img]:!inset-x-0 [&_img]:!-inset-y-[10%] [&_img]:!h-[120%] [&_img]:object-cover";
 
 export const ArrowUR = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" /></svg>

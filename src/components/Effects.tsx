@@ -20,7 +20,8 @@ export default function Effects() {
 
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lenis = reduce ? null : new Lenis({ lerp: 0.09 });
+    // A firmer lerp keeps the page close behind the wheel/trackpad instead of trailing it.
+    const lenis = reduce ? null : new Lenis({ lerp: 0.14 });
     let raf = 0;
     const parallax = [...document.querySelectorAll<HTMLElement>("[data-parallax]")];
     const fills = [...document.querySelectorAll<HTMLElement>(".pipeline")];
@@ -37,32 +38,39 @@ export default function Effects() {
         if (!on) p.track.style.transform = "";
       }
     };
+    // Scroll-linked work only runs on frames where the scroll position or viewport changed. Each frame reads every
+    // measurement first and writes styles after, so the browser lays out once instead of once per element.
+    let lastY = -1, dirty = true;
+    const onResize = () => { sizePins(); dirty = true; };
     sizePins();
-    addEventListener("resize", sizePins);
+    addEventListener("resize", onResize);
 
     const loop = (t: number) => {
       lenis?.raf(t);
+      raf = requestAnimationFrame(loop);
+      const y = scrollY;
+      if (y === lastY && !dirty) return;
+      lastY = y; dirty = false;
+
       const h = document.documentElement.scrollHeight - innerHeight;
-      bar.current?.style.setProperty("--s", String(h > 0 ? scrollY / h : 0));
-      if (!reduce) for (const el of parallax) {
-        const r = el.parentElement!.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > innerHeight) continue;
-        const k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      const para = reduce ? [] : parallax.map((el) => el.parentElement!.getBoundingClientRect());
+      const fillR = fills.map((el) => el.getBoundingClientRect());
+      const pinR = pins.map((p) => (p.dist ? p.el.getBoundingClientRect().top : 0));
+
+      bar.current?.style.setProperty("--s", String(h > 0 ? y / h : 0));
+      para.forEach((r, n) => {
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const el = parallax[n], k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
         el.style.transform = `translate3d(0, ${k * Number(el.dataset.parallax || 8)}%, 0) scale(1.08)`;
-      }
-      for (const el of fills) {
-        const r = el.getBoundingClientRect();
-        el.style.setProperty("--p", String(Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / r.height))));
-      }
-      for (const p of pins) {
-        if (!p.dist) continue;
-        const r = p.el.getBoundingClientRect();
-        const k = Math.min(1, Math.max(0, -r.top / p.dist));
+      });
+      fillR.forEach((r, n) => fills[n].style.setProperty("--p", String(Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / r.height)))));
+      pins.forEach((p, n) => {
+        if (!p.dist) return;
+        const k = Math.min(1, Math.max(0, -pinR[n] / p.dist));
         p.track.style.transform = `translate3d(${-k * p.dist}px, 0, 0)`;
         p.el.style.setProperty("--k", String(k));
         if (p.count) p.count.textContent = String(Math.min(p.n, 1 + Math.floor(k * p.n))).padStart(2, "0");
-      }
-      raf = requestAnimationFrame(loop);
+      });
     };
     raf = requestAnimationFrame(loop);
 
@@ -79,29 +87,18 @@ export default function Effects() {
     const io = new IntersectionObserver((es) => {
       for (const e of es) if (e.isIntersecting) {
         e.target.classList.add("in");
-        if (!reduce && !(e.target as HTMLElement).dataset.count) dispatchEvent(new CustomEvent("miva:signal", { detail: e.target.getBoundingClientRect() }));
         const c = e.target as HTMLElement;
         if (c.dataset.count && !reduce) count(c);
         io.unobserve(e.target);
       }
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
-    // Elements enter moving toward the robot's corner of the screen.
-    const small = innerWidth < 760;
-    document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-      if (el.dataset.reveal === "wipe") return;
-      const r = el.getBoundingClientRect();
-      const dx = innerWidth - 110 - (r.left + r.width / 2), dy = innerHeight * 0.75 - innerHeight * 0.5;
-      const len = Math.hypot(dx, dy) || 1, far = small ? 20 : 54;
-      el.style.setProperty("--rx", `${(-dx / len) * far}px`);
-      el.style.setProperty("--ry", `${(-dy / len) * far + 14}px`);
-    });
     document.querySelectorAll("[data-reveal],[data-lines],[data-count]").forEach((el) => io.observe(el));
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       lenis?.destroy();
-      removeEventListener("resize", sizePins);
+      removeEventListener("resize", onResize);
     };
   }, [path]);
 

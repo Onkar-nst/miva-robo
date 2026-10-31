@@ -79,8 +79,10 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="wrap pb-[clamp(26px,3.9vw,65px)] pt-[clamp(31px,3.25vw,47px)] text-center text-[13px] text-soft [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-ink">
-        Copyright © 2026 MIVA ROBOTICS <span className="mx-1">|</span> All Rights Reserved <span className="mx-1">|</span> <Link href="/privacy-policy/">Privacy Policy</Link> <span className="mx-1">|</span> <Link href="/terms-conditions/">Terms &amp; Conditions</Link>
+      {/* On phones the separators drop out and the line breaks into readable pieces instead of wrapping mid-sequence. */}
+      <div className="wrap flex flex-wrap justify-center gap-x-3 gap-y-1.5 pb-[clamp(26px,3.9vw,65px)] pt-[clamp(31px,3.25vw,47px)] text-center text-[13px] text-soft [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-ink [&_i]:not-italic max-[599px]:[&_i]:hidden">
+        <span>Copyright © 2026 MIVA ROBOTICS</span><i aria-hidden="true">|</i><span>All Rights Reserved</span><i aria-hidden="true">|</i>
+        <span className="flex gap-3 max-[599px]:basis-full max-[599px]:justify-center"><Link href="/privacy-policy/">Privacy Policy</Link><span aria-hidden="true">|</span><Link href="/terms-conditions/">Terms &amp; Conditions</Link></span>
       </div>
     </footer>
   );
