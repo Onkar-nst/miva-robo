@@ -9,7 +9,7 @@ export const metadata = { title: "Contact – MIVA Robotics", alternates: { cano
 export default function Contact() {
   return (
     <>
-      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]">
+      <section className="pb-[clamp(31px,3.9vw,57px)] pt-[clamp(112px,11.7vw,156px)]">
         <div className="wrap">
           <span className="eyebrow">{c.eyebrow}</span>
           <Lines as="h1" className="h-xl" lines={[c.heading]} />

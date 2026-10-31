@@ -9,7 +9,7 @@ const grid2 = "grid grid-cols-1 gap-[clamp(40px,6vw,110px)] min-[960px]:grid-col
 export default function Support() {
   return (
     <>
-      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]"><div className="wrap"><Lines as="h1" className="h-xl" lines={["Support & Services"]} /></div></section>
+      <section className="pb-[clamp(31px,3.9vw,57px)] pt-[clamp(112px,11.7vw,156px)]"><div className="wrap"><Lines as="h1" className="h-xl" lines={["Support & Services"]} /></div></section>
       <section className="section-y !pt-0">
         <div className={`wrap ${grid2}`}>
           <div>

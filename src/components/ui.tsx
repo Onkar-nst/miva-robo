@@ -109,7 +109,7 @@ export function CTABand({ text, label, href, image = "/media/ai-robotics.jpg" }:
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="absolute inset-0 -z-10 size-full object-cover opacity-35" src={image} alt="" loading="lazy" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0b1d33_25%,rgba(11,29,51,.35))]" />
-      <div className="wrap grid gap-10 py-[clamp(96px,12vw,190px)]">
+      <div className="wrap grid gap-10 py-[clamp(62px,7.8vw,124px)]">
         <Lines className="max-w-[17ch] text-[clamp(38px,5.4vw,84px)]" lines={[text]} />
         <div data-reveal><CTA href={href}>{label}</CTA></div>
       </div>

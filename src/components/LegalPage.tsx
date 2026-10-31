@@ -24,7 +24,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
 export default function LegalPage({ title, updated, blocks }: { title: string; updated: string; blocks: Block[] }) {
   return (
     <>
-      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]">
+      <section className="pb-[clamp(31px,3.9vw,57px)] pt-[clamp(112px,11.7vw,156px)]">
         <div className="wrap">
           <Lines as="h1" className="h-lg" lines={[title]} />
           <p className="meta mt-5">{updated}</p>

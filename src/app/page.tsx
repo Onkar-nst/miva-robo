@@ -72,7 +72,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative border-t border-line max-[999px]:py-[clamp(72px,10vw,120px)] motion-reduce:py-[clamp(72px,10vw,120px)]" data-hscroll>
+      <section className="relative border-t border-line max-[999px]:py-[clamp(47px,6.5vw,78px)] motion-reduce:py-[clamp(47px,6.5vw,78px)]" data-hscroll>
         <div className="flex flex-col justify-center gap-[clamp(28px,3.4vw,48px)] min-[1000px]:sticky min-[1000px]:top-0 min-[1000px]:h-svh min-[1000px]:overflow-hidden min-[1000px]:pt-[60px] motion-reduce:static motion-reduce:h-auto motion-reduce:overflow-visible motion-reduce:pt-0">
           <div className="wrap flex items-end justify-between gap-6">
             <div>
@@ -112,10 +112,14 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-x-[22px] gap-y-12 min-[640px]:grid-cols-2 min-[1000px]:grid-cols-3">
             {home.industries.map((x, i) => (
-              <article key={x.title} className="group" data-reveal style={d((i % 3) * 0.08)}>
-                <div className={`${frame} mb-[22px] aspect-[4/3] [&_img]:saturate-[.75] group-hover:[&_img]:scale-105 group-hover:[&_img]:saturate-100`}><Image src={x.image} alt={x.title} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+              <article key={x.title} className="group hover:!shadow-none" data-reveal style={d((i % 3) * 0.08)}>
+                {/* Hover: the photo eases in and regains colour while an accent rule draws along its foot. */}
+                <div className={`${frame} mb-[22px] aspect-[4/3] [&_img]:saturate-[.75] [&_img]:transition-[transform,filter] group-hover:[&_img]:scale-[1.06] group-hover:[&_img]:saturate-100
+                  after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-700 after:ease-io after:content-[''] group-hover:after:scale-x-100`}>
+                  <Image src={x.image} alt={x.title} fill sizes="(max-width: 760px) 100vw, 33vw" />
+                </div>
                 <span className="idx mb-2.5 block">{pad(i + 1, 2)}</span>
-                <h3 className="h-sm mb-2.5">{x.title}</h3>
+                <h3 className="h-sm mb-2.5 transition-colors duration-300 group-hover:text-accent-text">{x.title}</h3>
                 <p className="max-w-[40ch] text-sm leading-[1.65] text-muted">{x.text}</p>
               </article>
             ))}
@@ -123,7 +127,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="deep py-[clamp(64px,7vw,96px)]">
+      <section className="deep py-[clamp(42px,4.55vw,62px)]">
         <div className="wrap grid gap-10 min-[1000px]:grid-cols-[3fr_9fr] min-[1000px]:gap-0">
           <div>
             <span className="eyebrow">Credence</span>

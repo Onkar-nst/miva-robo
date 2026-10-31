@@ -32,7 +32,7 @@ function Hero({ p }: { p: Product }) {
   if (cutout) {
     // Transparent product shot: presented like a showroom piece, lit from behind.
     return (
-      <section className="deep relative flex min-h-svh flex-col items-center overflow-hidden pt-[120px] text-center">
+      <section className="deep relative flex min-h-svh flex-col items-center overflow-hidden pt-[104px] text-center">
         <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,209,255,.16),transparent_65%)]" />
         <div className="wrap relative z-[2]">
           <span className="eyebrow">Products</span>
@@ -49,7 +49,7 @@ function Hero({ p }: { p: Product }) {
   return (
     <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#0b1d33_2%,rgba(11,29,51,.2)_50%,rgba(11,29,51,.5)),linear-gradient(90deg,rgba(11,29,51,.82),transparent_65%)]">
       <Image src={p.hero} alt={p.name} fill priority sizes="100vw" data-parallax="6" className="!inset-x-0 !-inset-y-[6%] !h-[112%] object-cover" />
-      <div className="wrap relative z-[3] pb-[clamp(48px,6vw,96px)] pt-[140px]">
+      <div className="wrap relative z-[3] pb-[clamp(31px,3.9vw,62px)] pt-[140px]">
         <span className="eyebrow">Products</span>
         <Lines as="h1" className="!mt-6 mb-[22px] text-[clamp(52px,9vw,148px)] leading-[.95]" lines={[p.name]} />
         <p className="lead mb-[38px] max-w-[46ch]" data-reveal>{p.tagline}</p>
@@ -72,7 +72,7 @@ export default function ProductPage({ p }: { p: Product }) {
       <Hero p={p} />
 
       {p.comingSoon && (
-        <section className="relative overflow-hidden border-b border-line py-[clamp(32px,4vw,56px)]">
+        <section className="relative overflow-hidden border-b border-line py-[clamp(21px,2.6vw,36px)]">
           <Marquee><span className={word}>COMING SOON.</span><span className={`${word} ${stroke}`}>FUTURE IS ALMOST HERE.</span><span className={word}>COMING SOON.</span><span className={`${word} ${stroke}`}>FUTURE IS ALMOST HERE.</span></Marquee>
         </section>
       )}
@@ -88,7 +88,7 @@ export default function ProductPage({ p }: { p: Product }) {
       )}
 
       {p.why && (
-        <section className="pb-[clamp(80px,10vw,150px)]">
+        <section className="pb-[clamp(52px,6.5vw,98px)]">
           <div className="wrap">
             <div className="grid overflow-hidden rounded-[4px] border border-line bg-bg-2 min-[960px]:grid-cols-2">
               <div className="p-[clamp(28px,4vw,64px)]">

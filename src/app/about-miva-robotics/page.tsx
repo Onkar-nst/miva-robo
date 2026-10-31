@@ -13,7 +13,7 @@ const grid2 = "grid grid-cols-1 gap-[clamp(40px,6vw,110px)] min-[960px]:grid-col
 export default function About() {
   return (
     <>
-      <section className="pb-[clamp(48px,6vw,88px)] pt-[clamp(170px,18vw,240px)]">
+      <section className="pb-[clamp(31px,3.9vw,57px)] pt-[clamp(112px,11.7vw,156px)]">
         <div className="wrap"><Lines as="h1" className="h-xl" lines={[a.title]} /></div>
       </section>
       <div className={fullImg}><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /></div>

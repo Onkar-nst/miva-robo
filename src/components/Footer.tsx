@@ -13,7 +13,7 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [servicesOpen, setServicesOpen] = useState(false);
   return (
-    <footer className="deep relative isolate overflow-hidden pt-[clamp(56px,7vw,120px)] text-soft reveal:sticky reveal:bottom-0 reveal:z-0">
+    <footer className="deep relative isolate overflow-hidden pt-[clamp(36px,4.55vw,78px)] text-soft reveal:sticky reveal:bottom-0 reveal:z-0">
       <a href={site.linkedin} target="_blank" rel="noopener noreferrer"
         className="absolute left-[clamp(8px,1vw,14px)] top-[clamp(120px,14vw,220px)] hidden text-[13px] tracking-[.02em] text-soft transition-colors duration-300 [writing-mode:vertical-rl] rotate-180 hover:text-accent-text min-[900px]:block">
         Follow us — LinkedIn
@@ -79,7 +79,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="wrap pb-[clamp(40px,6vw,100px)] pt-[clamp(48px,5vw,72px)] text-center text-[13px] text-soft [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-ink">
+      <div className="wrap pb-[clamp(26px,3.9vw,65px)] pt-[clamp(31px,3.25vw,47px)] text-center text-[13px] text-soft [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-ink">
         Copyright © 2026 MIVA ROBOTICS <span className="mx-1">|</span> All Rights Reserved <span className="mx-1">|</span> <Link href="/privacy-policy/">Privacy Policy</Link> <span className="mx-1">|</span> <Link href="/terms-conditions/">Terms &amp; Conditions</Link>
       </div>
     </footer>

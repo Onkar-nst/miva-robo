@@ -11,7 +11,7 @@ import { ArrowUR, pad, TextLink } from "./ui";
 export const Logo = () => (
   <Link href="/" className="inline-flex justify-self-start" aria-label="MIVA Robotics home">
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" width={56} height={56} className="size-[46px] object-contain [filter:var(--logo-filter)] transition-[filter] duration-400" />
+    <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" width={56} height={56} className="size-[46px] object-contain [filter:var(--logo-filter)]" />
   </Link>
 );
 
@@ -85,6 +85,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const path = usePathname();
 
+  // Re-read the page under the bar on every navigation too, not just on scroll, so a new page never inherits the last one's colours.
   useEffect(() => {
     let last = scrollY;
     const on = () => {
@@ -94,10 +95,12 @@ export default function Header() {
       setOnLight([...document.querySelectorAll(".deep")].some((s) => { const r = s.getBoundingClientRect(); return r.top <= 42 && r.bottom >= 42; }));
       if (Math.abs(y - last) > 6) { setHidden(y > last && y > 240); last = y; }
     };
+    setHidden(false);
     on();
+    const raf = requestAnimationFrame(on);
     addEventListener("scroll", on, { passive: true });
-    return () => removeEventListener("scroll", on);
-  }, []);
+    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", on); };
+  }, [path]);
   useEffect(() => setOpen(false), [path]);
 
   const cur = (h: string) => (path === h ? "page" : undefined);
@@ -108,7 +111,7 @@ export default function Header() {
   const mobSub = "grid grid-cols-2 gap-x-4 [&_a]:block [&_a]:border-b [&_a]:border-line [&_a]:py-2.5 [&_a]:text-[15px] [&_a]:text-soft";
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-[100] border-b text-ink transition-[transform,background-color,border-color,color] duration-600 ease-expo
+    <header className={`fixed inset-x-0 top-0 z-[100] border-b text-ink transition-[transform,background-color,border-color] duration-600 ease-expo
       ${solid || open ? "border-line bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-[16px]" : "border-transparent"}
       ${hidden && !open ? "-translate-y-full" : ""} ${onLight && !open ? "deep-vars" : ""}`}>
       <div className="wrap grid h-[84px] grid-cols-[1fr_auto_1fr] items-center">
