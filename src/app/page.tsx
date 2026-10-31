@@ -44,7 +44,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-y light">
+      <section className="section-y">
         <div className="wrap grid items-center gap-12 min-[900px]:grid-cols-[5fr_7fr] min-[900px]:gap-0">
           <div>
             <span className="eyebrow">Introducing MIVA Robotics</span>
@@ -119,7 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-line py-[clamp(64px,7vw,96px)]">
+      <section className="deep py-[clamp(64px,7vw,96px)]">
         <div className="wrap grid gap-10 min-[1000px]:grid-cols-[3fr_9fr] min-[1000px]:gap-0">
           <div>
             <span className="eyebrow">Credence</span>
@@ -139,26 +139,28 @@ export default function Home() {
         </div>
       </section>
 
-      <Marquee className="border-b border-line [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]" trackClassName="hover:[animation-play-state:paused]">
-        <div style={{ display: "flex" }}>
-          {home.logos.map((l) => (
-            <div className="grid h-[110px] w-[220px] place-items-center px-9 py-7" key={l.src}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={l.src} alt={l.alt} loading="lazy" className={`max-h-9 w-auto object-contain transition-opacity duration-400 hover:opacity-100 ${/Make|Startup|JIIF/.test(l.alt) ? "bg-white p-1.5 opacity-55 grayscale hover:grayscale-0" : "opacity-55 [filter:grayscale(1)_brightness(0)]"}`} />
-            </div>
-          ))}
-        </div>
-      </Marquee>
+      <div className="deep border-t border-line">
+        <Marquee className="[mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]" trackClassName="hover:[animation-play-state:paused]">
+          <div style={{ display: "flex" }}>
+            {home.logos.map((l) => (
+              <div className="grid h-[110px] w-[220px] place-items-center px-9 py-7" key={l.src}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={l.src} alt={l.alt} loading="lazy" className={`max-h-9 w-auto object-contain transition-opacity duration-400 hover:opacity-100 ${/Make|Startup|JIIF/.test(l.alt) ? "bg-white p-1.5 opacity-55 grayscale hover:grayscale-0" : "opacity-60 [filter:grayscale(1)_brightness(0)_invert(1)]"}`} />
+              </div>
+            ))}
+          </div>
+        </Marquee>
+      </div>
 
-      <section className="section-y light border-b border-line">
+      <section className="section-y">
         <div className="wrap"><Testimonials /></div>
       </section>
 
-      <section className="section-tight overflow-hidden border-b border-line">
+      <section className="section-tight overflow-hidden border-t border-line">
         <div className="wrap"><SocialHub /></div>
       </section>
 
-      <section className="section-y light">
+      <section className="section-y border-t border-line">
         <div className="wrap">
           <div className="mb-[clamp(36px,4vw,56px)] flex flex-wrap items-end justify-between gap-6">
             <Lines className="h-md" lines={["Latest Posts"]} />

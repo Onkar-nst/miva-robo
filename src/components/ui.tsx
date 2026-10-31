@@ -19,7 +19,7 @@ export const card = `${panel} flex min-h-[260px] flex-col gap-3 [&_.idx]:mb-auto
   min-[1000px]:[&:nth-child(3n+1):nth-last-child(2)]:col-span-3 min-[1000px]:[&:nth-child(3n+2):last-child]:col-span-3`;
 // Previous / next links split across the page width.
 export const pager = "grid grid-cols-2 border-t border-line [&>a]:block [&>a]:px-(--gutter) [&>a]:py-[clamp(28px,3.4vw,52px)] [&>a]:transition-colors [&>a]:duration-400 [&>a:hover]:bg-bg-2 [&>*+a]:border-l [&>*+a]:border-line [&>*+a]:text-right [&>*+a_.eyebrow]:justify-end [&_b]:mt-4 [&_b]:block [&_b]:text-[clamp(20px,2.6vw,38px)] [&_b]:font-semibold [&_b]:tracking-[-.035em] [&_b]:transition-colors [&_b]:duration-300 [&>a:hover_b]:text-accent";
-export const tag = "absolute left-3 top-3 z-[2] bg-[rgba(255,255,255,.88)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-ink backdrop-blur-[6px]";
+export const tag = "absolute left-3 top-3 z-[2] bg-[color-mix(in_srgb,var(--bg)_85%,transparent)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-ink backdrop-blur-[6px]";
 // Full-bleed photo strip with parallax.
 export const fullImg = "relative h-[clamp(320px,76vh,860px)] overflow-hidden [&_img]:!inset-x-0 [&_img]:!-inset-y-[10%] [&_img]:!h-[120%] [&_img]:object-cover";
 
@@ -56,7 +56,7 @@ export function CTA({ href, children, ghost, external, className = "" }: { href:
 }
 
 // Underlined text link with a diagonal arrow; the underline redraws on hover.
-export const tlink = "group/tl relative inline-flex items-center gap-[22px] pb-2 pt-1 text-sm after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-right after:bg-current after:opacity-60 after:content-[''] hover:after:animate-[underline_.9s_var(--ease-io)] [&_svg]:w-[13px] [&_svg]:transition-transform [&_svg]:duration-500 [&_svg]:ease-expo hover:[&_svg]:translate-x-[3px] hover:[&_svg]:-translate-y-[3px]";
+export const tlink = "group/tl relative inline-flex text-steel transition-colors duration-300 hover:text-ink items-center gap-[22px] pb-2 pt-1 text-sm after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-right after:bg-current after:opacity-60 after:content-[''] hover:after:animate-[underline_.9s_var(--ease-io)] [&_svg]:w-[13px] [&_svg]:transition-transform [&_svg]:duration-500 [&_svg]:ease-expo hover:[&_svg]:translate-x-[3px] hover:[&_svg]:-translate-y-[3px]";
 export function TextLink({ href, children, external, className = "" }: { href: string; children: ReactNode; external?: boolean; className?: string }) {
   return <Anchor href={href} external={external} className={`${tlink} ${className}`}><span>{children}</span><ArrowUR /></Anchor>;
 }
@@ -108,7 +108,7 @@ export function CTABand({ text, label, href, image = "/media/ai-robotics.jpg" }:
     <section className="deep relative isolate overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="absolute inset-0 -z-10 size-full object-cover opacity-35" src={image} alt="" loading="lazy" />
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#070b11_25%,rgba(7,11,17,.35))]" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0f2a42_25%,rgba(15,40,63,.35))]" />
       <div className="wrap grid gap-10 py-[clamp(96px,12vw,190px)]">
         <Lines className="max-w-[17ch] text-[clamp(38px,5.4vw,84px)]" lines={[text]} />
         <div data-reveal><CTA href={href}>{label}</CTA></div>

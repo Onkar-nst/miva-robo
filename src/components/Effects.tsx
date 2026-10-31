@@ -109,7 +109,7 @@ export default function Effects() {
     <>
       <div ref={bar} className="pointer-events-none fixed inset-x-0 top-0 z-[120] h-0.5 origin-left [transform:scaleX(var(--s,0))] bg-accent" />
       {cookie && (
-        <div role="region" aria-label="Cookies" className="fixed inset-x-4 bottom-4 z-[110] mr-auto flex max-w-[460px] animate-rise items-center justify-between gap-[18px] border border-line-2 bg-[rgba(255,255,255,.95)] shadow-[0_24px_50px_-28px_rgba(14,70,120,.5)] py-3.5 pl-5 pr-3.5 text-[13.5px] text-soft backdrop-blur-[14px]">
+        <div role="region" aria-label="Cookies" className="fixed inset-x-4 bottom-4 z-[110] mr-auto flex max-w-[460px] animate-rise items-center justify-between gap-[18px] border border-line-2 bg-[color-mix(in_srgb,var(--bg-2)_95%,transparent)] shadow-[0_24px_50px_-28px_rgba(15,40,63,.5)] py-3.5 pl-5 pr-3.5 text-[13.5px] text-soft backdrop-blur-[14px]">
           <span>This website uses cookies to improve your web experience.</span>
           <button className="flex-none cursor-pointer border-0 bg-accent px-[18px] py-[11px] text-[13px] font-medium text-accent-ink transition-colors duration-300 hover:bg-ink" onClick={() => { setCookie(false); try { localStorage.setItem("miva-cookie", "1"); } catch {} }}>Accept</button>
         </div>

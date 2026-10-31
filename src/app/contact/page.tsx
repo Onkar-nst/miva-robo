@@ -40,7 +40,7 @@ export default function Contact() {
               ))}
             </ul>
           </div>
-          <div className="border border-line bg-white p-[clamp(24px,3.4vw,48px)] shadow-[0_40px_80px_-50px_rgba(10,14,20,.35)]" data-reveal><ContactForm /></div>
+          <div className="border border-line bg-white p-[clamp(24px,3.4vw,48px)] shadow-[0_40px_80px_-50px_rgba(15,40,63,.35)]" data-reveal><ContactForm /></div>
         </div>
       </section>
     </>

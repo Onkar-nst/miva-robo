@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ctaText, products, type Product } from "@/content/products";
-import { Check, CTA, CTABand, Lines, Marquee, pad, pager } from "./ui";
+import { Check, CTA, CTABand, hairGrid, Lines, Marquee, pad, pager, panel } from "./ui";
 
 function Pager({ p }: { p: Product }) {
   const i = products.indexOf(p), n = products.length;
@@ -15,9 +15,11 @@ function Pager({ p }: { p: Product }) {
 }
 
 const word = "whitespace-nowrap pr-[.6em] text-[clamp(40px,6vw,96px)] font-semibold uppercase leading-[1.25] tracking-[-.045em]";
-const stroke = "text-transparent [-webkit-text-stroke:1px_rgba(18,33,51,.3)]";
+const stroke = "text-transparent [-webkit-text-stroke:1px_rgba(15,40,63,.3)]";
 const sticky = "min-[960px]:sticky min-[960px]:top-[120px] min-[960px]:self-start";
 const d = (s: number) => ({ "--d": `${s}s` }) as React.CSSProperties;
+// "Up to 50 kg (Configurable)" → ["Up to 50 kg", "Configurable"]: the qualifier sits under the value.
+const split = (v: string) => v.match(/^(.+?)\s*\((.+)\)$/)?.slice(1) ?? [v];
 
 function Hero({ p }: { p: Product }) {
   const cutout = p.secondary?.endsWith("EAGLE-1.png");
@@ -31,7 +33,7 @@ function Hero({ p }: { p: Product }) {
     // Transparent product shot: presented like a showroom piece, lit from behind.
     return (
       <section className="deep relative flex min-h-svh flex-col items-center overflow-hidden pt-[120px] text-center">
-        <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(14,143,230,.3),transparent_65%)]" />
+        <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(196,123,69,.3),transparent_65%)]" />
         <div className="wrap relative z-[2]">
           <span className="eyebrow">Products</span>
           <Lines as="h1" className="h-xl !mt-6 mb-4 justify-center" lines={[p.name]} />
@@ -45,7 +47,7 @@ function Hero({ p }: { p: Product }) {
     );
   }
   return (
-    <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#070b11_2%,rgba(7,11,17,.2)_50%,rgba(7,11,17,.5)),linear-gradient(90deg,rgba(7,11,17,.82),transparent_65%)]">
+    <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#0f2a42_2%,rgba(15,40,63,.2)_50%,rgba(15,40,63,.5)),linear-gradient(90deg,rgba(15,40,63,.82),transparent_65%)]">
       <Image src={p.hero} alt={p.name} fill priority sizes="100vw" data-parallax="6" className="!inset-x-0 !-inset-y-[6%] !h-[112%] object-cover" />
       <div className="wrap relative z-[3] pb-[clamp(48px,6vw,96px)] pt-[140px]">
         <span className="eyebrow">Products</span>
@@ -61,6 +63,9 @@ export default function ProductPage({ p }: { p: Product }) {
   const rows = p.specs?.flatMap((g) => g.rows) ?? [];
   const highlights = p.highlights?.map((h) => rows.find(([k]) => k === h)!).filter(Boolean) ?? [];
   const photo = p.secondary?.endsWith("EAGLE-1.png") ? p.hero : p.secondary;
+  // Cutout shots sit best on the datasheet's drawing grid; otherwise use the hero photo.
+  const sheet = p.secondary?.endsWith(".png") ? p.secondary : p.hero;
+  const groups = p.specs?.map((g, i) => ({ ...g, name: g.group ?? "General", id: `spec-${i + 1}` })) ?? [];
 
   return (
     <>
@@ -97,38 +102,91 @@ export default function ProductPage({ p }: { p: Product }) {
       )}
 
       {p.specs && (
-        <section className="deep section-y scroll-mt-20" id="specs">
-          <div className="wrap">
-            <h2 className="h-lg mb-[clamp(32px,4vw,56px)]" data-reveal>Tech Specifications</h2>
+        <section className="deep section-y relative scroll-mt-20 overflow-hidden" id="specs">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-[10%] -top-[20%] size-[min(820px,110vw)] rounded-full bg-[radial-gradient(circle,rgba(196,123,69,.16),transparent_62%)]" />
+          <div className="wrap relative">
+            <div className="mb-[clamp(40px,5vw,72px)] flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <span className="eyebrow" data-reveal>Datasheet</span>
+                <h2 className="h-lg" data-reveal>Tech Specifications</h2>
+              </div>
+              <p className="idx uppercase" data-reveal>{pad(rows.length, 2)} Parameters · {pad(p.specs.length, 2)} Groups</p>
+            </div>
+
             {highlights.length > 0 && (
-              <div className="mb-[clamp(36px,4vw,64px)] grid gap-px bg-line min-[760px]:grid-cols-3">
-                {highlights.map(([k, v], i) => (
-                  <div key={k} data-reveal style={d(i * 0.08)} className="bg-bg py-7 pr-6 min-[760px]:px-7 min-[760px]:first:pl-0">
-                    <span className="text-[11px] font-medium uppercase tracking-[.16em] text-muted">{k}</span>
-                    <b className="mt-3 block text-[clamp(24px,2.5vw,38px)] font-medium leading-[1.12] tracking-[-.03em]">{v}</b>
+              <div className={`${hairGrid} mb-[clamp(56px,6vw,96px)] min-[760px]:grid-cols-3`}>
+                {highlights.map(([k, v], i) => {
+                  const [main, note] = split(v);
+                  const [, lead, figure] = main.match(/^(Up to)\s+(.+)$/i) ?? [, "", main];
+                  return (
+                    <div key={k} data-reveal style={d(i * 0.08)} className={`${panel} flex min-h-[200px] flex-col !bg-bg-2 hover:!bg-panel`}>
+                      <div className="mb-auto flex items-center justify-between pb-10">
+                        <span className="meta !mb-0">{k}</span>
+                        <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                      </div>
+                      {lead && <span className="mb-1 text-[13.5px] uppercase tracking-[.12em] text-muted">{lead}</span>}
+                      <b className="block text-[clamp(34px,3.6vw,56px)] font-medium leading-[1] tracking-[-.04em]">{figure}</b>
+                      {note && <span className="mt-3 self-start rounded-full border border-line-2 px-2.5 py-1 text-[12px] text-soft">{note}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="grid gap-[clamp(32px,4vw,72px)] min-[960px]:grid-cols-[4fr_7fr]">
+              {/* Datasheet cover: the product framed like a technical drawing, with an index of the groups below. */}
+              <aside className={sticky}>
+                <figure className="relative aspect-[4/3] overflow-hidden rounded-[4px] border border-line bg-bg-2 [background-image:linear-gradient(var(--line)_1px,transparent_1px),linear-gradient(90deg,var(--line)_1px,transparent_1px)] [background-size:32px_32px]" data-reveal>
+                  <Image src={sheet} alt={p.name} fill sizes="(max-width: 960px) 100vw, 36vw" className={sheet.endsWith(".png") ? "object-contain p-6" : "object-cover opacity-90"} />
+                  {["left-3 top-3 border-l border-t", "right-3 top-3 border-r border-t", "bottom-3 left-3 border-b border-l", "bottom-3 right-3 border-b border-r"].map((c) => (
+                    <span key={c} aria-hidden="true" className={`absolute size-4 border-accent ${c}`} />
+                  ))}
+                  <figcaption className="absolute inset-x-0 bottom-0 flex justify-between bg-[linear-gradient(0deg,rgba(14,16,19,.85),transparent)] px-5 pb-4 pt-10 text-[12px] uppercase tracking-[.14em] text-soft">
+                    <span>{p.name}</span><span>{pad(rows.length, 2)} Parameters</span>
+                  </figcaption>
+                </figure>
+                {groups.length > 1 && (
+                  <nav aria-label="Specification groups" className="mt-8 max-[959px]:hidden">
+                    {groups.map((g, i) => (
+                      <a key={g.id} href={`#${g.id}`} className="group flex items-baseline gap-4 border-t border-line py-3.5 transition-[padding,color] duration-500 ease-expo last:border-b hover:pl-2 hover:text-accent">
+                        <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                        <span className="flex-1 text-[15px] font-medium">{g.name}</span>
+                        <span className="text-[12px] text-muted">{pad(g.rows.length, 2)}</span>
+                      </a>
+                    ))}
+                  </nav>
+                )}
+              </aside>
+
+              <div className="flex flex-col gap-5">
+                {groups.map((g, i) => (
+                  <div key={g.id} id={g.id} className="scroll-mt-28 overflow-hidden rounded-[4px] border border-line bg-bg-2" data-reveal style={d(i * 0.05)}>
+                    <div className="flex items-baseline gap-4 border-b border-line px-[clamp(20px,2.4vw,32px)] py-5">
+                      <span className="idx !text-accent">{pad(i + 1, 2)}</span>
+                      <h3 className="h-sm flex-1 font-medium">{g.name}</h3>
+                      <span className="text-[12px] uppercase tracking-[.12em] text-muted">{g.rows.length} {g.rows.length === 1 ? "item" : "items"}</span>
+                    </div>
+                    <dl>
+                      {g.rows.map(([k, v]) => {
+                        const [main, note] = split(v);
+                        const chips = main.split(/\s*\/\s*|,\s*/);
+                        return (
+                          <div key={k} className="group grid gap-x-8 gap-y-2 border-t border-line px-[clamp(20px,2.4vw,32px)] py-[18px] transition-colors duration-300 first:border-t-0 hover:bg-tint min-[640px]:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] min-[640px]:items-center">
+                            <dt className="text-[14px] text-muted transition-colors duration-300 group-hover:text-accent">{k}</dt>
+                            <dd className="flex flex-wrap items-center gap-2">
+                              {chips.length > 1
+                                ? chips.map((c) => <span key={c} className="rounded-full border border-line-2 bg-bg px-3 py-1 text-[14px] font-medium">{c}</span>)
+                                : <span className="text-[clamp(16px,1.25vw,18px)] font-medium tracking-[-.01em]">{main}</span>}
+                              {note && <span className="rounded-full bg-ghost px-2.5 py-1 text-[12px] text-soft">{note}</span>}
+                            </dd>
+                          </div>
+                        );
+                      })}
+                    </dl>
                   </div>
                 ))}
               </div>
-            )}
-            <table className="w-full border-collapse text-left text-[clamp(15px,1.1vw,17px)]" data-reveal>
-              <thead>
-                <tr className="border-b border-line-2 text-[11px] uppercase tracking-[.16em] text-muted">
-                  <th scope="col" className="w-[42%] py-3 font-medium">Parameter</th>
-                  <th scope="col" className="py-3 font-medium">Specification</th>
-                </tr>
-              </thead>
-              {p.specs.map((g, i) => (
-                <tbody key={g.group ?? i}>
-                  {g.group && <tr><th colSpan={2} scope="colgroup" className="pb-2 pt-8 text-[12px] font-semibold uppercase tracking-[.14em] text-accent">{g.group}</th></tr>}
-                  {g.rows.map(([k, v]) => (
-                    <tr key={k} className="border-b border-line transition-colors duration-300 hover:bg-tint">
-                      <th scope="row" className="py-[18px] pr-5 align-top font-normal text-soft">{k}</th>
-                      <td className="py-[18px] align-top font-medium">{v}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              ))}
-            </table>
+            </div>
           </div>
         </section>
       )}

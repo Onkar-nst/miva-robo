@@ -17,7 +17,7 @@ export default function About() {
         <div className="wrap"><Lines as="h1" className="h-xl" lines={[a.title]} /></div>
       </section>
       <div className={fullImg}><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /></div>
-      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(18,33,51,.3)]" : ""}`} key={d}>{d}</span>)}</Marquee>
+      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(15,40,63,.3)]" : ""}`} key={d}>{d}</span>)}</Marquee>
 
       <section className="section-y">
         <div className="wrap stack lead max-w-[1100px]">{a.intro.map((t) => <p key={t} data-reveal>{t}</p>)}</div>

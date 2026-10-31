@@ -41,7 +41,7 @@ function Mega({ items, title, shut }: { items: NavItem[]; title: string; shut: b
   const small = items.length < 4;
   return (
     <div className={`invisible absolute left-1/2 top-full -translate-x-1/2 -translate-y-2 pt-[22px] opacity-0 transition-all ease-expo ${shut ? "duration-250" : "duration-450 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100"}`}>
-      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(14,70,120,.35)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
+      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(15,40,63,.35)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
         <div className="px-2 pb-3.5 pt-[26px]">
           <p className="eyebrow mb-3.5 ml-[18px]">{title}</p>
           <ul>
