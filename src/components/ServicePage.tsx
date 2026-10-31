@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ctaText, type Service } from "@/content/products";
+import { ctaLabel, ctaSub, ctaText, type Service } from "@/content/products";
 import { CTA, CTABand, Lines, pad } from "./ui";
 
 const shot = "absolute overflow-hidden rounded-[4px] max-[899px]:hidden";
@@ -62,7 +62,7 @@ export default function ServicePage({ s }: { s: Service }) {
       </section>
 
       <div className="relative h-[clamp(320px,76vh,860px)] overflow-hidden bg-panel"><Image src={i.e} alt={s.full} fill sizes="100vw" data-parallax="8" className="!inset-x-0 !-inset-y-[10%] !h-[120%] object-cover" /></div>
-      <CTABand text={ctaText} label="Contact Us" href="/contact/" />
+      <CTABand text={ctaText} sub={ctaSub} label={ctaLabel} href="/contact/" />
     </>
   );
 }

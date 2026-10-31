@@ -282,4 +282,6 @@ export const services: Service[] = [
   },
 ];
 
-export const ctaText = "Interested or have a question about our solutions?";
+export const ctaText = "Ready to put intelligent automation to work?";
+export const ctaSub = "Tell us about your operation and we'll help you find the right MIVA solution.";
+export const ctaLabel = "Talk to Our Team";

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ctaText, products, type Product } from "@/content/products";
+import { ctaLabel, ctaSub, ctaText, products, type Product } from "@/content/products";
 import { Check, CTA, CTABand, hairGrid, Lines, Marquee, pad, pager, panel } from "./ui";
 
 function Pager({ p }: { p: Product }) {
@@ -249,7 +249,7 @@ export default function ProductPage({ p }: { p: Product }) {
         </section>
       )}
 
-      {!p.comingSoon && <CTABand text={ctaText} label="Contact Us" href="/contact/" />}
+      {!p.comingSoon && <CTABand text={ctaText} sub={ctaSub} label={ctaLabel} href="/contact/" />}
       <Pager p={p} />
     </>
   );
