@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 import { Lines } from "./ui";
 
 // Device bezel shared by the tablet and phone mockups.
-const bezel = "relative bg-[linear-gradient(145deg,#2a2f37,#0a0c10_45%,#1b1f26)] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_50px_90px_-35px_rgba(0,0,0,.9),0_0_0_1px_rgba(0,0,0,.6)] transition-[transform,box-shadow] duration-[.9s,.6s] ease-expo group-hover:-translate-y-2 group-hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.2),0_50px_90px_-30px_rgba(56,182,255,.3),0_0_0_1px_rgba(0,0,0,.6)]";
+const bezel = "relative bg-[linear-gradient(145deg,#2a2f37,#0a0c10_45%,#1b1f26)] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_50px_90px_-40px_rgba(14,70,120,.55),0_0_0_1px_rgba(0,0,0,.2)] transition-[transform,box-shadow] duration-[.9s,.6s] ease-expo group-hover:-translate-y-2 group-hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.2),0_50px_90px_-30px_rgba(56,182,255,.3),0_0_0_1px_rgba(0,0,0,.6)]";
 const screen = "relative isolate h-full overflow-hidden [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:size-full [&_iframe]:border-0";
 
 const InstaIcon = () => (

@@ -8,11 +8,11 @@ import { ArrowR, ArrowUR, circ, Lines } from "./ui";
 const colHead = "mb-[18px] text-[11.5px] font-medium uppercase tracking-[.18em] text-muted";
 const colList = "space-y-2 text-[14.5px] [&_a]:inline-flex [&_a]:text-soft [&_a]:transition-[color,transform] [&_a]:duration-450 [&_a]:ease-expo [&_a:hover]:translate-x-1 [&_a:hover]:text-ink";
 
-// Dark panel the page slides off to reveal: sticky behind <main> on screens big enough to show it whole.
+// Panel the page slides off to reveal: sticky behind <main> on screens big enough to show it whole.
 export default function Footer() {
   const [email, setEmail] = useState("");
   return (
-    <footer className="dark relative isolate overflow-hidden pt-[clamp(48px,5vw,72px)] text-soft [--bg:#0a0d13] [--line:rgba(255,255,255,.08)] [--line-2:rgba(255,255,255,.16)] [--muted:#6f7883] [--soft:#aab3be]
+    <footer className="relative isolate overflow-hidden pt-[clamp(48px,5vw,72px)] text-soft bg-bg-2
       before:pointer-events-none before:absolute before:left-1/2 before:-top-[260px] before:-z-10 before:h-[520px] before:w-[min(1200px,120vw)] before:-translate-x-1/2 before:bg-[radial-gradient(ellipse_at_center,rgba(56,182,255,.16),transparent_65%)] before:content-['']
       reveal:sticky reveal:bottom-0 reveal:z-0">
       <div className="wrap">
@@ -79,7 +79,7 @@ export default function Footer() {
 
       <div className="select-none px-(--gutter) leading-[.8]" aria-hidden="true">
         <Lines as="h3" lines={["MIVA ROBOTICS"]}
-          className="whitespace-nowrap text-center text-[clamp(44px,8.8vw,150px)] font-semibold leading-[.86] tracking-[-.04em] text-transparent [&_.w>span]:bg-[linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.02)_90%)] [&_.w>span]:bg-clip-text" />
+          className="whitespace-nowrap text-center text-[clamp(44px,8.8vw,150px)] font-semibold leading-[.86] tracking-[-.04em] text-transparent [&_.w>span]:bg-[linear-gradient(180deg,rgba(14,143,230,.3),rgba(14,143,230,.03)_90%)] [&_.w>span]:bg-clip-text" />
       </div>
 
       <div className="wrap flex flex-wrap items-center justify-between gap-x-6 gap-y-2.5 border-t border-line pb-6 pt-5 text-[12.5px] text-muted [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-ink">

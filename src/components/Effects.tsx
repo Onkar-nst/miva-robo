@@ -79,11 +79,22 @@ export default function Effects() {
     const io = new IntersectionObserver((es) => {
       for (const e of es) if (e.isIntersecting) {
         e.target.classList.add("in");
+        if (!reduce && !(e.target as HTMLElement).dataset.count) dispatchEvent(new CustomEvent("miva:signal", { detail: e.target.getBoundingClientRect() }));
         const c = e.target as HTMLElement;
         if (c.dataset.count && !reduce) count(c);
         io.unobserve(e.target);
       }
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    // Elements enter moving toward the robot's corner of the screen.
+    const small = innerWidth < 760;
+    document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+      if (el.dataset.reveal === "wipe") return;
+      const r = el.getBoundingClientRect();
+      const dx = innerWidth - 110 - (r.left + r.width / 2), dy = innerHeight * 0.75 - innerHeight * 0.5;
+      const len = Math.hypot(dx, dy) || 1, far = small ? 20 : 54;
+      el.style.setProperty("--rx", `${(-dx / len) * far}px`);
+      el.style.setProperty("--ry", `${(-dy / len) * far + 14}px`);
+    });
     document.querySelectorAll("[data-reveal],[data-lines],[data-count]").forEach((el) => io.observe(el));
 
     return () => {
@@ -98,7 +109,7 @@ export default function Effects() {
     <>
       <div ref={bar} className="pointer-events-none fixed inset-x-0 top-0 z-[120] h-0.5 origin-left [transform:scaleX(var(--s,0))] bg-accent" />
       {cookie && (
-        <div role="region" aria-label="Cookies" className="fixed inset-x-4 bottom-4 z-[110] ml-auto flex max-w-[460px] animate-rise items-center justify-between gap-[18px] border border-line-2 bg-[rgba(16,20,26,.94)] py-3.5 pl-5 pr-3.5 text-[13.5px] text-soft backdrop-blur-[14px]">
+        <div role="region" aria-label="Cookies" className="fixed inset-x-4 bottom-4 z-[110] mr-auto flex max-w-[460px] animate-rise items-center justify-between gap-[18px] border border-line-2 bg-[rgba(255,255,255,.95)] shadow-[0_24px_50px_-28px_rgba(14,70,120,.5)] py-3.5 pl-5 pr-3.5 text-[13.5px] text-soft backdrop-blur-[14px]">
           <span>This website uses cookies to improve your web experience.</span>
           <button className="flex-none cursor-pointer border-0 bg-accent px-[18px] py-[11px] text-[13px] font-medium text-accent-ink transition-colors duration-300 hover:bg-ink" onClick={() => { setCookie(false); try { localStorage.setItem("miva-cookie", "1"); } catch {} }}>Accept</button>
         </div>
@@ -107,7 +118,7 @@ export default function Effects() {
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[250] flex animate-[boot-out_1s_1.4s_var(--ease-io)_forwards] flex-col justify-between bg-bg p-(--gutter)">
           <div className="flex items-center justify-between text-[11px] tracking-[.2em] text-muted">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-11 animate-[boot-fade_.8s_ease_both]" />
+            <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-11 [filter:var(--logo-filter)] animate-[boot-fade_.8s_ease_both]" />
             <span>MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
           </div>
           <p className="animate-[boot-up_1s_var(--ease-expo)_both] overflow-hidden text-[clamp(64px,14vw,220px)] font-semibold leading-[.9] tracking-[-.055em]">MIVA <em className="inline-block animate-[boot-up_1s_.12s_var(--ease-expo)_both] not-italic text-accent">Robotics</em></p>

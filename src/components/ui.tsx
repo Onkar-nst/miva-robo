@@ -19,7 +19,7 @@ export const card = `${panel} flex min-h-[260px] flex-col gap-3 [&_.idx]:mb-auto
   min-[1000px]:[&:nth-child(3n+1):nth-last-child(2)]:col-span-3 min-[1000px]:[&:nth-child(3n+2):last-child]:col-span-3`;
 // Previous / next links split across the page width.
 export const pager = "grid grid-cols-2 border-t border-line [&>a]:block [&>a]:px-(--gutter) [&>a]:py-[clamp(28px,3.4vw,52px)] [&>a]:transition-colors [&>a]:duration-400 [&>a:hover]:bg-bg-2 [&>*+a]:border-l [&>*+a]:border-line [&>*+a]:text-right [&>*+a_.eyebrow]:justify-end [&_b]:mt-4 [&_b]:block [&_b]:text-[clamp(20px,2.6vw,38px)] [&_b]:font-semibold [&_b]:tracking-[-.035em] [&_b]:transition-colors [&_b]:duration-300 [&>a:hover_b]:text-accent";
-export const tag = "absolute left-3 top-3 z-[2] bg-[rgba(12,16,22,.72)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-white backdrop-blur-[6px]";
+export const tag = "absolute left-3 top-3 z-[2] bg-[rgba(255,255,255,.88)] px-[9px] py-[5px] text-[10.5px] font-medium uppercase tracking-[.14em] text-ink backdrop-blur-[6px]";
 // Full-bleed photo strip with parallax.
 export const fullImg = "relative h-[clamp(320px,76vh,860px)] overflow-hidden [&_img]:!inset-x-0 [&_img]:!-inset-y-[10%] [&_img]:!h-[120%] [&_img]:object-cover";
 
@@ -105,11 +105,12 @@ export function Check({ children }: { children: ReactNode }) {
 
 export function CTABand({ text, label, href, image = "/media/ai-robotics.jpg" }: { text: string; label: string; href: string; image?: string }) {
   return (
-    <section className="relative isolate overflow-hidden border-t border-line bg-bg-2">
+    <section className="deep relative isolate overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="absolute inset-0 -z-10 size-full object-cover opacity-20 min-[900px]:inset-y-[-8%] min-[900px]:left-[40%] min-[900px]:h-[116%] min-[900px]:w-[60%] min-[900px]:opacity-50 min-[900px]:[mask-image:linear-gradient(90deg,transparent,#000_50%)]" src={image} alt="" loading="lazy" data-parallax="6" />
-      <div className="wrap grid items-center gap-9 py-[clamp(80px,9vw,130px)] min-[900px]:grid-cols-[7fr_5fr]">
-        <Lines className="h-lg max-w-[16ch]" lines={[text]} accent={3} />
+      <img className="absolute inset-0 -z-10 size-full object-cover opacity-35" src={image} alt="" loading="lazy" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#070b11_25%,rgba(7,11,17,.35))]" />
+      <div className="wrap grid gap-10 py-[clamp(96px,12vw,190px)]">
+        <Lines className="max-w-[17ch] text-[clamp(38px,5.4vw,84px)]" lines={[text]} />
         <div data-reveal><CTA href={href}>{label}</CTA></div>
       </div>
     </section>

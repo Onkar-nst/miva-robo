@@ -4,6 +4,7 @@ import "./globals.css";
 import Effects from "@/components/Effects";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import RobotLoader from "@/components/RobotLoader";
 import { site } from "@/content/site";
 
 const sans = Inter_Tight({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-inter" });
@@ -25,9 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a href="#main" className="absolute -left-[999px] top-2 z-[200] bg-accent px-4 py-2.5 text-accent-ink focus:left-2">Skip to content</a>
         <Header />
-        <main id="main" className="reveal:relative reveal:z-[2] reveal:bg-bg reveal:shadow-[0_30px_70px_-25px_rgba(0,0,0,.35)]">{children}</main>
+        <main id="main" className="reveal:relative reveal:z-[2] reveal:bg-bg reveal:shadow-[0_30px_70px_-25px_rgba(14,70,120,.22)]">{children}</main>
         <Footer />
         <Effects />
+        <RobotLoader />
       </body>
     </html>
   );

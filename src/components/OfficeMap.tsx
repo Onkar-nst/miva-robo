@@ -48,8 +48,8 @@ export default function OfficeMap() {
       </div>
       <div className="relative min-h-[420px] overflow-hidden border border-line-2 bg-panel">
         <iframe key={o.city} src={`https://maps.google.com/maps?q=${q}&z=15&output=embed`} title={`Map of the MIVA Robotics ${o.city} office`} loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-          className="absolute inset-0 size-full animate-map-in border-0 [filter:invert(.92)_hue-rotate(180deg)_saturate(.7)_contrast(.92)]" />
-        <div className="pointer-events-none absolute bottom-4 left-4 grid gap-0.5 border border-line-2 bg-[rgba(12,16,22,.82)] px-4 py-3 backdrop-blur-[10px]">
+          className="absolute inset-0 size-full animate-map-in border-0 [filter:saturate(.75)_contrast(.96)]" />
+        <div className="pointer-events-none absolute bottom-4 left-4 grid gap-0.5 border border-line-2 bg-[rgba(255,255,255,.9)] px-4 py-3 backdrop-blur-[10px]">
           <b className="text-sm font-semibold tracking-[.06em]">{o.city}</b>
           <span className="text-xs text-muted">{o.label}</span>
         </div>

@@ -41,7 +41,7 @@ function Mega({ items, title, shut }: { items: NavItem[]; title: string; shut: b
   const small = items.length < 4;
   return (
     <div className={`invisible absolute left-1/2 top-full -translate-x-1/2 -translate-y-2 pt-[22px] opacity-0 transition-all ease-expo ${shut ? "duration-250" : "duration-450 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100"}`}>
-      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(0,0,0,.85)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
+      <div className={`grid border border-line-2 bg-bg-2 shadow-[0_40px_80px_-30px_rgba(14,70,120,.35)] ${small ? "w-[min(700px,94vw)] grid-cols-[1fr_300px]" : "w-[min(900px,94vw)] grid-cols-[1fr_340px]"}`}>
         <div className="px-2 pb-3.5 pt-[26px]">
           <p className="eyebrow mb-3.5 ml-[18px]">{title}</p>
           <ul>
@@ -90,8 +90,8 @@ export default function Header() {
     const on = () => {
       const y = scrollY;
       setSolid(y > 40);
-      // Match the bar to whatever section is passing underneath it.
-      setOnLight([...document.querySelectorAll(".light")].some((s) => { const r = s.getBoundingClientRect(); return r.top <= 42 && r.bottom >= 42; }));
+      // Match the bar to whatever section is passing underneath it (onLight = over a deep section).
+      setOnLight([...document.querySelectorAll(".deep")].some((s) => { const r = s.getBoundingClientRect(); return r.top <= 42 && r.bottom >= 42; }));
       if (Math.abs(y - last) > 6) { setHidden(y > last && y > 240); last = y; }
     };
     on();
@@ -110,7 +110,7 @@ export default function Header() {
   return (
     <header className={`fixed inset-x-0 top-0 z-[100] border-b text-ink transition-[transform,background-color,border-color,color] duration-600 ease-expo
       ${solid || open ? "border-line bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-[16px]" : "border-transparent"}
-      ${hidden && !open ? "-translate-y-full" : ""} ${onLight && !open ? "theme-light" : ""}`}>
+      ${hidden && !open ? "-translate-y-full" : ""} ${onLight && !open ? "deep-vars" : ""}`}>
       <div className="wrap grid h-[84px] grid-cols-[1fr_auto_1fr] items-center">
         <Logo />
         <nav className="hidden gap-[clamp(20px,2.6vw,40px)] min-[1100px]:flex" aria-label="Primary">

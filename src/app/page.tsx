@@ -23,7 +23,7 @@ const icons = [
 export default function Home() {
   return (
     <>
-      <section className="relative flex h-svh min-h-[660px] flex-col justify-center overflow-hidden">
+      <section data-robot-stage className="relative isolate flex h-svh min-h-[660px] flex-col justify-center overflow-hidden max-[759px]:justify-start max-[759px]:pt-16">
         <HeroSlides />
         <div className="wrap relative z-[2] pt-[84px]">
           <span className="eyebrow" data-reveal>Introducing MIVA Robotics</span>
@@ -58,11 +58,11 @@ export default function Home() {
         </div>
         <div className="wrap mt-[clamp(56px,7vw,100px)] grid gap-5 min-[760px]:grid-cols-2">
           {home.intro.points.map((p, i) => (
-            <Link href="/about-miva-robotics/" className="dark group relative isolate flex min-h-[250px] flex-col justify-between overflow-hidden !bg-black p-8 after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(90deg,rgba(12,16,22,.92)_30%,rgba(12,16,22,.2))] after:content-['']" key={p} data-reveal style={d(i * 0.1)}>
+            <Link href="/about-miva-robotics/" className="group relative isolate flex min-h-[250px] flex-col justify-between overflow-hidden !bg-bg-2 p-8 after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(90deg,rgba(255,255,255,.96)_34%,rgba(255,255,255,.25))] after:content-['']" key={p} data-reveal style={d(i * 0.1)}>
               <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 900px) 100vw, 50vw"
-                className="-z-20 object-cover [filter:grayscale(1)_brightness(.5)] transition-[transform,filter] duration-[1.4s,1s] ease-expo group-hover:scale-105 group-hover:[filter:grayscale(.2)_brightness(.6)]" />
+                className="-z-20 object-cover transition-[transform,filter] duration-[1.4s,1s] ease-expo group-hover:scale-105" />
               <span className="max-w-[15ch] text-[19px] font-medium leading-[1.35] tracking-[-.015em]">{p}</span>
-              <span className={`${circ} ${circHover} border-white/50`} aria-hidden="true"><ArrowR /></span>
+              <span className={`${circ} ${circHover} border-line-2`} aria-hidden="true"><ArrowR /></span>
             </Link>
           ))}
         </div>
@@ -144,7 +144,7 @@ export default function Home() {
           {home.logos.map((l) => (
             <div className="grid h-[110px] w-[220px] place-items-center px-9 py-7" key={l.src}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={l.src} alt={l.alt} loading="lazy" className={`max-h-9 w-auto object-contain transition-opacity duration-400 hover:opacity-100 ${/Make|Startup|JIIF/.test(l.alt) ? "bg-white p-1.5 opacity-55 grayscale hover:grayscale-0" : "opacity-45 [filter:grayscale(1)_brightness(0)_invert(1)]"}`} />
+              <img src={l.src} alt={l.alt} loading="lazy" className={`max-h-9 w-auto object-contain transition-opacity duration-400 hover:opacity-100 ${/Make|Startup|JIIF/.test(l.alt) ? "bg-white p-1.5 opacity-55 grayscale hover:grayscale-0" : "opacity-55 [filter:grayscale(1)_brightness(0)]"}`} />
             </div>
           ))}
         </div>

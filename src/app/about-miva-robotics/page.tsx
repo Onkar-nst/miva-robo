@@ -17,7 +17,7 @@ export default function About() {
         <div className="wrap"><Lines as="h1" className="h-xl" lines={[a.title]} /></div>
       </section>
       <div className={fullImg}><Image src="/media/Miva_About_Banner.jpg" alt="Miva_About_Banner" fill priority sizes="100vw" data-parallax="8" /></div>
-      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,.35)]" : ""}`} key={d}>{d}</span>)}</Marquee>
+      <Marquee>{a.disciplines.map((d, i) => <span className={`${word} ${i % 2 ? "text-transparent [-webkit-text-stroke:1px_rgba(18,33,51,.3)]" : ""}`} key={d}>{d}</span>)}</Marquee>
 
       <section className="section-y">
         <div className="wrap stack lead max-w-[1100px]">{a.intro.map((t) => <p key={t} data-reveal>{t}</p>)}</div>
@@ -46,7 +46,7 @@ export default function About() {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-[22px]">
             {a.leaders.people.map((p, i) => (
               <a className="group relative block" href={p.linkedin} target="_blank" rel="noopener noreferrer" key={p.name} data-reveal style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}>
-                <div className={`${frame} aspect-[606/788] [&_img]:grayscale [&_img]:![transition:filter_.8s,transform_1.4s_var(--ease-expo)] group-hover:[&_img]:grayscale-0`}><Image src={p.image} alt={p.name.split(" /")[0]} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+                <div className={`${frame} aspect-[606/788] [&_img]:![transition:filter_.8s,transform_1.4s_var(--ease-expo)]`}><Image src={p.image} alt={p.name.split(" /")[0]} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
                 <h3 className="h-sm mt-[18px]">{p.name}</h3>
                 <span className="eyebrow mt-2.5">LinkedIn</span>
               </a>
