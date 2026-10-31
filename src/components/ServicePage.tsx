@@ -66,11 +66,7 @@ export default function ServicePage({ s }: { s: Service }) {
         </div>
       </section>
 
-<<<<<<< HEAD
-      <CTABand text={ctaText} label="Contact Us" href="/contact/" />
-=======
       <CTABand text={ctaText} sub={ctaSub} label={ctaLabel} href="/contact/" />
->>>>>>> temp-completed
     </>
   );
 }
