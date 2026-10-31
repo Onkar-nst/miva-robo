@@ -103,15 +103,16 @@ export function Check({ children }: { children: ReactNode }) {
   );
 }
 
-export function CTABand({ text, label, href, image = "/media/ai-robotics.jpg" }: { text: string; label: string; href: string; image?: string }) {
+export function CTABand({ text, sub, label, href, image = "/media/physical-ai.jpg" }: { text: string; sub?: string; label: string; href: string; image?: string }) {
   return (
-    <section className="deep relative isolate overflow-hidden">
+    <section className="deep relative isolate overflow-hidden bg-[#070b11]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="absolute inset-0 -z-10 size-full object-cover opacity-35" src={image} alt="" loading="lazy" />
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0b1d33_25%,rgba(11,29,51,.35))]" />
-      <div className="wrap grid gap-10 py-[clamp(62px,7.8vw,124px)]">
-        <Lines className="max-w-[17ch] text-[clamp(38px,5.4vw,84px)]" lines={[text]} />
-        <div data-reveal><CTA href={href}>{label}</CTA></div>
+      <img className="absolute inset-0 -z-10 size-full object-cover object-[75%_center]" src={image} alt="" loading="lazy" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,#070b11_45%,rgba(7,11,17,.55))] min-[900px]:bg-[linear-gradient(90deg,#070b11_32%,rgba(7,11,17,.72)_56%,rgba(7,11,17,.08)_82%)]" />
+      <div className="wrap grid min-h-[clamp(520px,44vw,720px)] content-end gap-7 py-[clamp(62px,6.4vw,104px)] min-[900px]:content-center">
+        <Lines className="max-w-[15ch] text-[clamp(38px,4.8vw,76px)]" lines={[text]} />
+        {sub && <p className="max-w-[44ch] text-[clamp(16px,1.3vw,19px)] text-muted" data-reveal>{sub}</p>}
+        <div className="mt-2" data-reveal><CTA href={href}>{label}</CTA></div>
       </div>
     </section>
   );

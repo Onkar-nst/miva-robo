@@ -64,7 +64,7 @@ export default function Home() {
         </div>
         <div className="wrap mt-[clamp(56px,7vw,100px)] grid gap-5 min-[760px]:grid-cols-2">
           {home.intro.points.map((p, i) => (
-            <Link href="/about-miva-robotics/" className="group relative isolate flex min-h-[250px] flex-col justify-between overflow-hidden !bg-bg-2 p-8 after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(90deg,rgba(255,255,255,.96)_34%,rgba(255,255,255,.25))] after:content-['']" key={p} data-reveal style={d(i * 0.1)}>
+            <Link href="/about-miva-robotics/" className="group relative isolate flex min-h-[250px] flex-col justify-between overflow-hidden !bg-bg-2 p-8 after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(90deg,rgba(255,255,255,.82),rgba(255,255,255,.62)_32%,rgba(255,255,255,0)_66%)] max-[759px]:after:bg-[linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.72)_58%,rgba(255,255,255,0))] after:content-['']" key={p} data-reveal style={d(i * 0.1)}>
               <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 900px) 100vw, 50vw"
                 className="-z-20 object-cover transition-[transform,filter] duration-[1.4s,1s] ease-expo group-hover:scale-105" />
               <span className="max-w-[15ch] text-[19px] font-medium leading-[1.35] tracking-[-.015em]">{p}</span>
