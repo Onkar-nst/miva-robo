@@ -6,6 +6,10 @@ export const metadata = { title: "Support and Services – MIVA Robotics", alter
 
 const grid2 = "grid grid-cols-1 gap-[clamp(40px,6vw,110px)] min-[960px]:grid-cols-[5fr_7fr]";
 
+// Phones and tablets: cards pin one under another as you scroll, each a little lower than the last.
+const pile = "max-[999px]:gap-3 max-[999px]:border-y-0 max-[999px]:bg-transparent";
+const pileCard = "max-[999px]:sticky max-[999px]:top-[calc(96px+var(--n)*16px)] max-[999px]:rounded-[4px] max-[999px]:border max-[999px]:border-line-2 max-[999px]:bg-bg-2 max-[999px]:shadow-[0_-12px_30px_-24px_rgba(11,29,51,.35)]";
+
 export default function Support() {
   return (
     <>
@@ -26,9 +30,10 @@ export default function Support() {
       <section className="section-y light">
         <div className="wrap">
           <span className="eyebrow">{s.servicesLabel}</span>
-          <div className={`${hairGrid} mt-7 grid-cols-1 min-[640px]:grid-cols-2 min-[1000px]:grid-cols-3`}>
+          {/* Below 1000px the cards stack as you scroll, like the service pages' Benefits; desktop keeps the hairline grid. */}
+          <div className={`${hairGrid} mt-7 grid-cols-1 min-[1000px]:grid-cols-3 ${pile}`}>
             {s.services.map((x, i) => (
-              <article key={x.title} className={`${panel} group flex flex-col min-[640px]:min-h-[300px]`} data-reveal style={{ "--d": `${(i % 3) * 0.07}s` } as React.CSSProperties}>
+              <article key={x.title} className={`${panel} group flex flex-col min-[1000px]:min-h-[300px] ${pileCard}`} data-reveal style={{ "--d": `${(i % 3) * 0.07}s`, "--n": i } as React.CSSProperties}>
                 <b className="pb-8 text-[64px] font-semibold leading-none tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_var(--line-2)] transition-[-webkit-text-stroke-color] duration-500 group-hover:[-webkit-text-stroke-color:var(--accent)]" aria-hidden="true">{i + 1}</b>
                 <h2 className="h-sm mb-2.5">{x.title}</h2>
                 <p className="text-[15px] text-muted">{x.text}</p>
