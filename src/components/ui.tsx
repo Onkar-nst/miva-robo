@@ -66,7 +66,7 @@ export function Circle({ href, label, external }: { href: string; label: string;
 }
 
 // Headlines reveal word by word (motion rules keyed on [data-lines] in globals.css); the last `accent` words take the brand colour.
-export function Lines({ as: Tag = "h2", lines, className = "", accent = 0 }: { as?: "h1" | "h2" | "h3"; lines: string[]; className?: string; accent?: number }) {
+export function Lines({ as: Tag = "h2", lines, className = "", accent = 0 }: { as?: "h1" | "h2" | "h3" | "span"; lines: string[]; className?: string; accent?: number }) {
   const total = lines.join(" ").split(" ").length;
   let n = 0;
   return (
