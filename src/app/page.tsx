@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import HeroSlides from "@/components/HeroSlides";
+import HeroArm from "@/components/HeroArm";
+import HeroStage from "@/components/HeroStage";
 import PostCard from "@/components/PostCard";
 import ScrollButtons from "@/components/ScrollButtons";
 import SocialHub from "@/components/SocialHub";
 import Testimonials from "@/components/Testimonials";
-import { ArrowR, circ, circHover, CTA, frame, Lines, Marquee, pad, tag, TextLink } from "@/components/ui";
+import { ArrowR, circ, circHover, frame, Lines, pad, tag, TextLink } from "@/components/ui";
 import { home } from "@/content/pages";
 import { posts } from "@/content/posts";
 import { products } from "@/content/products";
@@ -24,18 +25,7 @@ const icons = [
 export default function Home() {
   return (
     <>
-      <section className="relative isolate h-svh min-h-[620px] overflow-hidden">
-        <HeroSlides />
-        <div className="wrap relative z-[2] flex h-full flex-col justify-center pt-16">
-          <span className="eyebrow" data-reveal>Introducing MIVA Robotics</span>
-          <Lines as="h1" className="h-xl !mt-7 max-w-[12ch] min-[760px]:max-w-none" lines={["Accessible,", "Adaptable, Affordable", "automation for", "every scale."]} accent={3} />
-          <div className="mt-11" data-reveal style={d(0.5)}><CTA href="/about-miva-robotics/">ABOUT MIVA</CTA></div>
-        </div>
-        <div aria-hidden="true" className="absolute bottom-8 left-(--gutter) z-[2] flex items-center gap-3 text-[11px] uppercase tracking-[.2em] text-muted">
-          <span className="relative block h-10 w-px overflow-hidden bg-line-2"><span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_1.8s_var(--ease-io)_infinite] bg-accent" /></span>
-          Scroll to explore
-        </div>
-      </section>
+      <HeroStage />
 
       <section className="border-y border-line">
         {/* Phones: a swipeable row with the next card peeking in. Tablet up: 2 then 4 columns. */}
@@ -127,38 +117,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="deep py-[clamp(42px,4.55vw,62px)]">
-        <div className="wrap grid gap-10 min-[1000px]:grid-cols-[3fr_9fr] min-[1000px]:gap-0">
-          <div>
-            <span className="eyebrow">Credence</span>
-            <Lines className="h-md" lines={["The hundred", "of completed", "works still", "counting"]} accent={2} />
+      {/* Credence: a two-tone headline with the story beside it, the arm at work centre stage and the counts along the floor. */}
+      <section className="relative overflow-hidden border-t border-line pt-[clamp(56px,6.5vw,100px)]">
+        <div className="wrap relative">
+          <div className="grid gap-6 min-[1000px]:grid-cols-[7fr_4fr] min-[1000px]:gap-12">
+            <h2 className="text-[clamp(34px,4.6vw,72px)] font-medium uppercase leading-[1] tracking-[-.035em]" data-reveal>
+              <span className="text-[#7a848e]">The hundred of completed works </span><span className="text-ink">still counting.</span>
+            </h2>
+            <p className="text-[15px] leading-[1.6] text-muted min-[1000px]:pt-2" data-reveal style={d(0.15)}>{home.credence.text}</p>
           </div>
-          <div className="min-[1000px]:border-l min-[1000px]:border-line min-[1000px]:pl-12">
-            <p className="body-lg max-w-[62ch]" data-reveal>{home.credence.text}</p>
-            <div className="mt-11 grid grid-cols-2 gap-y-8 min-[900px]:grid-cols-4">
-              {home.credence.stats.map((s, i) => (
-                <div key={s.label} className="pr-5 [&+&]:border-l [&+&]:border-line [&+&]:pl-6 max-[899px]:[&:nth-child(3)]:border-l-0 max-[899px]:[&:nth-child(3)]:pl-0" data-reveal style={d(i * 0.08)}>
-                  <b className="block text-[clamp(36px,3.2vw,46px)] font-medium leading-none tracking-[-.04em] tabular-nums" data-count={s.value} data-pad={s.pad} data-suffix="+">{pad(s.value, s.pad)}+</b>
-                  <span className="mt-4 block max-w-[18ch] text-[13px] leading-[1.5] text-muted">{s.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="deep border-t border-line">
-        <Marquee className="[mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]" trackClassName="hover:[animation-play-state:paused]">
-          <div style={{ display: "flex" }}>
-            {home.logos.map((l) => (
-              <div className="grid h-[110px] w-[220px] place-items-center px-9 py-7" key={l.src}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={l.src} alt={l.alt} loading="lazy" className={`max-h-9 w-auto object-contain transition-opacity duration-400 hover:opacity-100 ${/Make|Startup|JIIF/.test(l.alt) ? "bg-white p-1.5 opacity-55 grayscale hover:grayscale-0" : "opacity-60 [filter:grayscale(1)_brightness(0)_invert(1)]"}`} />
+          <div className="mt-6 grid items-end gap-x-6 gap-y-8 pb-[clamp(40px,4.5vw,72px)] max-[899px]:grid-cols-2 min-[900px]:grid-cols-[1fr_minmax(0,1.7fr)_1fr]">
+            <div className="relative h-[clamp(300px,36vw,520px)] max-[899px]:order-first max-[899px]:col-span-2 min-[900px]:col-start-2 min-[900px]:row-start-1"><HeroArm detail /></div>
+            {[home.credence.stats.slice(0, 2), home.credence.stats.slice(2)].map((col, c) => (
+              <div key={c} className={`grid gap-[clamp(28px,3.4vw,52px)] min-[900px]:row-start-1 ${c ? "min-[900px]:col-start-3 min-[900px]:text-right min-[900px]:[&_span]:ml-auto" : "min-[900px]:col-start-1"}`}>
+                {col.map((s, i) => (
+                  <div key={s.label} data-reveal style={d((c * 2 + i) * 0.08)}>
+                    <b className="block text-[clamp(40px,4.4vw,68px)] font-medium leading-none tracking-[-.045em] text-accent-text tabular-nums"><span className="inline" data-count={s.value} data-pad={s.pad}>{pad(s.value, s.pad)}</span><small className="ml-0.5 text-[.45em] font-medium tracking-normal">+</small></b>
+                    <span className="mt-3 block max-w-[20ch] text-[13.5px] leading-[1.45] text-soft">{s.label}</span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-        </Marquee>
-      </div>
+        </div>
+      </section>
 
       <section className="section-y">
         <div className="wrap"><Testimonials /></div>
