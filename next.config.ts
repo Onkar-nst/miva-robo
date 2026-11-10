@@ -8,7 +8,7 @@ const config: NextConfig = {
   // Matches the WordPress URLs exactly (all of them end in a slash).
   trailingSlash: true,
   outputFileTracingRoot: path.join(__dirname),
-  images: { formats: ["image/avif", "image/webp"] },
+  images: { formats: ["image/avif", "image/webp"], qualities: [75, 90] },
   async redirects() {
     return [
       { source: "/wp-sitemap.xml", destination: "/sitemap.xml", permanent: true },

@@ -4,12 +4,39 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-// Joint angles for one pose: base yaw, shoulder, elbow, wrist roll, gripper opening. The wrist pitch is solved so the gripper always points down.
-type Pose = [number, number, number, number, number];
+type Steps = { pose: number[]; dur: number }[];
+const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+// The pose `t` seconds into a looping sequence: each step eases from the previous pose over `dur` seconds.
+function poseAt(steps: Steps, t: number) {
+  let s = t % steps.reduce((n, x) => n + x.dur, 0), i = 0;
+  while (s > steps[i].dur) s -= steps[i++].dur;
+  const a = steps[(i + steps.length - 1) % steps.length].pose, b = steps[i].pose, k = ease(s / steps[i].dur);
+  return a.map((v, j) => v + (b[j] - v) * k);
+}
+
+// Printed wordmark on a transparent canvas, used as a decal.
+function decal(text: string, w: number, h: number, size: number, spacing: number, color: string, vertical = false) {
+  const c = document.createElement("canvas"); c.width = vertical ? h : w; c.height = vertical ? w : h;
+  const g = c.getContext("2d")!;
+  if (vertical) { g.translate(c.width / 2, c.height / 2); g.rotate(Math.PI / 2); g.translate(-w / 2, -h / 2); }
+  g.fillStyle = color; g.font = `600 ${size}px Inter, Helvetica, Arial, sans-serif`; g.textAlign = "center"; g.textBaseline = "middle";
+  g.letterSpacing = `${spacing}px`; g.fillText(text, w / 2, h / 2);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  return new THREE.MeshStandardMaterial({ map: t, transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+}
+
+// What the scene needs from a robot: its root, a pose for time t, the two joints the HUD targets track,
+// and the footprint [width, depth, x] of the contact shadow under it.
+type Rig = { root: THREE.Object3D; pose: (t: number) => void; targets: [THREE.Object3D, THREE.Object3D]; shadow: [number, number, number] };
+
+/* ---- The white cobot (Credence close-up): built from primitives. ---- */
+
+// Joint angles: base yaw, shoulder, elbow, wrist roll, gripper opening. The wrist pitch is solved so the gripper always points down.
 const OPEN = 0.075, SHUT = 0.03;
-// Pick-and-place loop: hover, reach, grip, lift, swing, lower, release, rise. Each step eases over `dur` seconds.
-const steps: { pose: Pose; dur: number }[] = [
+// Pick-and-place loop: hover, reach, grip, lift, swing, lower, release, rise.
+const cobotSteps: Steps = [
   { pose: [-0.2, 1.1, 1.3, 0, OPEN], dur: 1.6 },
   { pose: [-0.2, 1.22, 1.5, 0, OPEN], dur: 1.4 },
   { pose: [-0.2, 1.22, 1.5, 0, SHUT], dur: 0.6 },
@@ -19,17 +46,8 @@ const steps: { pose: Pose; dur: number }[] = [
   { pose: [0.5, 1.2, 1.48, 1.1, OPEN], dur: 0.6 },
   { pose: [0.5, 1.04, 1.3, 1.1, OPEN], dur: 1.2 },
 ];
-const total = steps.reduce((s, x) => s + x.dur, 0);
-const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
 
-function poseAt(t: number): Pose {
-  let s = t % total, i = 0;
-  while (s > steps[i].dur) s -= steps[i++].dur;
-  const a = steps[(i + steps.length - 1) % steps.length].pose, b = steps[i].pose, k = ease(s / steps[i].dur);
-  return a.map((v, j) => v + (b[j] - v) * k) as Pose;
-}
-
-function build() {
+function cobot(): Rig {
   // Gloss white shells, brushed alloy collars, graphite trim and a cyan status light.
   const shell = new THREE.MeshPhysicalMaterial({ color: 0xf3f4f5, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.22 });
   const alloy = new THREE.MeshStandardMaterial({ color: 0xc8cdd2, roughness: 0.3, metalness: 0.65 });
@@ -38,17 +56,6 @@ function build() {
   const seam = new THREE.MeshStandardMaterial({ color: 0x6b737c, roughness: 0.5 });
   const led = new THREE.MeshBasicMaterial({ color: 0x00d1ff });
   const glow = new THREE.MeshBasicMaterial({ color: 0x00d1ff, transparent: true, opacity: 0.9 });
-  // Printed wordmark: navy type on a transparent canvas, used as a decal.
-  const decal = (text: string, w: number, h: number, size: number, spacing: number, vertical = false) => {
-    const c = document.createElement("canvas"); c.width = vertical ? h : w; c.height = vertical ? w : h;
-    const g = c.getContext("2d")!;
-    if (vertical) { g.translate(c.width / 2, c.height / 2); g.rotate(Math.PI / 2); g.translate(-w / 2, -h / 2); }
-    g.fillStyle = "#0b1d33"; g.font = `600 ${size}px Inter, Helvetica, Arial, sans-serif`; g.textAlign = "center"; g.textBaseline = "middle";
-    g.letterSpacing = `${spacing}px`; g.fillText(text, w / 2, h / 2);
-    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
-    return new THREE.MeshStandardMaterial({ map: t, transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
-  };
-
   const add = <T extends THREE.Object3D>(parent: THREE.Object3D, o: T, x = 0, y = 0, z = 0) => { o.position.set(x, y, z); parent.add(o); return o; };
   const mesh = (g: THREE.BufferGeometry, m: THREE.Material) => { const o = new THREE.Mesh(g, m); o.castShadow = true; return o; };
   const box = (w: number, h: number, d: number, r: number, m: THREE.Material) => mesh(new RoundedBoxGeometry(w, h, d, 5, r), m);
@@ -87,7 +94,7 @@ function build() {
   add(root, box(2.2, 0.4, 1.1, 0.09, shell), 0.25, 0.2);
   add(root, box(2.212, 0.034, 1.112, 0.016, dark), 0.25, 0.29);
   add(root, box(0.5, 0.012, 0.01, 0.004, led), -0.42, 0.11, 0.552);
-  add(root, new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.062), decal("MIVA ROBOTICS", 1024, 102, 64, 22)), -0.42, 0.19, 0.5515);
+  add(root, new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.062), decal("MIVA ROBOTICS", 1024, 102, 64, 22, "#0b1d33")), -0.42, 0.19, 0.5515);
   for (let i = 0; i < 7; i++) add(root, box(0.016, 0.11, 0.01, 0.005, dark), 0.95 + i * 0.045, 0.15, 0.551);
 
   const mount = add(root, new THREE.Group(), 0.72, 0.4);
@@ -106,7 +113,7 @@ function build() {
   const L1 = 1.5, L2 = 1.22;
   link(shoulder, 0.17, L1);
   // Wordmark wrapped round the front of the upper arm, reading along its length.
-  add(shoulder, new THREE.Mesh(new THREE.CylinderGeometry(0.1715, 0.1715, 0.5, 32, 1, true, -0.42, 0.84), decal("MIVA", 512, 150, 118, 30, true)), 0, L1 * 0.52);
+  add(shoulder, new THREE.Mesh(new THREE.CylinderGeometry(0.1715, 0.1715, 0.5, 32, 1, true, -0.42, 0.84), decal("MIVA", 512, 150, 118, 30, "#0b1d33", true)), 0, L1 * 0.52);
   const elbow = add(shoulder, new THREE.Group(), 0, L1);
   joint(elbow, 0.21, 0.46);
   link(elbow, 0.125, L2);
@@ -128,7 +135,95 @@ function build() {
     return f;
   });
 
-  return { root, yaw, shoulder, elbow, wrist, roll, fingers, glow };
+  return {
+    root, targets: [shoulder, wrist], shadow: [3.1, 1.9, 0.25],
+    pose(t) {
+      const [y, sh, el, rl, grip] = poseAt(cobotSteps, t);
+      yaw.rotation.y = y; shoulder.rotation.z = sh; elbow.rotation.z = el;
+      wrist.rotation.z = Math.PI - sh - el; roll.rotation.y = rl;
+      fingers.forEach((f, i) => { f.position.x = (i ? 1 : -1) * grip; });
+      glow.opacity = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 2.2));
+    },
+  };
+}
+
+/* ---- The six-axis industrial arm (home hero): public/models/robot-arm-6axis.glb. ----
+   The model is in millimetres, Z up, reaching along +x at rest, with every part posed in place as a sibling under
+   one "root" node. Its joints are rebuilt here as pivots at the bearing centres, which were measured from the mesh. */
+
+const ARM = "/models/robot-arm-6axis.glb";
+const MM = 0.003; // scene units per millimetre
+const SH = [0, 375], EL = [250, 695], WR = [677, 869]; // shoulder, elbow and wrist-pitch centres in the arm's plane (x, z)
+const L1 = Math.hypot(EL[0] - SH[0], EL[1] - SH[1]), L2 = Math.hypot(WR[0] - EL[0], WR[1] - EL[1]);
+const A1 = Math.atan2(EL[1] - SH[1], EL[0] - SH[0]), A2 = Math.atan2(WR[1] - EL[1], WR[0] - EL[0]);
+const TOOL = new THREE.Vector3(0.6, 0, -0.8); // the gripper's axis at rest, through the wrist-pitch centre
+const DROP = Math.atan2(TOOL.z, TOOL.x) + Math.PI / 2; // total pitch that turns the gripper straight down
+
+// Shoulder, elbow and wrist-pitch angles that put the wrist at reach r and height h (mm), elbow up, gripper pointing down.
+// Each joint turns about +y, which lowers whatever it carries by the same angle.
+function reach(r: number, h: number) {
+  const dx = r - SH[0], dz = h - SH[1], d = Math.hypot(dx, dz);
+  const a = Math.atan2(dz, dx) + Math.acos(THREE.MathUtils.clamp((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d), -1, 1));
+  const b = Math.atan2(dz - L1 * Math.sin(a), dx - L1 * Math.cos(a));
+  const sh = A1 - a, el = A2 - b - sh;
+  return [sh, el, DROP - sh - el];
+}
+
+// Base yaw (negative swings towards the viewer), wrist reach and height in mm, gripper spin. Pick on the near side,
+// lift, swing round, place on the far side, rise and swing back.
+const armSteps: Steps = [
+  { pose: [-0.5, 590, 520, 0], dur: 1.7 },
+  { pose: [-0.5, 610, 330, 0], dur: 1.4 },
+  { pose: [-0.5, 610, 330, 0], dur: 0.5 },
+  { pose: [-0.5, 580, 540, 0], dur: 1.2 },
+  { pose: [0.4, 520, 600, 1.57], dur: 2 },
+  { pose: [0.4, 540, 360, 1.57], dur: 1.4 },
+  { pose: [0.4, 540, 360, 1.57], dur: 0.5 },
+  { pose: [0.4, 520, 580, 1.57], dur: 1.2 },
+];
+
+async function industrialArm(): Promise<Rig> {
+  const model = (await new GLTFLoader().loadAsync(ARM)).scene;
+  model.scale.setScalar(MM);
+  const root = model.getObjectByName("root")!;
+  // A pivot at a bearing centre (model mm), hung under `parent` and carrying the named parts.
+  const pivot = (parent: THREE.Object3D, [x, y, z]: number[], parts: string[]) => {
+    const g = new THREE.Group(); g.position.set(x, y, z); root.add(g); parent.attach(g);
+    for (const n of parts) g.attach(root.getObjectByName(n)!);
+    return g;
+  };
+  const yaw = pivot(root, [0, 0, 0], ["Axis_1_yaw_fork", "Shoulder_bearing_cover"]);
+  const shoulder = pivot(yaw, [0, 0, SH[1]], ["Axis_2_upper_arm"]);
+  const elbow = pivot(shoulder, [EL[0], 0, EL[1]], ["Axis_3_forearm", "Elbow_bearing_cover", "Axis_4_wrist_roll"]);
+  const wrist = pivot(elbow, [WR[0], -150, WR[1]], ["Axis_5_wrist_pitch"]);
+  const tool = pivot(wrist, [WR[0], -150, WR[1]], ["Axis_6_tool_roll_and_gripper"]);
+
+  // The export carries flat matte colours; swap in a lacquered orange, graphite castings and machined steel.
+  const paint = new THREE.MeshPhysicalMaterial({ roughness: 0.38, clearcoat: 0.55, clearcoatRoughness: 0.12, envMapIntensity: 0.45 });
+  const graphite = new THREE.MeshStandardMaterial({ color: 0x17191c, roughness: 0.42, metalness: 0.35 });
+  const steel = new THREE.MeshStandardMaterial({ color: 0xbfc5cb, roughness: 0.26, metalness: 0.85 });
+  const bolt = new THREE.MeshStandardMaterial({ color: 0x5d6670, roughness: 0.3, metalness: 0.9 });
+  model.traverse((o) => {
+    if (!(o instanceof THREE.Mesh)) return;
+    const c = (o.material as THREE.MeshStandardMaterial).color;
+    if (c.r > c.g * 3) paint.color.copy(c).multiplyScalar(0.5); // the studio lights are bright: keep the orange from blowing out to salmon
+    o.material.dispose();
+    o.material = c.r > c.g * 3 ? paint : c.r < 0.02 ? graphite : c.r > 0.2 ? steel : bolt;
+    o.castShadow = true;
+  });
+  // Wordmark along the upper arm's face towards the viewer.
+  const mark = new THREE.Mesh(new THREE.PlaneGeometry(150, 40), decal("MIVA", 600, 160, 132, 34, "#ffffff"));
+  mark.position.set(125, -90.6, 160); mark.rotation.set(Math.PI / 2, -A1, 0, "YXZ");
+  shoulder.add(mark);
+
+  return {
+    root: model, targets: [shoulder, wrist], shadow: [1.5, 1.5, 0],
+    pose(t) {
+      const [y, r, h, spin] = poseAt(armSteps, t), [s, e, w] = reach(r, h);
+      yaw.rotation.z = y; shoulder.rotation.y = s; elbow.rotation.y = e; wrist.rotation.y = w;
+      tool.quaternion.setFromAxisAngle(TOOL, spin);
+    },
+  };
 }
 
 const mark = "absolute size-3 border-[#3b4652]";
@@ -140,9 +235,13 @@ const corners = (
   </>
 );
 
-// The hero's centrepiece: a white six-axis arm on a plinth running a slow pick-and-place loop. Two bracket targets
-// follow its shoulder and wrist on screen, like a vision system tracking the joints. `detail` frames a closer
-// three-quarter view of the working arm instead, without the targets.
+const dispose = (root: THREE.Object3D) => root.traverse((o) => {
+  if (o instanceof THREE.Mesh) { o.geometry.dispose(); (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => { m.map?.dispose(); m.dispose(); }); }
+});
+
+// The robot centre stage. The home hero shows the six-axis industrial arm running a slow pick-and-place loop, with two
+// bracket targets following its shoulder and wrist on screen like a vision system tracking the joints. `detail` frames
+// a closer three-quarter view of the white cobot instead, without the targets.
 export default function HeroArm({ detail = false }: { detail?: boolean }) {
   const host = useRef<HTMLDivElement>(null);
   const tShoulder = useRef<HTMLSpanElement>(null);
@@ -155,8 +254,9 @@ export default function HeroArm({ detail = false }: { detail?: boolean }) {
     r.toneMapping = THREE.NeutralToneMapping;
     r.toneMappingExposure = 1.05;
     r.shadowMap.enabled = true;
-    r.shadowMap.type = THREE.PCFSoftShadowMap;
-    r.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%";
+    r.shadowMap.type = THREE.PCFShadowMap;
+    // The canvas fades in once its robot is ready (the industrial arm streams in as a model file).
+    r.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .9s var(--ease-expo)";
     el.prepend(r.domElement);
 
     const scene = new THREE.Scene();
@@ -165,41 +265,39 @@ export default function HeroArm({ detail = false }: { detail?: boolean }) {
     scene.environmentIntensity = 0.85;
     const key = new THREE.DirectionalLight(0xfffaf3, 1.9);
     key.position.set(-3, 9, 4); key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -0.0005;
+    key.shadow.mapSize.set(1024, 1024); key.shadow.radius = 4; key.shadow.bias = -0.0005;
     Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -2, near: 1, far: 20 });
     scene.add(key);
     const rim = new THREE.DirectionalLight(0xd6e4f0, 1.4); rim.position.set(5, 3, -4); scene.add(rim);
     scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c0c7, 0.45));
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: 0.14 }));
     floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
-    // Contact shadow: a soft dark pool right under the plinth that grounds it on the floor.
+    // Contact shadow: a soft dark pool right under the robot that grounds it on the floor.
     const pool = document.createElement("canvas"); pool.width = pool.height = 128;
     const pg = pool.getContext("2d")!, grad = pg.createRadialGradient(64, 64, 0, 64, 64, 64);
     grad.addColorStop(0, "rgba(10,14,20,.55)"); grad.addColorStop(0.6, "rgba(10,14,20,.18)"); grad.addColorStop(1, "rgba(10,14,20,0)");
     pg.fillStyle = grad; pg.fillRect(0, 0, 128, 128);
-    const contact = new THREE.Mesh(new THREE.PlaneGeometry(3.1, 1.9), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(pool), transparent: true, depthWrite: false }));
-    contact.rotation.x = -Math.PI / 2; contact.position.set(0.25, 0.002, 0); scene.add(contact);
+    const contact = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(pool), transparent: true, depthWrite: false }));
+    contact.rotation.x = -Math.PI / 2; scene.add(contact);
 
-    const A = build(); scene.add(A.root);
     const cam = new THREE.PerspectiveCamera(26, 1.6, 0.1, 100);
-
     const size = () => {
       const w = el.clientWidth, h = el.clientHeight;
       if (!w || !h) return;
       r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setSize(w, h, false);
-      // Frame about 2.85 units of height, backing off on narrow screens so the full reach (about 5 units) still fits.
       cam.aspect = w / h;
       const tan = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
       if (detail) {
         const dist = Math.max(3, 4.2 / cam.aspect) / (2 * tan);
         cam.position.set(-0.5 + dist * 0.4, 1.7 + dist * 0.1, dist * 0.92); cam.lookAt(-0.5, 1.5, 0);
       } else {
-        const dist = Math.max(2.85, 5 / cam.aspect) / (2 * tan);
-        cam.position.set(-0.7, 1.22 + dist * 0.12, dist); cam.lookAt(-0.7, 1.22, 0);
+        // Frame about 2.85 units of height, backing off on narrow screens so the arm's full swing (about 4.4 units) still fits.
+        const dist = Math.max(2.85, 4.4 / cam.aspect) / (2 * tan);
+        cam.position.set(0.75, 1.25 + dist * 0.12, dist); cam.lookAt(0.75, 1.25, 0);
       }
       cam.updateProjectionMatrix();
+      if (reduce) frame(0);
     };
-    const ro = new ResizeObserver(size); ro.observe(el); size();
 
     const p = new THREE.Vector3();
     const follow = (o: THREE.Object3D, t: HTMLElement | null) => {
@@ -207,32 +305,40 @@ export default function HeroArm({ detail = false }: { detail?: boolean }) {
       o.getWorldPosition(p).project(cam);
       t.style.left = `${(p.x + 1) * 50}%`; t.style.top = `${(1 - p.y) * 50}%`;
     };
-    const pose = (t: number) => {
-      const [yaw, sh, el2, roll, grip] = poseAt(t);
-      A.yaw.rotation.y = yaw; A.shoulder.rotation.z = sh; A.elbow.rotation.z = el2;
-      A.wrist.rotation.z = Math.PI - sh - el2; A.roll.rotation.y = roll;
-      A.fingers.forEach((f, i) => { f.position.x = (i ? 1 : -1) * grip; });
-      A.glow.opacity = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 2.2));
+    let rig: Rig | null = null;
+    const frame = (t: number) => {
+      if (!rig) return;
+      rig.pose(t);
       r.render(scene, cam);
-      follow(A.shoulder, tShoulder.current); follow(A.wrist, tWrist.current);
+      follow(rig.targets[0], tShoulder.current); follow(rig.targets[1], tWrist.current);
     };
 
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let raf = 0, on = true;
+    let raf = 0, on = true, gone = false;
     const t0 = performance.now() - (detail ? 4200 : 0);
-    const loop = (now: number) => { pose((now - t0) / 1000); raf = requestAnimationFrame(loop); };
+    const loop = (now: number) => { frame((now - t0) / 1000); raf = requestAnimationFrame(loop); };
     const io = new IntersectionObserver(([e]) => {
       if (reduce) return;
       if (e.isIntersecting && !on) { on = true; raf = requestAnimationFrame(loop); }
       else if (!e.isIntersecting && on) { on = false; cancelAnimationFrame(raf); }
     });
-    io.observe(el);
-    if (reduce) pose(0); else raf = requestAnimationFrame(loop);
+    const ro = new ResizeObserver(size);
+
+    const ready = (x: Rig) => {
+      rig = x; scene.add(x.root);
+      const [w, d, cx] = x.shadow;
+      contact.scale.set(w, d, 1); contact.position.set(cx, 0.002, 0);
+      ro.observe(el); size(); io.observe(el);
+      if (reduce) frame(0); else raf = requestAnimationFrame(loop);
+      requestAnimationFrame(() => { r.domElement.style.opacity = "1"; });
+    };
+    if (detail) ready(cobot());
+    else industrialArm().then((x) => (gone ? dispose(x.root) : ready(x)), () => {});
 
     return () => {
+      gone = true;
       cancelAnimationFrame(raf); io.disconnect(); ro.disconnect();
-      scene.traverse((o) => { if (o instanceof THREE.Mesh) { o.geometry.dispose(); (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => { m.map?.dispose(); m.dispose(); }); } });
-      pm.dispose(); r.dispose(); r.domElement.remove();
+      dispose(scene); pm.dispose(); r.dispose(); r.domElement.remove();
     };
   }, [detail]);
 
