@@ -1,24 +1,49 @@
 import Image from "next/image";
-import { ctaLabel, ctaSub, ctaText, type Service } from "@/content/products";
-import { CTA, CTABand, Lines, pad } from "./ui";
+import { ctaLabel, ctaSub, ctaText, services, type Service } from "@/content/products";
+import { FloorMarquee, pill, StudioSplit } from "./Studio";
+import { CTA, CTABand, pad } from "./ui";
 
-const shot = "absolute overflow-hidden rounded-[4px] max-[899px]:hidden";
+// A photo floating on the studio stage: rounded, lifted on a soft shadow, bobbing gently.
+const float = "absolute animate-[hover-float_7s_ease-in-out_infinite] overflow-hidden rounded-[clamp(12px,1.4vw,20px)] shadow-[0_40px_70px_-30px_rgba(20,24,29,.45)]";
+// Overlapping photos get a pale mat so they read as prints laid over the banner.
+const framed = "ring-[clamp(4px,.5vw,8px)] ring-[#e9ecef]";
 
 export default function ServicePage({ s }: { s: Service }) {
   const i = s.images;
   return (
     <>
-      <section className="deep relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-(--gutter) pb-10 pt-[110px] text-center">
-        <Image src={i.banner} alt="" fill priority sizes="100vw" className="object-cover opacity-20" />
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(11,29,51,.85),transparent_80%),linear-gradient(0deg,#0b1d33,transparent_30%)]" />
-        <div className={`${shot} left-[3%] top-[20%] aspect-[4/5] w-[19vw]`} data-parallax="10" aria-hidden="true"><Image src={i.a} alt="" fill sizes="20vw" className="object-cover" /></div>
-        <div className={`${shot} right-[3%] top-[34%] aspect-[4/5] w-[17vw]`} data-parallax="-10" aria-hidden="true"><Image src={i.b} alt="" fill sizes="20vw" className="object-cover" /></div>
-        <div className="relative z-[2] grid justify-items-center">
-          <Lines as="h2" className="text-[clamp(96px,17vw,290px)] font-semibold leading-[.88] tracking-[-.045em] [&_.w]:pr-[.04em]" lines={[s.short]} />
-          <h1 className="mb-9 mt-5 max-w-[20ch] text-[clamp(22px,2.4vw,36px)] font-medium leading-[1.15] tracking-[-.025em] text-soft">{s.full}</h1>
-          <div data-reveal><CTA href="/contact/">Contact Us</CTA></div>
-        </div>
-      </section>
+      {/* Studio hero: the acronym and its full name on the left; on the right a layered collage, the banner
+          behind with two framed photos overlapping it. What the service includes glides along the floor. */}
+      <StudioSplit
+        eyebrow="Services"
+        index={`${pad(services.indexOf(s) + 1, 2)} / ${pad(services.length, 2)}`}
+        title={s.short}
+        aside={<p>{s.full}</p>}
+        actions={<CTA href="/contact/" className={pill}>Contact Us</CTA>}
+        media={
+          <div className="absolute inset-0 animate-[rise_1.2s_.15s_var(--ease-expo)_both]">
+            <div className={`${float} right-0 top-0 h-[82%] w-[86%]`}>
+              <Image src={i.banner} alt={s.full} fill priority sizes="(min-width: 1000px) 50vw, 90vw" className="object-cover" />
+              <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/85 px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[.14em] text-[#14181d] backdrop-blur-[8px]">
+                <i aria-hidden="true" className="size-1.5 rounded-full bg-accent-text" />{s.short}
+              </span>
+            </div>
+            <div className={`${float} ${framed} bottom-0 left-0 h-[52%] w-[34%] [animation-delay:-2.5s]`} aria-hidden="true"><Image src={i.a} alt="" fill sizes="20vw" className="object-cover" /></div>
+            <div className={`${float} ${framed} bottom-[3%] right-[7%] h-[38%] w-[26%] [animation-delay:-5s]`} aria-hidden="true"><Image src={i.b} alt="" fill sizes="16vw" className="object-cover" /></div>
+          </div>
+        }
+        foot={
+          <FloorMarquee>
+            <div className="flex">
+              {s.includes.map((t) => (
+                <span key={t} className="flex items-center gap-3 whitespace-nowrap px-[clamp(22px,2.6vw,40px)] font-mono text-[11.5px] uppercase tracking-[.1em] text-[#14181d]">
+                  <span aria-hidden="true" className="size-1.5 rounded-full bg-accent-text" />{t}
+                </span>
+              ))}
+            </div>
+          </FloorMarquee>
+        }
+      />
 
       <section className="section-y">
         <div className="wrap">

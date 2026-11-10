@@ -29,12 +29,12 @@ export const home = {
     ],
   },
   logos: [
-    { src: "/media/openai-logo-png.png", alt: "OpenAI" },
-    { src: "/media/NVIDIA_logo_png.png", alt: "NVIDIA" },
-    { src: "/media/Google_2015_logo.svg.png", alt: "Google" },
-    { src: "/media/JIIF-Logo-1.png", alt: "JIIF" },
-    { src: "/media/Make_In_India.png", alt: "Make in India" },
-    { src: "/media/Startup-India-Hub-Logo-Vector.svg-.png", alt: "Startup India" },
+    { src: "/media/openai-logo-png.png", alt: "OpenAI", w: 500, h: 136 },
+    { src: "/media/NVIDIA_logo_png.png", alt: "NVIDIA", w: 500, h: 92 },
+    { src: "/media/Google_2015_logo.svg.png", alt: "Google", w: 1280, h: 433 },
+    { src: "/media/JIIF-Logo-1.png", alt: "JIIF", w: 861, h: 415 },
+    { src: "/media/Make_In_India.png", alt: "Make in India", w: 250, h: 114 },
+    { src: "/media/Startup-India-Hub-Logo-Vector.svg-.png", alt: "Startup India", w: 1600, h: 349 },
   ],
   testimonials: [
     { quote: "“Paint inspection has always been a critical and time-consuming process for us. MIVA’s vision-based inspection solution helped us achieve consistent quality checks while significantly reducing manual inspection effort. The system was easy to integrate into our workflow and delivered reliable, repeatable results from day one.”", name: "Bhavyaraj V. (Rocket Engineering Corporation Pvt. Ltd.)", role: "VP Production" },

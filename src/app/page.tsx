@@ -6,7 +6,7 @@ import PostCard from "@/components/PostCard";
 import ScrollButtons from "@/components/ScrollButtons";
 import SocialHub from "@/components/SocialHub";
 import Testimonials from "@/components/Testimonials";
-import { ArrowR, circ, circHover, frame, Lines, pad, tag, TextLink } from "@/components/ui";
+import { ArrowR, frame, Lines, pad, tag, TextLink } from "@/components/ui";
 import { home } from "@/content/pages";
 import { posts } from "@/content/posts";
 import { products } from "@/content/products";
@@ -15,11 +15,12 @@ export const metadata = { alternates: { canonical: "/" } };
 
 const d = (s: number) => ({ "--d": `${s}s` }) as React.CSSProperties;
 
+// Pillar icons on a 24px grid, 1.6 stroke: robot arm, compute chip, neural network, service wrench.
 const icons = [
-  <path key="0" d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM19.4 13a7.6 7.6 0 000-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 00-1.7-1L15 3.5h-4l-.4 2.5a7.4 7.4 0 00-1.7 1l-2.4-1-2 3.4L6.6 11a7.6 7.6 0 000 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 001.7 1l.4 2.5h4l.4-2.5a7.4 7.4 0 001.7-1l2.4 1 2-3.4z" />,
-  <path key="1" d="M12 3l9 5-9 5-9-5 9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5" />,
-  <path key="2" d="M12 3a9 9 0 109 9M12 7a5 5 0 105 5M12 11a1 1 0 101 1" />,
-  <path key="3" d="M3 11l4-4 3 1 3-3 4 1 4 4-7 7-2-2M3 11l6 6M7 13l3 3M10 10l4 4" />,
+  <><path d="M5 21h10M7 21v-2.5a1 1 0 011-1h4a1 1 0 011 1V21" /><circle cx="10" cy="14.5" r="1.75" /><path d="M9.4 12.85L7.6 8.15" /><circle cx="7" cy="6.5" r="1.75" /><path d="M8.65 5.9L14.5 4h1.5M16 2.5v3M16 2.5h2.5M16 5.5h2.5" /></>,
+  <><rect x="5" y="5" width="14" height="14" rx="2.5" /><rect x="9.25" y="9.25" width="5.5" height="5.5" rx="1" /><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" /></>,
+  <><circle cx="12" cy="12" r="2.25" /><circle cx="5" cy="5.5" r="1.75" /><circle cx="19" cy="5.5" r="1.75" /><circle cx="5" cy="18.5" r="1.75" /><circle cx="19" cy="18.5" r="1.75" /><path d="M6.3 6.7l4 3.7M17.7 6.7l-4 3.7M6.3 17.3l4-3.7M17.7 17.3l-4-3.7M5 7.25v9.5M19 7.25v9.5" /></>,
+  <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />,
 ];
 
 export default function Home() {
@@ -31,8 +32,10 @@ export default function Home() {
         {/* Phones: a swipeable row with the next card peeking in. Tablet up: 2 then 4 columns. */}
         <div className="wrap flex snap-x snap-mandatory scroll-px-(--gutter) overflow-x-auto [scrollbar-width:none] min-[700px]:grid min-[700px]:grid-cols-2 min-[700px]:overflow-visible min-[1100px]:grid-cols-4">
           {home.pillars.map((p, i) => (
-            <div key={p.title} className="py-10 [&+&]:border-line max-[699px]:w-[74vw] max-[699px]:max-w-[300px] max-[699px]:flex-none max-[699px]:snap-start max-[699px]:pr-6 max-[699px]:[&+&]:border-l max-[699px]:[&+&]:pl-6 min-[700px]:[&+&]:border-t min-[700px]:even:border-l min-[700px]:even:border-line min-[700px]:even:pl-8 min-[700px]:[&:nth-child(2)]:border-t-0 min-[1100px]:border-t-0! min-[1100px]:px-8 min-[1100px]:py-11 min-[1100px]:[&+&]:border-l" data-reveal style={d(i * 0.08)}>
-              <svg className="mb-[26px] w-6 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" aria-hidden="true">{icons[i]}</svg>
+            <div key={p.title} className="group py-10 [&+&]:border-line max-[699px]:w-[74vw] max-[699px]:max-w-[300px] max-[699px]:flex-none max-[699px]:snap-start max-[699px]:pr-6 max-[699px]:[&+&]:border-l max-[699px]:[&+&]:pl-6 min-[700px]:[&+&]:border-t min-[700px]:even:border-l min-[700px]:even:border-line min-[700px]:even:pl-8 min-[700px]:[&:nth-child(2)]:border-t-0 min-[1100px]:border-t-0! min-[1100px]:px-8 min-[1100px]:py-11 min-[1100px]:[&+&]:border-l" data-reveal style={d(i * 0.08)}>
+              <span className="mb-[26px] grid size-[52px] place-items-center rounded-[14px] border border-line bg-[linear-gradient(160deg,#fff,#eef2f6)] text-accent-text shadow-[0_10px_24px_-14px_rgba(11,29,51,.35)] transition-colors duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-accent">
+                <svg className="w-[26px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icons[i]}</svg>
+              </span>
               <h2 className="mb-3.5 max-w-[12ch] text-[15.5px] font-semibold leading-[1.25] tracking-[-.01em]">{p.title}</h2>
               <p className="max-w-[30ch] text-[13.5px] leading-[1.65] text-muted">{p.text}</p>
             </div>
@@ -49,16 +52,23 @@ export default function Home() {
             <div data-reveal><TextLink href="/about-miva-robotics/">ABOUT MIVA</TextLink></div>
           </div>
           <div className={`${frame} aspect-[16/10] min-[900px]:-mr-[max(var(--gutter),calc((100vw-1440px)/2+var(--gutter)))] min-[900px]:aspect-auto min-[900px]:h-[clamp(380px,34vw,500px)]`} data-reveal="wipe">
-            <Image src="/media/ai-manufacturing-miva-robotics.jpg" alt="ai-manufacturing-miva-robotics" fill sizes="(max-width: 900px) 100vw, 55vw" data-parallax="5" />
+            <Image src="/media/MIVA-ASSIST-1.jpg" alt="MIVA collaborative robot in a smart plant" fill sizes="(max-width: 900px) 100vw, 55vw" data-parallax="5" className="object-[center_28%]" />
           </div>
         </div>
-        <div className="wrap mt-[clamp(56px,7vw,100px)] grid gap-5 min-[760px]:grid-cols-2">
+        {/* Two split panels, navy then pale blue: number, statement and arrow on one side, a photo filling the other. */}
+        <div className="wrap mt-[clamp(56px,7vw,100px)] grid gap-4 min-[960px]:grid-cols-2">
           {home.intro.points.map((p, i) => (
-            <Link href="/about-miva-robotics/" className="group relative isolate flex min-h-[250px] flex-col justify-between overflow-hidden !bg-bg-2 p-8 after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(90deg,rgba(255,255,255,.82),rgba(255,255,255,.62)_32%,rgba(255,255,255,0)_66%)] max-[759px]:after:bg-[linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.72)_58%,rgba(255,255,255,0))] after:content-['']" key={p} data-reveal style={d(i * 0.1)}>
-              <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 900px) 100vw, 50vw"
-                className="-z-20 object-cover transition-[transform,filter] duration-[1.4s,1s] ease-expo group-hover:scale-105" />
-              <span className="max-w-[15ch] text-[19px] font-medium leading-[1.35] tracking-[-.015em]">{p}</span>
-              <span className={`${circ} ${circHover} border-line-2`} aria-hidden="true"><ArrowR /></span>
+            <Link href="/about-miva-robotics/" key={p} data-reveal style={d(i * 0.1)}
+              className={`group grid overflow-hidden rounded-[20px] min-[560px]:grid-cols-[1fr_44%] ${i ? "bg-[#c5dae6] text-ink" : "bg-[#0b1d33] text-white"}`}>
+              <div className="flex min-h-[clamp(230px,22vw,300px)] flex-col justify-between gap-8 p-[clamp(22px,2.4vw,34px)]">
+                <span className={`font-mono text-[11px] tracking-[.16em] ${i ? "text-steel" : "text-white/55"}`}>{pad(i + 1, 2)} / {pad(home.intro.points.length, 2)}</span>
+                <span className="max-w-[16ch] text-[clamp(22px,2.1vw,30px)] font-medium leading-[1.15] tracking-[-.025em]">{p}</span>
+                <span className={`inline-grid size-11 place-items-center rounded-full transition-[background-color,color,transform] duration-500 ease-expo group-hover:translate-x-1 [&_svg]:w-4 ${i ? "bg-ink text-white group-hover:bg-accent group-hover:text-accent-ink" : "bg-accent text-accent-ink group-hover:bg-white"}`} aria-hidden="true"><ArrowR /></span>
+              </div>
+              <div className="relative min-h-[200px] overflow-hidden max-[559px]:order-first">
+                <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 960px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-[1.4s] ease-expo group-hover:scale-105" />
+              </div>
             </Link>
           ))}
         </div>

@@ -9,7 +9,7 @@ export const site = {
   title: "MIVA Robotics – Accessible, Adaptable, Affordable automation",
   phone: "+91-8055507204",
   email: "info@mivarobotics.ai",
-  linkedin: "https://in.linkedin.com/company/miva-robotics",
+  linkedin: "https://www.linkedin.com/company/miva-robotics/",
   footerBlurb:
     "We help our clients improve productivity, safety, and efficiency through intelligent automation and robotics that is accessible, affordable, and adaptable.",
   instagram: { url: "https://www.instagram.com/miva_robotics/", handle: "@miva_robotics" },

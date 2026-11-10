@@ -118,7 +118,7 @@ export default function Effects() {
             <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-11 [filter:var(--logo-filter)] animate-[boot-fade_.8s_ease_both]" />
             <span>MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
           </div>
-          <p className="animate-[boot-up_1s_var(--ease-expo)_both] overflow-hidden text-[clamp(64px,14vw,220px)] font-semibold leading-[.9] tracking-[-.055em]">MIVA <em className="inline-block animate-[boot-up_1s_.12s_var(--ease-expo)_both] not-italic text-accent-text">Robotics</em></p>
+          <p className="animate-[boot-up_1s_var(--ease-expo)_both] overflow-hidden whitespace-nowrap text-[clamp(36px,12.6vw,236px)] font-semibold leading-[.9] tracking-[-.055em]">MIVA <em className="inline-block animate-[boot-up_1s_.12s_var(--ease-expo)_both] not-italic text-accent-text">ROBOTICS</em></p>
           <div className="h-px bg-line"><i className="block h-full origin-left animate-[boot-bar_1.3s_var(--ease-io)_both] bg-accent" /></div>
         </div>
       )}

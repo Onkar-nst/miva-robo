@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ctaLabel, ctaSub, ctaText, products, type Product } from "@/content/products";
 import { Check, CTA, CTABand, hairGrid, Lines, Marquee, pad, pager, panel } from "./ui";
+import { ghostPill, pill, StudioSplit } from "./Studio";
 
 function Pager({ p }: { p: Product }) {
   const i = products.indexOf(p), n = products.length;
@@ -21,41 +22,66 @@ const d = (s: number) => ({ "--d": `${s}s` }) as React.CSSProperties;
 // "Up to 50 kg (Configurable)" → ["Up to 50 kg", "Configurable"]: the qualifier sits under the value.
 const split = (v: string) => v.match(/^(.+?)\s*\((.+)\)$/)?.slice(1) ?? [v];
 
+// Corner brackets framing a product shot on the studio stage.
+const brackets = (
+  <span aria-hidden="true" className="pointer-events-none absolute -inset-3 [&>i]:absolute [&>i]:size-5 [&>i]:border-[#3b4652]">
+    <i className="left-0 top-0 border-l border-t" /><i className="right-0 top-0 border-r border-t" />
+    <i className="bottom-0 left-0 border-b border-l" /><i className="bottom-0 right-0 border-b border-r" />
+  </span>
+);
+
+// Product hero: the story on the left with the headline specs as read-outs, the product filling the right.
+// A transparent cutout floats over its shadow; a photo stands as a large framed panel.
 function Hero({ p }: { p: Product }) {
   const cutout = p.secondary?.endsWith("EAGLE-1.png");
-  const actions = !p.comingSoon && (
-    <div className="flex flex-wrap gap-3" data-reveal>
-      <CTA href="/contact/">Contact Us</CTA>
-      {p.specs && <CTA href="#specs" ghost>Tech Specifications</CTA>}
+  const rows = p.specs?.flatMap((g) => g.rows) ?? [];
+  const highlights = p.highlights?.map((h) => rows.find(([k]) => k === h)!).filter(Boolean) ?? [];
+  const n = products.indexOf(p);
+  const media = cutout ? (
+    <div className="absolute inset-0">
+      <div aria-hidden="true" className="absolute bottom-[6%] left-1/2 h-[7%] w-[48%] -translate-x-1/2 animate-[hover-shadow_6s_ease-in-out_infinite] rounded-[50%] bg-[radial-gradient(closest-side,rgba(20,24,29,.32),transparent)]" />
+      <div className="absolute inset-x-0 bottom-[11%] top-[4%] animate-[hover-float_6s_ease-in-out_infinite]">
+        <Image src={p.secondary!} alt={p.name} fill priority sizes="(min-width: 1000px) 58vw, 100vw" className="animate-[rise_1.2s_.2s_var(--ease-expo)_both] object-contain object-bottom drop-shadow-[0_30px_40px_rgba(20,24,29,.2)]" />
+      </div>
+    </div>
+  ) : (
+    <div className="absolute inset-3 animate-[rise_1.2s_.15s_var(--ease-expo)_both]">
+      <div className="group absolute inset-0 overflow-hidden rounded-[clamp(14px,1.6vw,24px)] shadow-[0_50px_80px_-36px_rgba(20,24,29,.5)]">
+        <Image src={p.hero} alt={p.name} fill priority sizes="(min-width: 1000px) 58vw, 100vw" className="object-cover transition-transform duration-[1.6s] ease-expo group-hover:scale-[1.04]" />
+        <span className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/85 px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[.14em] text-[#14181d] backdrop-blur-[8px]">
+          <i aria-hidden="true" className="size-1.5 rounded-full bg-accent-text" />{p.name}
+        </span>
+      </div>
+      {brackets}
     </div>
   );
-  if (cutout) {
-    // Transparent product shot: presented like a showroom piece, lit from behind.
-    return (
-      <section className="deep relative flex min-h-svh flex-col items-center overflow-hidden pt-[104px] text-center">
-        <div aria-hidden="true" className="absolute left-1/2 top-[58%] size-[min(900px,120vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,209,255,.16),transparent_65%)]" />
-        <div className="wrap relative z-[2]">
-          <span className="eyebrow">Products</span>
-          <Lines as="h1" className="h-xl !mt-6 mb-4 justify-center" lines={[p.name]} />
-          <p className="lead mx-auto max-w-[56ch]" data-reveal>{p.tagline}</p>
-        </div>
-        <div className="relative z-[1] mt-4 min-h-[300px] w-full max-w-[1100px] flex-1" data-reveal>
-          <Image src={p.secondary!} alt={p.name} fill priority sizes="(max-width: 1100px) 100vw, 1100px" className="object-contain" />
-        </div>
-        <div className="relative z-[2] pb-10 pt-4">{actions}</div>
-      </section>
-    );
-  }
   return (
-    <section className="deep relative flex min-h-svh items-end overflow-hidden after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(0deg,#0b1d33_2%,rgba(11,29,51,.2)_50%,rgba(11,29,51,.5)),linear-gradient(90deg,rgba(11,29,51,.82),transparent_65%)]">
-      <Image src={p.hero} alt={p.name} fill priority sizes="100vw" data-parallax="6" className="!inset-x-0 !-inset-y-[6%] !h-[112%] object-cover" />
-      <div className="wrap relative z-[3] pb-[clamp(31px,3.9vw,62px)] pt-[140px]">
-        <span className="eyebrow">Products</span>
-        <Lines as="h1" className="!mt-6 mb-[22px] text-[clamp(52px,9vw,148px)] leading-[.95]" lines={[p.name]} />
-        <p className="lead mb-[38px] max-w-[46ch]" data-reveal>{p.tagline}</p>
-        {actions}
-      </div>
-    </section>
+    <StudioSplit
+      eyebrow="Products"
+      index={`${pad(n + 1, 2)} / ${pad(products.length, 2)}`}
+      title={p.name}
+      aside={<p>{p.tagline}</p>}
+      actions={!p.comingSoon && (
+        <>
+          <CTA href="/contact/" className={pill}>Contact Us</CTA>
+          {p.specs && <CTA href="#specs" className={ghostPill}>Tech Specifications</CTA>}
+        </>
+      )}
+      extra={highlights.length > 0 && (
+        <dl className="grid grid-cols-3 gap-4 border-t border-[#14181d]/12 pt-5">
+          {highlights.map(([k, v]) => {
+            const [main, note] = split(v);
+            return (
+              <div key={k} className="min-w-0">
+                <dt className="font-mono text-[10px] uppercase tracking-[.12em] text-[#5b6672]">{k}</dt>
+                <dd className="mt-2 text-[clamp(14px,1.15vw,17px)] font-medium leading-[1.25] tracking-[-.01em] text-[#14181d]">{main}{note && <span className="mt-0.5 block text-[12px] font-normal text-[#5b6672]">{note}</span>}</dd>
+              </div>
+            );
+          })}
+        </dl>
+      )}
+      media={media}
+    />
   );
 }
 
