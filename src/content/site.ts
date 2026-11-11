@@ -12,7 +12,19 @@ export const site = {
   linkedin: "https://www.linkedin.com/company/miva-robotics/",
   footerBlurb:
     "We help our clients improve productivity, safety, and efficiency through intelligent automation and robotics that is accessible, affordable, and adaptable.",
-  instagram: { url: "https://www.instagram.com/miva_robotics/", handle: "@miva_robotics" },
+  instagram: {
+    url: "https://www.instagram.com/miva_robotics/",
+    handle: "@miva_robotics",
+    // The profile as shown in the phone mockup on the home page; the counts are a snapshot (Nov 2026), so refresh them now and then.
+    profile: {
+      name: "MIVA ROBOTICS",
+      category: "Product/service",
+      bio: "Democratising robotics by making automation Accessible, Affordable and Adaptable for every scale of manufacturing",
+      link: "www.mivarobotics.ai",
+      stats: [["27", "posts"], ["110", "followers"], ["3", "following"]] as [string, string][],
+      highlight: { label: "Robotics 💪", image: "/media/ai-robotics.jpg" },
+    },
+  },
   youtube: {
     url: "https://www.youtube.com/@MIVAROBOTICS",
     handle: "@MIVAROBOTICS",

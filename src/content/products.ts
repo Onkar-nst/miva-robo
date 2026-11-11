@@ -8,6 +8,8 @@ export type Product = {
   tagline: string;
   hero: string;
   secondary?: string;
+  /** A YouTube film shown in the hero in place of the photo. */
+  video?: { id: string; title: string };
   /** Spec labels surfaced as large read-outs above the spec table. */
   highlights?: string[];
   about?: string[];
@@ -162,6 +164,7 @@ export const products: Product[] = [
     tagline: "Unified Intelligence Platform for Robotics, Vision & Automation",
     hero: "/media/MIVA-OS.png",
     secondary: "/media/MIVA-OS-2.jpg",
+    video: { id: "PQe_ONEYGxQ", title: "MIVA OS | Factory Operations Made Simple" },
     about: [
       "MIVA OS is a unified software platform that powers, connects, and manages all MIVA robotic and automation systems as well as many 3rd party automation and robotic systems. It brings together motion control, vision intelligence, fleet management, and analytics into a single, intuitive interface, designed for real-world industrial environments.",
       "Built with MSMEs in mind, MIVA OS simplifies complex automation by enabling centralized control, real-time monitoring, and continuous system improvement without requiring deep robotics or AI expertise.",
@@ -206,6 +209,8 @@ export type Service = {
   includes: string[];
   benefits: Item[];
   images: { banner: string; a: string; b: string; c: string; d: string; e: string };
+  /** A software service shows this product screen in an app window in its hero, in place of the photo collage. */
+  screen?: { src: string; label: string };
 };
 
 const imgs = (cap: string, low: string, one: string, two: string) => ({
@@ -258,7 +263,9 @@ export const services: Service[] = [
       { title: "Scalable Automation Intelligence", text: "Easily expand capabilities as your automation ecosystem grows, enabling smarter coordination between robots, vision systems, and workflows." },
       { title: "Simplified System Management", text: "Manage all connected automation from one intuitive platform, reducing complexity and improving visibility across your operations." },
     ],
-    images: imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"),
+    // Engineers on the floor with MIVA OS in hand, in place of stock code photography.
+    images: { ...imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"), banner: "/media/MIVA-OS-2.jpg" },
+    screen: { src: "/media/MIVA-OS.png", label: "MIVA OS" },
   },
   {
     slug: "caas",

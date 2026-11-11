@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HowItWorks, SystemsArc } from "@/components/Approach";
 import HeroArm from "@/components/HeroArm";
 import HeroStage from "@/components/HeroStage";
 import PostCard from "@/components/PostCard";
 import ScrollButtons from "@/components/ScrollButtons";
 import SocialHub from "@/components/SocialHub";
 import Testimonials from "@/components/Testimonials";
-import { ArrowR, frame, Lines, pad, tag, TextLink } from "@/components/ui";
+import { frame, Lines, pad, tag, TextLink } from "@/components/ui";
 import { home } from "@/content/pages";
 import { posts } from "@/content/posts";
 import { products } from "@/content/products";
@@ -55,24 +56,11 @@ export default function Home() {
             <Image src="/media/MIVA-ASSIST-1.jpg" alt="MIVA collaborative robot in a smart plant" fill sizes="(max-width: 900px) 100vw, 55vw" data-parallax="5" className="object-[center_28%]" />
           </div>
         </div>
-        {/* Two split panels, navy then pale blue: number, statement and arrow on one side, a photo filling the other. */}
-        <div className="wrap mt-[clamp(56px,7vw,100px)] grid gap-4 min-[960px]:grid-cols-2">
-          {home.intro.points.map((p, i) => (
-            <Link href="/about-miva-robotics/" key={p} data-reveal style={d(i * 0.1)}
-              className={`group grid overflow-hidden rounded-[20px] min-[560px]:grid-cols-[1fr_44%] ${i ? "bg-[#c5dae6] text-ink" : "bg-[#0b1d33] text-white"}`}>
-              <div className="flex min-h-[clamp(230px,22vw,300px)] flex-col justify-between gap-8 p-[clamp(22px,2.4vw,34px)]">
-                <span className={`font-mono text-[11px] tracking-[.16em] ${i ? "text-steel" : "text-white/55"}`}>{pad(i + 1, 2)} / {pad(home.intro.points.length, 2)}</span>
-                <span className="max-w-[16ch] text-[clamp(22px,2.1vw,30px)] font-medium leading-[1.15] tracking-[-.025em]">{p}</span>
-                <span className={`inline-grid size-11 place-items-center rounded-full transition-[background-color,color,transform] duration-500 ease-expo group-hover:translate-x-1 [&_svg]:w-4 ${i ? "bg-ink text-white group-hover:bg-accent group-hover:text-accent-ink" : "bg-accent text-accent-ink group-hover:bg-white"}`} aria-hidden="true"><ArrowR /></span>
-              </div>
-              <div className="relative min-h-[200px] overflow-hidden max-[559px]:order-first">
-                <Image src={i ? "/media/msme-automation.jpg" : "/media/ai-powered-robotics-msme.jpg"} alt="" fill sizes="(max-width: 960px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-[1.4s] ease-expo group-hover:scale-105" />
-              </div>
-            </Link>
-          ))}
-        </div>
       </section>
+
+      {/* The two promises from the intro, each backed by its section: what MIVA builds, and how it gets it running. */}
+      <SystemsArc eyebrow={home.intro.points[0]} />
+      <HowItWorks eyebrow={home.intro.points[1]} />
 
       <section className="relative border-t border-line max-[999px]:py-[clamp(47px,6.5vw,78px)] motion-reduce:py-[clamp(47px,6.5vw,78px)]" data-hscroll>
         <div className="flex flex-col justify-center gap-[clamp(28px,3.4vw,48px)] min-[1000px]:sticky min-[1000px]:top-0 min-[1000px]:h-svh min-[1000px]:overflow-hidden min-[1000px]:pt-[60px] motion-reduce:static motion-reduce:h-auto motion-reduce:overflow-visible motion-reduce:pt-0">

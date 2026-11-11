@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ctaLabel, ctaSub, ctaText, products, type Product } from "@/content/products";
 import { Check, CTA, CTABand, hairGrid, Lines, Marquee, pad, pager, panel } from "./ui";
 import { ghostPill, pill, StudioSplit } from "./Studio";
+import YouTube from "./YouTube";
 
 function Pager({ p }: { p: Product }) {
   const i = products.indexOf(p), n = products.length;
@@ -37,7 +38,15 @@ function Hero({ p }: { p: Product }) {
   const rows = p.specs?.flatMap((g) => g.rows) ?? [];
   const highlights = p.highlights?.map((h) => rows.find(([k]) => k === h)!).filter(Boolean) ?? [];
   const n = products.indexOf(p);
-  const media = cutout ? (
+  const media = p.video ? (
+    // A film: shown whole at 16:9, centred in the stage between the corner brackets.
+    <div className="absolute inset-3 grid place-items-center animate-[rise_1.2s_.15s_var(--ease-expo)_both]">
+      <div className="relative w-full">
+        <YouTube id={p.video.id} title={p.video.title} className="aspect-video w-full rounded-[clamp(14px,1.6vw,24px)] shadow-[0_50px_80px_-36px_rgba(20,24,29,.5)]" />
+        {brackets}
+      </div>
+    </div>
+  ) : cutout ? (
     <div className="absolute inset-0">
       <div aria-hidden="true" className="absolute bottom-[6%] left-1/2 h-[7%] w-[48%] -translate-x-1/2 animate-[hover-shadow_6s_ease-in-out_infinite] rounded-[50%] bg-[radial-gradient(closest-side,rgba(20,24,29,.32),transparent)]" />
       <div className="absolute inset-x-0 bottom-[11%] top-[4%] animate-[hover-float_6s_ease-in-out_infinite]">
