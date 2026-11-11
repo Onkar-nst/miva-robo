@@ -167,7 +167,7 @@ export const products: Product[] = [
     hero: "/media/MIVA-OS.png",
     secondary: "/media/MIVA-OS-2.jpg",
     video: { id: "PQe_ONEYGxQ", title: "MIVA OS | Factory Operations Made Simple" },
-    card: "/media/MIVA-OS-Card.jpg", // the film's "Introducing MIVA OS" title frame
+    card: "/media/MIVA-OS-Login.jpg", // the MIVA OS sign-in screen, cropped square from MIVA-OS-Login-full.jpg
     about: [
       "MIVA OS is a unified software platform that powers, connects, and manages all MIVA robotic and automation systems as well as many 3rd party automation and robotic systems. It brings together motion control, vision intelligence, fleet management, and analytics into a single, intuitive interface, designed for real-world industrial environments.",
       "Built with MSMEs in mind, MIVA OS simplifies complex automation by enabling centralized control, real-time monitoring, and continuous system improvement without requiring deep robotics or AI expertise.",
