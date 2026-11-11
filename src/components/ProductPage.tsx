@@ -245,7 +245,6 @@ export default function ProductPage({ p }: { p: Product }) {
                   </div>
                 </article>
               ))}
-              {p.capabilitiesNote && <p className="mt-[18px] text-[15px] text-muted">{p.capabilitiesNote}</p>}
             </div>
           </div>
         </section>
@@ -259,6 +258,7 @@ export default function ProductPage({ p }: { p: Product }) {
               <p className="lead mb-[22px]" data-reveal>{p.connects.intro}</p>
               <ul>{p.connects.items.map((c) => <Check key={c}>{c}</Check>)}</ul>
               <p className="lead mt-[26px]" data-reveal>{p.connects.outro}</p>
+              {p.connects.note && <p className="mt-6 border-t border-line pt-4 text-[13.5px] text-muted" data-reveal>{p.connects.note}</p>}
             </div>
           </div>
         </section>
