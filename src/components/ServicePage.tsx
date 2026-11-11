@@ -8,7 +8,7 @@ const float = "absolute animate-[hover-float_7s_ease-in-out_infinite] overflow-h
 // Overlapping photos get a pale mat so they read as prints laid over the banner.
 const framed = "ring-[clamp(4px,.5vw,8px)] ring-[#e9ecef]";
 
-// Software services: the product screen in an app window, a photo of it in use laid over the corner, and three of
+// Software services: the product screen in an app window, a photo laid over the corner, and three of
 // the service's modules floating beside it as status cards.
 function ConsoleStage({ s, screen }: { s: Service; screen: NonNullable<Service["screen"]> }) {
   return (
@@ -23,7 +23,7 @@ function ConsoleStage({ s, screen }: { s: Service; screen: NonNullable<Service["
         </div>
         <div className="relative aspect-[1600/919]"><Image src={screen.src} alt={`${screen.label} dashboard`} fill priority sizes="(min-width: 1000px) 55vw, 95vw" className="object-cover object-top" /></div>
       </div>
-      <div className={`${float} ${framed} bottom-[4%] left-0 aspect-[4/3] w-[40%] [animation-delay:-2.5s]`}><Image src={s.images.banner} alt={`${screen.label} in use on the shop floor`} fill sizes="22vw" className="object-cover" /></div>
+      <div className={`${float} ${framed} bottom-[4%] left-0 aspect-[4/3] w-[40%] [animation-delay:-2.5s]`}><Image src={screen.photo} alt={`Factory systems connected through ${screen.label}`} fill sizes="22vw" className="object-cover" /></div>
       <ul className="absolute bottom-[3%] right-[2%] grid w-[52%] gap-2 max-[639px]:hidden">
         {s.includes.slice(0, 3).map((t, n) => (
           <li key={t} className="flex animate-[hover-float_7s_ease-in-out_infinite] items-center gap-3 rounded-[14px] bg-white/80 px-3.5 py-2.5 text-[clamp(12px,1vw,14px)] font-medium text-[#14181d] shadow-[0_20px_40px_-24px_rgba(11,29,51,.5)] ring-1 ring-white backdrop-blur-[12px]" style={{ animationDelay: `${-n * 1.6}s`, marginLeft: `${n * 8}%` }}>

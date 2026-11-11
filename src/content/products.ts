@@ -210,7 +210,7 @@ export type Service = {
   benefits: Item[];
   images: { banner: string; a: string; b: string; c: string; d: string; e: string };
   /** A software service shows this product screen in an app window in its hero, in place of the photo collage. */
-  screen?: { src: string; label: string };
+  screen?: { src: string; label: string; photo: string };
 };
 
 const imgs = (cap: string, low: string, one: string, two: string) => ({
@@ -264,8 +264,9 @@ export const services: Service[] = [
       { title: "Simplified System Management", text: "Manage all connected automation from one intuitive platform, reducing complexity and improving visibility across your operations." },
     ],
     // Engineers on the floor with MIVA OS in hand, in place of stock code photography.
-    images: { ...imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"), banner: "/media/MIVA-OS-2.jpg" },
-    screen: { src: "/media/MIVA-OS.png", label: "MIVA OS" },
+    // The connected-factory shot sits in the hero, so the includes section takes the other SaaS photo.
+    images: { ...imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"), banner: "/media/MIVA-OS-2.jpg", d: "/media/Saas_4.1.jpg" },
+    screen: { src: "/media/MIVA-OS.png", label: "MIVA OS", photo: "/media/Saas_4.jpg" },
   },
   {
     slug: "caas",
