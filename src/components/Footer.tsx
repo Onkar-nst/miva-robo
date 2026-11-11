@@ -8,12 +8,12 @@ import { ArrowR } from "./ui";
 const colHead = "mb-[30px] text-[15px] font-semibold text-ink";
 const colList = "space-y-[18px] text-[15px] [&_a]:inline-flex [&_a]:text-soft [&_a]:transition-[color,transform] [&_a]:duration-450 [&_a]:ease-expo [&_a:hover]:translate-x-1 [&_a:hover]:text-ink";
 
-// Panel the page slides off to reveal: sticky behind <main> on screens big enough to show it whole.
+// Panel the page slides off to reveal: it sits behind <main> and Effects.tsx eases it out as the content lifts away.
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [servicesOpen, setServicesOpen] = useState(false);
   return (
-    <footer className="deep relative isolate overflow-hidden pt-[clamp(36px,4.55vw,78px)] text-soft reveal:sticky reveal:bottom-0 reveal:z-0">
+    <footer className="deep relative isolate overflow-hidden pt-[clamp(36px,4.55vw,78px)] text-soft reveal:z-0 reveal:will-change-transform">
       <a href={site.linkedin} target="_blank" rel="noopener noreferrer"
         className="absolute left-[clamp(8px,1vw,14px)] top-[clamp(120px,14vw,220px)] hidden text-[13px] tracking-[.02em] text-soft transition-colors duration-300 [writing-mode:vertical-rl] rotate-180 hover:text-accent-text min-[900px]:block">
         Follow us — LinkedIn
@@ -23,8 +23,8 @@ export default function Footer() {
         <div className="grid gap-12 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:gap-[6vw]">
           <div className="max-w-[540px]">
             <Link href="/" aria-label="MIVA Robotics home" className="inline-block">
-              <span className="block text-[clamp(30px,3.1vw,46px)] font-bold leading-none tracking-[.06em] text-ink">MIVA ROBOTICS</span>
-              <span className="mt-2.5 block text-[clamp(10px,.98vw,14.5px)] font-semibold tracking-[.06em] text-accent-text">MOTION | INTELLIGENCE | VISION | AUTOMATION</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/media/MIVA-ROBOTICS-Wordmark.svg" alt="MIVA Robotics — Motion | Intelligence | Vision | Automation" width={2364} height={330} className="block h-auto w-[clamp(260px,30vw,440px)] max-w-full" />
             </Link>
             <p className="mt-[clamp(32px,3.6vw,52px)] text-[15px] leading-[1.75] text-soft">{site.footerBlurb}</p>
             <form className="mt-8 flex items-center gap-3" onSubmit={(e) => { e.preventDefault(); location.href = `mailto:${site.email}?subject=Subscribe&body=${encodeURIComponent(email)}`; }}>

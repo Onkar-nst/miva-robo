@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Screens tall and wide enough for the sticky footer reveal. */
-@custom-variant reveal (@media (min-width: 1200px) and (min-height: 800px));
+/* Screens wide enough for the footer reveal (Effects.tsx slides the footer out from under <main>). */
+@custom-variant reveal (@media (min-width: 768px));
 
 /* Colours resolve through CSS variables, so any element can switch palette with the `light` class. */
 @theme inline {

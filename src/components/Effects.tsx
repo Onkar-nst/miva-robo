@@ -29,6 +29,12 @@ export default function Effects() {
       el, track: el.querySelector<HTMLElement>(".hs-track")!, count: el.querySelector<HTMLElement>("[data-hs-count]"), n: el.querySelectorAll(".hs-track > *").length, dist: 0,
     }));
 
+    // Footer reveal: the footer sits under <main> and, as the page's end lifts off it, slides out at half the scroll
+    // speed: it starts half its height up, tucked behind the content, and settles at the very bottom.
+    const main = document.getElementById("main"), footer = document.querySelector<HTMLElement>("body > footer");
+    const revealMq = matchMedia("(min-width: 768px)");
+    let footH = 0;
+
     const pinMq = matchMedia("(min-width: 1000px)");
     const sizePins = () => {
       for (const p of pins) {
@@ -41,9 +47,15 @@ export default function Effects() {
     // Scroll-linked work only runs on frames where the scroll position or viewport changed. Each frame reads every
     // measurement first and writes styles after, so the browser lays out once instead of once per element.
     let lastY = -1, dirty = true;
-    const onResize = () => { sizePins(); dirty = true; };
-    sizePins();
+    const sizeFooter = () => {
+      footH = revealMq.matches && !reduce && footer ? footer.offsetHeight : 0;
+      if (!footH && footer) footer.style.transform = "";
+    };
+    const onResize = () => { sizePins(); sizeFooter(); dirty = true; };
+    sizePins(); sizeFooter();
     addEventListener("resize", onResize);
+    const footRO = new ResizeObserver(() => { sizeFooter(); dirty = true; });
+    if (footer) footRO.observe(footer);
 
     const loop = (t: number) => {
       lenis?.raf(t);
@@ -56,6 +68,7 @@ export default function Effects() {
       const para = reduce ? [] : parallax.map((el) => el.parentElement!.getBoundingClientRect());
       const fillR = fills.map((el) => el.getBoundingClientRect());
       const pinR = pins.map((p) => (p.dist ? p.el.getBoundingClientRect().top : 0));
+      const mainEnd = footH && main ? main.getBoundingClientRect().bottom : 0;
 
       bar.current?.style.setProperty("--s", String(h > 0 ? y / h : 0));
       para.forEach((r, n) => {
@@ -64,6 +77,10 @@ export default function Effects() {
         el.style.transform = `translate3d(0, ${k * Number(el.dataset.parallax || 8)}%, 0) scale(1.08)`;
       });
       fillR.forEach((r, n) => fills[n].style.setProperty("--p", String(Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / r.height)))));
+      if (footH && footer) {
+        const lift = Math.min(footH / 2, Math.max(0, (mainEnd - (innerHeight - footH)) / 2));
+        footer.style.transform = `translate3d(0, ${-lift}px, 0)`;
+      }
       pins.forEach((p, n) => {
         if (!p.dist) return;
         const k = Math.min(1, Math.max(0, -pinR[n] / p.dist));
@@ -99,6 +116,7 @@ export default function Effects() {
       io.disconnect();
       lenis?.destroy();
       removeEventListener("resize", onResize);
+      footRO.disconnect();
     };
   }, [path]);
 

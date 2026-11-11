@@ -8,6 +8,34 @@ const float = "absolute animate-[hover-float_7s_ease-in-out_infinite] overflow-h
 // Overlapping photos get a pale mat so they read as prints laid over the banner.
 const framed = "ring-[clamp(4px,.5vw,8px)] ring-[#e9ecef]";
 
+// Software services: the product screen in an app window, a photo laid over the corner, and three of
+// the service's modules floating beside it as status cards.
+function ConsoleStage({ s, screen }: { s: Service; screen: NonNullable<Service["screen"]> }) {
+  return (
+    <div className="absolute inset-0 animate-[rise_1.2s_.15s_var(--ease-expo)_both]">
+      <div className="absolute right-0 top-[5%] w-[94%] overflow-hidden rounded-[clamp(12px,1.3vw,18px)] bg-[#0d1117] shadow-[0_0_0_1px_rgba(255,255,255,.06),0_60px_90px_-40px_rgba(11,29,51,.6)]">
+        <div className="flex h-[clamp(26px,2.4vw,34px)] items-center gap-1.5 border-b border-white/8 px-3.5">
+          {["#ff5f57", "#febc2e", "#28c840"].map((c) => <i key={c} aria-hidden="true" className="size-[clamp(7px,.6vw,9px)] rounded-full" style={{ background: c }} />)}
+          <span className="ml-3 rounded-t-md bg-white/6 px-3 py-1 font-mono text-[10px] uppercase tracking-[.14em] text-white/70">{screen.label}</span>
+          <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[.14em] text-[#3fdcff]">
+            <i aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-[#3fdcff] shadow-[0_0_8px_#3fdcff]" />Live
+          </span>
+        </div>
+        <div className="relative aspect-[1600/919]"><Image src={screen.src} alt={`${screen.label} dashboard`} fill priority sizes="(min-width: 1000px) 55vw, 95vw" className="object-cover object-top" /></div>
+      </div>
+      <div className={`${float} ${framed} bottom-[4%] left-0 aspect-[4/3] w-[40%] [animation-delay:-2.5s]`}><Image src={screen.photo} alt={`Factory systems connected through ${screen.label}`} fill sizes="22vw" className="object-cover" /></div>
+      <ul className="absolute bottom-[3%] right-[2%] grid w-[52%] gap-2 max-[639px]:hidden">
+        {s.includes.slice(0, 3).map((t, n) => (
+          <li key={t} className="flex animate-[hover-float_7s_ease-in-out_infinite] items-center gap-3 rounded-[14px] bg-white/80 px-3.5 py-2.5 text-[clamp(12px,1vw,14px)] font-medium text-[#14181d] shadow-[0_20px_40px_-24px_rgba(11,29,51,.5)] ring-1 ring-white backdrop-blur-[12px]" style={{ animationDelay: `${-n * 1.6}s`, marginLeft: `${n * 8}%` }}>
+            <span aria-hidden="true" className="grid size-6 flex-none place-items-center rounded-full bg-[#0b1d33] text-[#3fdcff]"><svg viewBox="0 0 12 12" className="w-3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5" /></svg></span>
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function ServicePage({ s }: { s: Service }) {
   const i = s.images;
   return (
@@ -20,7 +48,7 @@ export default function ServicePage({ s }: { s: Service }) {
         title={s.short}
         aside={<p>{s.full}</p>}
         actions={<CTA href="/contact/" className={pill}>Contact Us</CTA>}
-        media={
+        media={s.screen ? <ConsoleStage s={s} screen={s.screen} /> : (
           <div className="absolute inset-0 animate-[rise_1.2s_.15s_var(--ease-expo)_both]">
             <div className={`${float} right-0 top-0 h-[82%] w-[86%]`}>
               <Image src={i.banner} alt={s.full} fill priority sizes="(min-width: 1000px) 50vw, 90vw" className="object-cover" />
@@ -31,7 +59,7 @@ export default function ServicePage({ s }: { s: Service }) {
             <div className={`${float} ${framed} bottom-0 left-0 h-[52%] w-[34%] [animation-delay:-2.5s]`} aria-hidden="true"><Image src={i.a} alt="" fill sizes="20vw" className="object-cover" /></div>
             <div className={`${float} ${framed} bottom-[3%] right-[7%] h-[38%] w-[26%] [animation-delay:-5s]`} aria-hidden="true"><Image src={i.b} alt="" fill sizes="16vw" className="object-cover" /></div>
           </div>
-        }
+        )}
         foot={
           <FloorMarquee>
             <div className="flex">

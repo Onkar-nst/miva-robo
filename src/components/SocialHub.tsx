@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { Lines } from "./ui";
 
@@ -44,58 +45,177 @@ function Tablet() {
   );
 }
 
-// Phone mockup showing MIVA's live Instagram profile (Instagram's embeddable profile view).
-function Phone() {
-  const ig = site.instagram;
+// The two phones show MIVA's Instagram and LinkedIn pages as each app draws them in dark mode. Every screen is
+// built at a natural phone width and scaled down as one piece to fit its mockup.
+const SCREEN_W = 360;
+const IG_GRID = { top: 147, h: 240 }; // where the embed's 3×2 grid sits at 360px wide
+
+const ig = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
+const Reels = ({ className = "" }) => <svg {...ig} className={className}><rect x="3" y="3" width="18" height="18" rx="5" /><path d="M3 8.5h18M8.5 3l3 5.5M14.5 3l3 5.5M10.5 11.5v6l5-3z" /></svg>;
+
+const StatusBar = () => (
+  <div className="flex h-[50px] flex-none items-end justify-between px-8 pb-1 text-[15px] font-semibold text-white">
+    <span>9:41</span>
+    <svg viewBox="0 0 46 12" className="w-[46px]" fill="#fff" aria-hidden="true"><rect x="0" y="7" width="3" height="5" rx="1" /><rect x="5" y="5" width="3" height="7" rx="1" /><rect x="10" y="2.5" width="3" height="9.5" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" /><rect x="24" y=".5" width="19" height="11" rx="3" fill="none" stroke="#fff" /><rect x="26" y="2.5" width="13" height="7" rx="1.5" /><rect x="44" y="4" width="1.5" height="4" rx=".7" /></svg>
+  </div>
+);
+
+// Instagram profile. Only the post grid is live: Instagram's profile embed, cropped to its grid (the embed's own
+// header is a squeezed light-mode layout).
+function InstaScreen() {
+  const { instagram: { profile: pr, handle } } = site;
+  const name = handle.replace(/^@/, "");
   return (
-    <figure className="group m-0 w-[31%] max-w-[150px] flex-none min-[700px]:w-[clamp(200px,21vw,300px)] min-[700px]:max-w-none min-[1000px]:w-[clamp(190px,16vw,250px)]" data-reveal style={{ "--d": ".15s" } as React.CSSProperties}>
-      <div className={`${bezel} aspect-[9/17] rounded-[20px] p-1 min-[700px]:rounded-[46px] min-[700px]:p-2.5`}>
-        <div className={`${screen} rounded-[16px] bg-white min-[700px]:rounded-[37px] min-[700px]:before:absolute min-[700px]:before:inset-x-0 min-[700px]:before:top-0 min-[700px]:before:h-10 min-[700px]:before:bg-white min-[700px]:before:content-[''] [&_iframe]:top-10 [&_iframe]:h-[calc(100%-40px)]`}>
-          {/* Instagram's embed lays itself out for its on-screen width, which on phones is too narrow to read,
-              so phones get a static profile card and larger screens get the live embed. */}
-          <a href={ig.url} target="_blank" rel="noopener noreferrer" aria-label={`MIVA Robotics on Instagram (${ig.handle})`}
-            className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-1.5 pt-3 text-center min-[700px]:hidden">
-            <span className="mb-1 grid size-11 place-items-center rounded-full bg-[linear-gradient(45deg,#f9a03f,#e1306c_55%,#833ab4)] p-[2px]">
-              <span className="grid size-full place-items-center rounded-full border-2 border-white bg-black">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-6 object-contain" />
-              </span>
-            </span>
-            <b className="max-w-full truncate text-[10px] font-semibold leading-tight text-black">{ig.handle.replace(/^@/, "")}</b>
-            <span className="text-[8.5px] leading-tight text-[#737373]">MIVA ROBOTICS</span>
-            <span className="mt-1.5 rounded-md bg-[#0095f6] px-3.5 py-1 text-[9px] font-semibold text-white">Follow</span>
-          </a>
-          <iframe src={`${ig.url}embed/`} title={`MIVA Robotics on Instagram (${ig.handle})`} loading="lazy" scrolling="yes" className="max-[699px]:hidden" />
-          <span className="pointer-events-none absolute left-1/2 top-1 z-[3] h-2.5 w-[34%] -translate-x-1/2 rounded-full bg-black after:absolute after:right-[9px] after:top-[7px] after:hidden after:size-2.5 after:rounded-full after:bg-[radial-gradient(circle_at_35%_35%,#33415a,#0b0f16_70%)] after:content-[''] min-[700px]:top-2.5 min-[700px]:h-6 min-[700px]:after:block" aria-hidden="true" />
+    <div className="flex h-full flex-col bg-[#0c1014] text-left text-[15px] leading-[1.3] text-[#f5f5f5]">
+      <StatusBar />
+      <div className="relative flex h-11 flex-none items-center justify-center px-4">
+        <svg {...ig} className="absolute left-3 w-7"><path d="M15 5l-7 7 7 7" /></svg>
+        <b className="text-[17px] font-bold">{name}</b>
+      </div>
+
+      <div className="flex-none px-4 pt-3">
+        <div className="flex items-center gap-6">
+          <span className="grid size-[86px] flex-none place-items-center rounded-full bg-black ring-1 ring-white/10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/MIVA-Mark-White.svg" alt="" className="w-[56%]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-3"><b className="text-[17px] font-semibold">{name}</b><span className="tracking-[2px] text-[17px] leading-none">···</span></div>
+            <div className="mt-2.5 flex justify-between pr-1">
+              {pr.stats.map(([n, l]) => <span key={l} className="text-[14px] leading-[1.25]"><b className="block text-[15px] font-semibold">{n}</b>{l}</span>)}
+            </div>
+          </div>
+        </div>
+        <b className="mt-3.5 block text-[14px] font-semibold">{pr.name}</b>
+        <span className="block text-[14px] text-[#a8a8a8]">{pr.category}</span>
+        <p className="mt-0.5 line-clamp-3 text-[14px]">{pr.bio}… <span className="text-[#a8a8a8]">more</span></p>
+        <span className="mt-1 flex items-center gap-1.5 text-[14px] font-semibold">
+          <svg {...ig} className="w-4 -rotate-45"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1" /></svg>{pr.link} and 1 more
+        </span>
+        <div className="mt-3.5 flex gap-1.5 text-[14px] font-semibold">
+          <span className="flex-1 rounded-lg bg-[#4a5df9] py-[7px] text-center text-white">Follow</span>
+          <span className="flex-1 rounded-lg bg-[#25292e] py-[7px] text-center">Message</span>
+          <span className="grid w-9 place-items-center rounded-lg bg-[#25292e]"><svg {...ig} className="w-4"><circle cx="10" cy="8" r="4" /><path d="M3 20a7 7 0 0114 0M19 8v6M16 11h6" /></svg></span>
+        </div>
+        <div className="mt-4 flex w-[68px] flex-col items-center gap-1.5">
+          <span className="relative size-[64px] overflow-hidden rounded-full ring-1 ring-[#363636] ring-offset-[3px] ring-offset-[#0c1014]">
+            <Image src={pr.highlight.image} alt="" fill sizes="64px" className="object-cover" />
+          </span>
+          <span className="whitespace-nowrap text-[12px]">{pr.highlight.label}</span>
+        </div>
+      </div>
+
+      {/* Grid, reels and tagged tabs; the grid is live. */}
+      <div className="mt-3 grid flex-none grid-cols-3 border-b border-[#262626] text-[#a8a8a8]">
+        <span className="grid h-11 place-items-center border-b border-white text-white"><svg viewBox="0 0 24 24" className="w-6" fill="currentColor" aria-hidden="true">{[3, 9.5, 16].flatMap((x) => [3, 9.5, 16].map((y) => <rect key={`${x}${y}`} x={x} y={y} width="5" height="5" rx="1" />))}</svg></span>
+        <span className="grid h-11 place-items-center"><Reels className="w-6" /></span>
+        <span className="grid h-11 place-items-center"><svg {...ig} className="w-6"><rect x="3" y="4" width="18" height="16" rx="4" /><circle cx="12" cy="10.5" r="2.8" /><path d="M7.5 20a4.5 4.5 0 019 0M9.5 4l1-1.5h3l1 1.5" /></svg></span>
+      </div>
+      <div className="relative min-h-0 flex-1 overflow-hidden">
+        <iframe src={`${site.instagram.url}embed/`} title={`Latest posts from MIVA Robotics on Instagram (${handle})`} loading="lazy" scrolling="no" tabIndex={-1}
+          className="absolute left-0 w-full border-0" style={{ top: -IG_GRID.top, height: IG_GRID.top + IG_GRID.h }} />
+      </div>
+
+      {/* Bottom tab bar. */}
+      <div className="flex flex-none items-center justify-between border-t border-[#262626] bg-[#0c1014] px-7 pb-6 pt-2.5 [&_svg]:w-[26px]">
+        <svg {...ig}><path d="M4 21V10.5L12 4l8 6.5V21h-5.5v-6.5h-5V21z" /></svg>
+        <svg {...ig}><circle cx="11" cy="11" r="7" /><path d="M16.5 16.5L21 21" /></svg>
+        <Reels />
+        <svg {...ig}><path d="M21.5 3L10 14.5M21.5 3l-7 18-4.5-6.5L3 10z" /></svg>
+        <span className="relative size-[26px] overflow-hidden rounded-full bg-[#1e2a38] ring-1 ring-white/30" aria-hidden="true" />
+      </div>
+    </div>
+  );
+}
+
+// LinkedIn company page.
+function LinkedInScreen() {
+  const host = site.url.replace(/^https?:\/\//, "www.");
+  const tabs = ["Home", "About", "Posts", "Jobs", "People"];
+  return (
+    <div className="flex h-full flex-col bg-black text-left text-[14px] leading-[1.4] text-white/90">
+      <div className="flex-none bg-[#1b1f23]">
+        <StatusBar />
+        <div className="flex h-12 items-center gap-3 px-3">
+          <svg {...ig} className="w-6 flex-none text-white/90"><path d="M15 5l-7 7 7 7" /></svg>
+          <span className="flex h-[34px] flex-1 items-center gap-2 rounded-[4px] bg-[#38434f] px-3 text-white/70">
+            <svg {...ig} className="w-4"><circle cx="11" cy="11" r="7" /><path d="M16.5 16.5L21 21" /></svg>{site.name}
+          </span>
+          <svg {...ig} className="w-6 flex-none text-white/90"><path d="M4 6h16v10H8l-4 4z" /></svg>
+        </div>
+      </div>
+      <div className="flex-none bg-[#1b1f23] pb-3">
+        <div className="relative grid h-[96px] place-items-center bg-[linear-gradient(120deg,#0b1d33,#10325a_60%,#0a66c2)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/media/MIVA-ROBOTICS-Wordmark.svg" alt="" className="w-[58%] opacity-90" />
+        </div>
+        <div className="px-4">
+          <span className="relative z-[1] -mt-9 grid size-[76px] place-items-center rounded-[6px] border-[3px] border-[#1b1f23] bg-black">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/MIVA-Mark-White.svg" alt="" className="w-[58%]" />
+          </span>
+          <b className="mt-2 block text-[21px] font-semibold leading-tight text-white">{site.name}</b>
+          <p className="mt-1">Accessible, Adaptable, Affordable automation for every scale.</p>
+          <span className="mt-1 block text-[13px] text-white/60">{site.linkedin.replace(/^https:\/\/www\.|\/$/g, "")}</span>
+          <div className="mt-3 flex gap-2 text-[15px] font-semibold">
+            <span className="flex-1 rounded-full bg-[#71b7fb] py-[6px] text-center text-black">+ Follow</span>
+            <span className="flex flex-1 items-center justify-center gap-1.5 rounded-full py-[6px] text-[#71b7fb] ring-1 ring-[#71b7fb]">Visit website<svg {...ig} className="w-3.5"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" /></svg></span>
+            <span className="grid w-[34px] place-items-center rounded-full text-white/70 ring-1 ring-white/60">···</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-none justify-between border-t border-white/10 bg-[#1b1f23] px-4 text-[14px] font-semibold text-white/60">
+        {tabs.map((t, i) => <span key={t} className={`py-3 ${i ? "" : "border-b-2 border-[#01754f] text-[#4fb88a]"}`}>{t}</span>)}
+      </div>
+      <div className="mt-2 min-h-0 flex-1 overflow-hidden bg-[#1b1f23] px-4 pt-3">
+        <b className="block text-[18px] font-semibold text-white">Overview</b>
+        <p className="mt-2">{site.footerBlurb}</p>
+        <b className="mt-3 block text-[14px] font-semibold text-white">Website</b>
+        <span className="block font-semibold text-[#71b7fb]">{host}</span>
+      </div>
+      <div className="flex flex-none items-end justify-between border-t border-white/10 bg-[#1b1f23] px-4 pb-5 pt-2 text-[10.5px] text-white/60 [&_svg]:mx-auto [&_svg]:mb-0.5 [&_svg]:w-6">
+        {[
+          ["Home", <path key="h" d="M4 21V10.5L12 4l8 6.5V21h-5.5v-6.5h-5V21z" />],
+          ["My Network", <g key="n"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0113 0M16 4.8a3.5 3.5 0 010 6.4M18 14a6.5 6.5 0 013.5 6" /></g>],
+          ["Post", <g key="p"><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M12 8v8M8 12h8" /></g>],
+          ["Notifications", <path key="b" d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0" />],
+          ["Jobs", <g key="j"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5h6v2M3 12h18" /></g>],
+        ].map(([label, icon], i) => (
+          <span key={label as string} className={`w-[62px] text-center ${i ? "" : "text-white"}`}><svg {...ig}>{icon}</svg>{label}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// A phone that shows one app screen, built at SCREEN_W and scaled to the phone. Its height is a percentage of the
+// screen box, so it always fills the phone whatever the box's size. The whole screen links to the profile.
+function PhoneFrame({ href, label, bg, className = "", delay, children }: { href: string; label: string; bg: string; className?: string; delay: string; children: React.ReactNode }) {
+  const box = useRef<HTMLDivElement>(null);
+  const [k, setK] = useState(0);
+  useEffect(() => {
+    const el = box.current!;
+    const ro = new ResizeObserver(() => setK(el.clientWidth / SCREEN_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <figure className={`group m-0 flex-none ${className}`} data-reveal style={{ "--d": delay } as React.CSSProperties}>
+      <div className={`${bezel} aspect-[9/19] rounded-[20px] p-1 min-[700px]:rounded-[42px] min-[700px]:p-2.5`}>
+        <div ref={box} className="relative isolate h-full overflow-hidden rounded-[16px] min-[700px]:rounded-[33px]" style={{ background: bg }}>
+          {k > 0 && (
+            <div className="absolute left-0 top-0 origin-top-left" style={{ width: SCREEN_W, height: `${100 / k}%`, transform: `scale(${k})` }}>{children}</div>
+          )}
+          <a href={href} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-[2]" aria-label={label} />
+          <span className="pointer-events-none absolute left-1/2 top-[3.2%] z-[3] h-[4.2%] w-[32%] -translate-x-1/2 rounded-full bg-black after:absolute after:right-[9%] after:top-1/2 after:aspect-square after:h-[42%] after:-translate-y-1/2 after:rounded-full after:bg-[radial-gradient(circle_at_35%_35%,#33415a,#0b0f16_70%)] after:content-['']" aria-hidden="true" />
         </div>
       </div>
     </figure>
   );
 }
 
-// LinkedIn company card: a floating profile card with banner, logo and a follow button (wide screens only).
-function LinkedInCard() {
-  return (
-    <figure className="group m-0 hidden w-[clamp(220px,19vw,300px)] flex-none self-end min-[1000px]:block" data-reveal style={{ "--d": ".3s" } as React.CSSProperties}>
-      <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label="MIVA Robotics on LinkedIn"
-        className="block overflow-hidden rounded-[22px] bg-white text-left shadow-[0_0_0_1px_rgba(11,29,51,.08),0_50px_90px_-40px_rgba(11,29,51,.45)] transition-[transform,box-shadow] duration-[.9s,.6s] ease-expo group-hover:-translate-y-2 group-hover:shadow-[0_0_0_1px_rgba(10,102,194,.25),0_50px_90px_-30px_rgba(10,102,194,.35)]">
-        <span className="relative block h-[clamp(96px,8vw,130px)] bg-[linear-gradient(120deg,#0b1d33,#10325a_55%,#0a66c2)]">
-          <span className="absolute right-3 top-3 w-5 text-white/85"><LiIcon /></span>
-          <span className="absolute -bottom-9 left-5 grid size-[72px] place-items-center rounded-[14px] border-[3px] border-white bg-[#0b1d33]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/MIVA__ROBOTICS_Logo_White.svg" alt="" className="size-10 object-contain" />
-          </span>
-        </span>
-        <span className="block px-5 pb-6 pt-12">
-          <b className="block text-[clamp(16px,1.3vw,19px)] font-semibold leading-tight text-[#191919]">{site.name}</b>
-          <span className="mt-1 block text-[12.5px] text-[#5e5e5e]">{site.linkedin.replace(/^https:\/\/www\.|\/$/g, "")}</span>
-          <span className="mt-3 block border-t border-[#e8e8e8] pt-3 text-[13px] leading-[1.55] text-[#404040]">{site.footerBlurb}</span>
-          <span className="mt-5 flex items-center justify-center gap-1.5 rounded-full bg-[#0a66c2] py-2.5 text-[14px] font-semibold text-white">+ Follow</span>
-        </span>
-      </a>
-    </figure>
-  );
-}
+// Both phones share one size; LinkedIn's only shows where three devices fit side by side.
+const phoneSize = "w-[31%] max-w-[150px] min-[700px]:w-[clamp(210px,21vw,300px)] min-[700px]:max-w-none min-[1000px]:w-[clamp(210px,17.5vw,270px)]";
 
 // Phones: three equal buttons on one row with short labels (the icon names the platform).
 const socBtn = "inline-flex items-center justify-center gap-1.5 rounded-full px-2.5 py-3.5 text-[13px] min-[700px]:gap-3 min-[700px]:px-[30px] min-[700px]:py-[17px] min-[700px]:text-[15px] font-semibold text-white transition-transform duration-500 ease-expo hover:-translate-y-[3px] [&_svg]:w-[18px] min-[700px]:[&_svg]:w-5";
@@ -110,9 +230,9 @@ export default function SocialHub() {
         <Lines className="h-lg" lines={["YouTube, Instagram", "& LinkedIn"]} accent={1} />
       </div>
       <div className="mb-[clamp(40px,4vw,56px)] mt-[clamp(48px,5vw,72px)] flex w-full items-end justify-center gap-[clamp(12px,3.4vw,56px)]">
-        <LinkedInCard />
+        <PhoneFrame href={site.linkedin} label="MIVA Robotics on LinkedIn" bg="#000" delay=".3s" className={`${phoneSize} max-[999px]:hidden`}><LinkedInScreen /></PhoneFrame>
         <Tablet />
-        <Phone />
+        <PhoneFrame href={ig.url} label={`MIVA Robotics on Instagram (${ig.handle})`} bg="#0c1014" delay=".15s" className={phoneSize}><InstaScreen /></PhoneFrame>
       </div>
       <div className="grid w-full grid-cols-3 gap-2 min-[700px]:flex min-[700px]:w-auto min-[700px]:flex-wrap min-[700px]:justify-center min-[700px]:gap-3.5" data-reveal>
         <a className={`${socBtn} bg-[#e62117] shadow-[0_14px_34px_-14px_rgba(230,33,23,.8)]`} href={yt.url} target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube"><YtIcon /><span>Subscribe<span className={long}> on YouTube</span></span></a>
