@@ -19,11 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: p && `${p.title} – MIVA Robotics`, alternates: { canonical: `/${post}/` } };
 }
 
+// Share links with the networks' own marks (filled glyphs on a 24px grid).
 const share = (url: string, title: string) => [
-  { label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, d: "M14 8h3V4h-3a4 4 0 00-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8z" },
-  { label: "X", href: `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, d: "M4 4l16 16M20 4L4 20" },
-  { label: "Pinterest", href: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(title)}`, d: "M12 3a9 9 0 00-3.3 17.4c0-.8 0-1.8.2-2.6l1.3-5.4s-.3-.7-.3-1.6c0-1.5.9-2.6 2-2.6.9 0 1.4.7 1.4 1.5 0 .9-.6 2.3-.9 3.6-.3 1.1.5 2 1.6 2 1.9 0 3.2-2.5 3.2-5.4 0-2.2-1.5-3.9-4.3-3.9-3.1 0-5 2.3-5 4.9 0 .9.3 1.5.7 2" },
-  { label: "Linkedin", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, d: "M5 9v11M5 5v.01M10 20v-6a3 3 0 016 0v6M10 9v11" },
+  { label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, d: "M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.33-.04-1.56-.14-2.86-.14C11.93 2 10 3.66 10 6.7v2.8H7v4h3V22h4z" },
+  { label: "X", href: `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, d: "M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.46 21H2.39l7.17-8.2L2 3h6.33l4.37 5.78zm-1.08 16.18h1.7L7.4 4.73H5.58z" },
+  { label: "Pinterest", href: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(title)}`, d: "M12.02 2C6.5 2 2.02 6.47 2.02 11.99c0 4.23 2.63 7.85 6.35 9.3-.09-.79-.17-2 .03-2.87.18-.78 1.17-4.96 1.17-4.96s-.3-.6-.3-1.48c0-1.39.81-2.43 1.81-2.43.85 0 1.26.64 1.26 1.41 0 .86-.54 2.14-.83 3.33-.24.99.5 1.8 1.48 1.8 1.77 0 3.14-1.87 3.14-4.57 0-2.38-1.72-4.06-4.17-4.06-2.84 0-4.51 2.14-4.51 4.33 0 .86.33 1.79.74 2.29.08.1.09.19.07.29l-.28 1.14c-.04.19-.14.23-.33.14-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.16 2.47 6.16 5.77 0 3.45-2.17 6.22-5.19 6.22-1.01 0-1.96-.52-2.3-1.15l-.62 2.37c-.23.87-.84 1.96-1.25 2.62.94.29 1.92.45 2.96.45 5.51 0 9.99-4.47 9.99-9.99C22 6.47 17.53 2 12.02 2z" },
+  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, d: "M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56z" },
 ];
 
 export default async function Post({ params }: Props) {
@@ -53,7 +54,7 @@ export default async function Post({ params }: Props) {
             <div className="flex gap-2.5">
               {share(url, p.title).map((s) => (
                 <a key={s.label} className={circ} href={s.href} target="_blank" rel="nofollow noopener noreferrer" aria-label={s.label}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={s.d} /></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={s.d} /></svg>
                 </a>
               ))}
             </div>

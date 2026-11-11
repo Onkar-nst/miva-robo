@@ -8,6 +8,8 @@ export type Product = {
   tagline: string;
   hero: string;
   secondary?: string;
+  /** Square image for the product's card on the home page, when the hero photo doesn't crop well to a square. */
+  card?: string;
   /** A YouTube film shown in the hero in place of the photo. */
   video?: { id: string; title: string };
   /** Spec labels surfaced as large read-outs above the spec table. */
@@ -17,10 +19,10 @@ export type Product = {
   why?: string[];
   specs?: SpecGroup[];
   capabilities?: Item[];
-  capabilitiesNote?: string;
   applicationsIntro?: string;
   applications?: string[];
-  connects?: { intro: string; items: string[]; outro: string };
+  /** `note` is the footnote for an item marked with an asterisk. */
+  connects?: { intro: string; items: string[]; outro: string; note?: string };
   comingSoon?: boolean;
 };
 
@@ -165,6 +167,7 @@ export const products: Product[] = [
     hero: "/media/MIVA-OS.png",
     secondary: "/media/MIVA-OS-2.jpg",
     video: { id: "PQe_ONEYGxQ", title: "MIVA OS | Factory Operations Made Simple" },
+    card: "/media/MIVA-OS-Card.jpg", // the film's "Introducing MIVA OS" title frame
     about: [
       "MIVA OS is a unified software platform that powers, connects, and manages all MIVA robotic and automation systems as well as many 3rd party automation and robotic systems. It brings together motion control, vision intelligence, fleet management, and analytics into a single, intuitive interface, designed for real-world industrial environments.",
       "Built with MSMEs in mind, MIVA OS simplifies complex automation by enabling centralized control, real-time monitoring, and continuous system improvement without requiring deep robotics or AI expertise.",
@@ -181,11 +184,11 @@ export const products: Product[] = [
       { title: "Predictive Maintenance", text: "Monitor system health and detect issues early to minimize downtime and maintenance costs." },
       { title: "Open & Scalable Architecture", text: "Designed to integrate with existing factory systems and expand as needs evolve." },
     ],
-    capabilitiesNote: "* (Currently partnered with more than 35 automation & robot providers worldwide)",
     connects: {
       intro: "MIVA OS seamlessly powers:",
       items: ["MIVA AXIS, MIVA NAVIS, MIVA ASSIST, MIVA EYE and MIVA EAGLE.", "Any and every 3rd party Automation and Robotics systems*"],
       outro: "This creates a connected automation ecosystem, not isolated machines.",
+      note: "Currently partnered with more than 35 automation & robot providers worldwide*",
     },
   },
   {
@@ -213,6 +216,8 @@ export type Service = {
   screen?: { src: string; label: string; photo: string };
 };
 
+// The original "_3" photos are only 372px wide (too small for the intro panel) and "Caas_4" is a deliberately
+// blurred stock shot, so each service overrides those slots with sharp photos.
 const imgs = (cap: string, low: string, one: string, two: string) => ({
   banner: `/media/${cap}_Banner.jpg`,
   a: `/media/${one}.jpg`,
@@ -242,7 +247,7 @@ export const services: Service[] = [
       { title: "Always Up-to-Date Technology", text: "Benefit from ongoing software improvements, AI enhancements, and system upgrades without needing to replace existing infrastructure." },
       { title: "Flexible Expansion as Production Grows", text: "Easily add new robots, modules, or capabilities as demand increases, allowing automation to evolve alongside your operations." },
     ],
-    images: imgs("RaaS", "Raas", "Raas_1.1", "Raas_2.2"),
+    images: { ...imgs("RaaS", "Raas", "Raas_1.1", "Raas_2.2"), c: "/media/Raas_4.1.jpg" },
   },
   {
     slug: "saas",
@@ -265,7 +270,7 @@ export const services: Service[] = [
     ],
     // Engineers on the floor with MIVA OS in hand, in place of stock code photography.
     // The connected-factory shot sits in the hero, so the includes section takes the other SaaS photo.
-    images: { ...imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"), banner: "/media/MIVA-OS-2.jpg", d: "/media/Saas_4.1.jpg" },
+    images: { ...imgs("SaaS", "Saas", "SaaS_1.1", "SaaS_2.1"), banner: "/media/MIVA-OS-2.jpg", c: "/media/support_2.jpg", d: "/media/Saas_4.1.jpg" },
     screen: { src: "/media/MIVA-OS.png", label: "MIVA OS", photo: "/media/Saas_4.jpg" },
   },
   {
@@ -286,7 +291,7 @@ export const services: Service[] = [
       { title: "Higher Efficiency and Productivity", text: "Optimized system design and workflow alignment help reduce manual effort, improve consistency, and increase overall operational performance." },
       { title: "Future-Ready Automation Architecture", text: "Scalable and modular solutions allow your automation setup to evolve as production needs grow and technologies advance." },
     ],
-    images: imgs("CaaS", "Caas", "Caas_1.1", "Caas_2.1"),
+    images: { ...imgs("CaaS", "Caas", "Caas_1.1", "Caas_2.1"), c: "/media/About-MIVA-Robotics.jpg", d: "/media/Caas_4.1.jpg" },
   },
 ];
 

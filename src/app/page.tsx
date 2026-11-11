@@ -76,7 +76,7 @@ export default function Home() {
             {products.map((p, i) => (
               <Link href={`/portfolio/${p.slug}/`} className="group block w-[min(78vw,340px)] flex-none snap-start min-[1000px]:w-[clamp(280px,26vw,380px)]" key={p.slug} data-reveal style={d((i % 3) * 0.08)}>
                 <span className="relative mb-[22px] block aspect-square overflow-hidden bg-panel">
-                  <Image src={p.hero} alt={p.name} fill sizes="(max-width: 1000px) 80vw, 30vw" className="object-cover saturate-[.8] transition-[transform,filter] duration-[1.2s,.8s] ease-expo group-hover:scale-105 group-hover:saturate-100" />
+                  <Image src={p.card ?? p.hero} alt={p.name} fill sizes="(max-width: 1000px) 80vw, 30vw" className="object-cover saturate-[.8] transition-[transform,filter] duration-[1.2s,.8s] ease-expo group-hover:scale-105 group-hover:saturate-100" />
                   {p.comingSoon && <span className={tag}>Coming soon</span>}
                 </span>
                 <b className="mb-2.5 block text-sm font-semibold tracking-[.02em] transition-colors duration-300 group-hover:text-accent-text">{p.name}</b>
